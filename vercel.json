@@ -1,0 +1,31 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/portfolio",
+      "destination": "https://saifullahsohail123.github.io/portfolio/"
+    },
+    {
+      "source": "/portfolio/:match*",
+      "destination": "https://saifullahsohail123.github.io/portfolio/:match*"
+    },
+    {
+      "source": "/AIreceptionist",
+      "destination": "https://ai-receptionist-demo.vercel.app/"
+    },
+    {
+      "source": "/AIreceptionist/:match*",
+      "destination": "https://ai-receptionist-demo.vercel.app/:match*"
+    },
+    {
+      "source": "/VoiceAssistant",
+      "destination": "https://luna-voice-assistant.vercel.app/"
+    },
+    {
+      "source": "/VoiceAssistant/:match*",
+      "destination": "https://luna-voice-assistant.vercel.app/:match*"
+    }
+  ]
+}
