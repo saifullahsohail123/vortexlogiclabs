@@ -1,13 +1,693 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Luna · AI Voice Expense Agent | Vortex Logic Labs</title>
+  <title>Luna Â· AI Voice Expense Agent | Vortex Logic Labs</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css" />
+    <base href="/VoiceAssistant/">
+  <link rel="stylesheet" href="/VoiceAssistant/style.css">
+  <style>
+/* ==========================================================================
+   Luna AI Voice Agent - Stylesheet
+   Modern Glassmorphic Dark Architecture with Reactive Audio Glow
+   ========================================================================== */
+
+:root {
+  --bg-dark: #07090e;
+  --bg-card: rgba(16, 20, 31, 0.75);
+  --bg-card-border: rgba(255, 255, 255, 0.08);
+  --bg-card-hover: rgba(25, 31, 48, 0.85);
+  
+  --primary: #6366f1;
+  --primary-light: #818cf8;
+  --primary-glow: rgba(99, 102, 241, 0.35);
+  
+  --accent-cyan: #06b6d4;
+  --accent-cyan-glow: rgba(6, 182, 212, 0.35);
+  --accent-purple: #a855f7;
+  
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 8px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Background Ambient Orbs */
+.ambient-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glow-1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.18), transparent 70%);
+  top: -100px;
+  left: 10%;
+}
+
+.glow-2 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.14), transparent 70%);
+  bottom: 0px;
+  right: 5%;
+}
+
+/* Header */
+.top-nav {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 4%;
+  background: rgba(7, 9, 14, 0.8);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--bg-card-border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--primary-light);
+}
+
+.pulse-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--primary);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--primary);
+  animation: pulse-ring 2s infinite;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+.brand-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-main);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: var(--text-main);
+}
+
+.btn-github {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-border);
+  color: var(--text-main);
+  padding: 6px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn-github:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Layout */
+.app-layout {
+  position: relative;
+  z-index: 5;
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 28px;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 32px 4%;
+}
+
+@media (max-width: 960px) {
+  .app-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Left: Voice Center Card */
+.assistant-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--bg-card-border);
+  border-radius: var(--radius-lg);
+  padding: 36px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.assistant-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--bg-card-border);
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 8px var(--success);
+}
+
+.status-indicator.listening {
+  background: var(--accent-cyan);
+  box-shadow: 0 0 12px var(--accent-cyan);
+  animation: pulse-ring 1s infinite;
+}
+
+.status-indicator.speaking {
+  background: var(--primary);
+  box-shadow: 0 0 12px var(--primary);
+  animation: pulse-ring 0.8s infinite;
+}
+
+/* Luna Reactive Audio Orb */
+.orb-container {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  margin: 10px auto 26px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orb-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  transition: all 0.4s ease;
+}
+
+.ring-1 { width: 140px; height: 140px; }
+.ring-2 { width: 160px; height: 160px; border-color: rgba(6, 182, 212, 0.15); }
+.ring-3 { width: 180px; height: 180px; border-color: rgba(168, 85, 247, 0.1); }
+
+.core-orb {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #818cf8, #4f46e5 60%, #312e81);
+  box-shadow: 0 0 35px var(--primary-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.core-orb:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 50px rgba(99, 102, 241, 0.6);
+}
+
+.core-orb.listening {
+  background: radial-gradient(circle at 35% 35%, #38bdf8, #0284c7 60%, #0369a1);
+  box-shadow: 0 0 55px var(--accent-cyan-glow);
+  transform: scale(1.12);
+  animation: orb-breathe 1.8s infinite ease-in-out;
+}
+
+.core-orb.speaking {
+  background: radial-gradient(circle at 35% 35%, #c084fc, #9333ea 60%, #581c87);
+  box-shadow: 0 0 55px rgba(168, 85, 247, 0.5);
+  animation: orb-speak 1.2s infinite ease-in-out;
+}
+
+@keyframes orb-breathe {
+  0% { transform: scale(1.08); box-shadow: 0 0 35px var(--accent-cyan-glow); }
+  50% { transform: scale(1.18); box-shadow: 0 0 65px var(--accent-cyan-glow); }
+  100% { transform: scale(1.08); box-shadow: 0 0 35px var(--accent-cyan-glow); }
+}
+
+@keyframes orb-speak {
+  0% { transform: scale(1.05); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1.05); }
+}
+
+.mic-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.voice-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+}
+
+.voice-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  max-width: 380px;
+  margin-bottom: 24px;
+}
+
+/* Controls */
+.controls-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 360px;
+  margin-bottom: 22px;
+}
+
+.btn-voice {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--primary), #4338ca);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 14px 24px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 25px var(--primary-glow);
+  transition: all 0.25s;
+}
+
+.btn-voice:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(99, 102, 241, 0.5);
+}
+
+.btn-voice.active {
+  background: linear-gradient(135deg, var(--danger), #b91c1c);
+  box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
+}
+
+.btn-sound {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-border);
+  color: var(--text-main);
+  border-radius: var(--radius-md);
+  padding: 0 16px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-sound:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Prompts */
+.quick-prompts {
+  width: 100%;
+  margin-bottom: 22px;
+}
+
+.prompts-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+.prompt-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.chip {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--bg-card-border);
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  padding: 6px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.chip:hover {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: var(--primary-light);
+}
+
+/* Dialogue Box */
+.dialogue-box {
+  width: 100%;
+  background: rgba(10, 14, 23, 0.8);
+  border: 1px solid var(--bg-card-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  text-align: left;
+  margin-bottom: 18px;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dialogue-line {
+  display: flex;
+  gap: 8px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.speaker-tag {
+  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  height: fit-content;
+}
+
+.user-line .speaker-tag {
+  color: var(--accent-cyan);
+  background: rgba(6, 182, 212, 0.12);
+}
+
+.luna-line .speaker-tag {
+  color: var(--primary-light);
+  background: rgba(99, 102, 241, 0.12);
+}
+
+.dialogue-content {
+  color: var(--text-main);
+  flex: 1;
+}
+
+/* Text Input Form */
+.text-input-form {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+}
+
+.text-input-form input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--bg-card-border);
+  color: var(--text-main);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.text-input-form input:focus {
+  border-color: var(--primary);
+}
+
+.btn-send {
+  background: var(--primary);
+  border: none;
+  color: white;
+  border-radius: var(--radius-md);
+  width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-send:hover {
+  background: var(--primary-light);
+}
+
+/* Right: Dashboard Panel */
+.dashboard-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.summary-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--bg-card-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.card-caption {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.card-metric {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+}
+
+.card-metric.arch-tag {
+  font-size: 1.25rem;
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+}
+
+.card-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Table Card */
+.table-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--bg-card-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.table-header h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.btn-refresh {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-border);
+  color: var(--text-muted);
+  border-radius: 8px;
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.btn-refresh:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.expenses-table-wrapper {
+  overflow-x: auto;
+  flex: 1;
+}
+
+.expenses-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.88rem;
+}
+
+.expenses-table th {
+  color: var(--text-dim);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--bg-card-border);
+}
+
+.expenses-table td {
+  padding: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  vertical-align: middle;
+}
+
+.category-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cat-meals { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+.cat-travel { background: rgba(6, 182, 212, 0.15); color: #38bdf8; }
+.cat-lodging { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+.cat-office_supplies { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+.cat-other { background: rgba(148, 163, 184, 0.15); color: #cbd5e1; }
+
+.expense-amount {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.btn-del {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s;
+}
+
+.btn-del:hover {
+  color: var(--danger);
+}
+
+/* Footer */
+.app-footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  border-top: 1px solid var(--bg-card-border);
+  background: rgba(7, 9, 14, 0.8);
+  position: relative;
+  z-index: 5;
+}
+
+.app-footer a {
+  color: var(--primary-light);
+  text-decoration: none;
+}
+
+.app-footer a:hover {
+  text-decoration: underline;
+}
+
+  </style>
 </head>
 <body>
   <!-- Ambient background glow elements -->
@@ -63,11 +743,11 @@
         <!-- Main Voice Interaction Button -->
         <div class="controls-row">
           <button class="btn-voice" id="btnVoice">
-            <span class="voice-btn-icon">🎙️</span>
+            <span class="voice-btn-icon">ðŸŽ™ï¸</span>
             <span id="btnVoiceLabel">Click to Speak</span>
           </button>
           <button class="btn-sound" id="btnMuteTTS" title="Toggle Voice Output">
-            <span id="muteIcon">🔊</span>
+            <span id="muteIcon">ðŸ”Š</span>
           </button>
         </div>
 
@@ -150,9 +830,351 @@
   </main>
 
   <footer class="app-footer">
-    <p>Powered by <strong>LangGraph</strong>, <strong>FastAPI</strong> & <strong>Model Context Protocol (MCP)</strong> · Designed by <a href="https://vortexlogiclabs.com/portfolio" target="_blank">Saif Ullah</a> at Vortex Logic Labs</p>
+    <p>Powered by <strong>LangGraph</strong>, <strong>FastAPI</strong> & <strong>Model Context Protocol (MCP)</strong> Â· Designed by <a href="https://vortexlogiclabs.com/portfolio" target="_blank">Saif Ullah</a> at Vortex Logic Labs</p>
   </footer>
 
-  <script src="./app.js"></script>
+    <script src="/VoiceAssistant/app.js"></script>
+  <script>
+/**
+ * Luna AI Voice Agent - Client Application Logic
+ * Integrates Web Speech API (STT & TTS), Orb visualizer, and LangGraph Backend
+ */
+
+document.addEventListener('DOMContentLoaded', () => {
+  // DOM Elements
+  const statusIndicator = document.getElementById('statusIndicator');
+  const statusText = document.getElementById('statusText');
+  const coreOrb = document.getElementById('coreOrb');
+  const btnVoice = document.getElementById('btnVoice');
+  const btnVoiceLabel = document.getElementById('btnVoiceLabel');
+  const btnMuteTTS = document.getElementById('btnMuteTTS');
+  const muteIcon = document.getElementById('muteIcon');
+  const userTranscript = document.getElementById('userTranscript');
+  const lunaTranscript = document.getElementById('lunaTranscript');
+  const textInputForm = document.getElementById('textInputForm');
+  const textInput = document.getElementById('textInput');
+  const totalAmount = document.getElementById('totalAmount');
+  const expenseCount = document.getElementById('expenseCount');
+  const expensesTbody = document.getElementById('expensesTbody');
+  const btnRefresh = document.getElementById('btnRefresh');
+  const promptChips = document.querySelectorAll('.chip');
+
+  // State
+  let isListening = false;
+  let isTTSMuted = false;
+  let recognition = null;
+  let synth = window.speechSynthesis || null;
+
+  // Initialize Web Speech Recognition
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+  if (SpeechRecognition) {
+    recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+
+    recognition.onstart = () => {
+      isListening = true;
+      setOrbState('listening');
+      statusText.textContent = 'Listening to your voice...';
+      btnVoice.classList.add('active');
+      btnVoiceLabel.textContent = 'Stop Listening';
+    };
+
+    recognition.onresult = (event) => {
+      let interimTranscript = '';
+      let finalTranscript = '';
+
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          finalTranscript += event.results[i][0].transcript;
+        } else {
+          interimTranscript += event.results[i][0].transcript;
+        }
+      }
+
+      if (finalTranscript) {
+        userTranscript.textContent = finalTranscript;
+        handleUserQuery(finalTranscript);
+      } else if (interimTranscript) {
+        userTranscript.textContent = interimTranscript + '...';
+      }
+    };
+
+    recognition.onerror = (event) => {
+      console.warn('Speech recognition event:', event.error);
+      resetVoiceState();
+      statusText.textContent = 'Microphone ready (click to speak)';
+    };
+
+    recognition.onend = () => {
+      resetVoiceState();
+    };
+  } else {
+    btnVoiceLabel.textContent = 'Speech Mic Unsupported';
+    statusText.textContent = 'Use text input or supported browser';
+  }
+
+  function resetVoiceState() {
+    isListening = false;
+    btnVoice.classList.remove('active');
+    btnVoiceLabel.textContent = 'Click to Speak';
+    setOrbState('idle');
+  }
+
+  function setOrbState(state) {
+    coreOrb.classList.remove('listening', 'speaking');
+    statusIndicator.classList.remove('listening', 'speaking');
+
+    if (state === 'listening') {
+      coreOrb.classList.add('listening');
+      statusIndicator.classList.add('listening');
+    } else if (state === 'speaking') {
+      coreOrb.classList.add('speaking');
+      statusIndicator.classList.add('speaking');
+    }
+  }
+
+  // Speak Response via Speech Synthesis
+  function speakResponse(text) {
+    if (!synth || isTTSMuted) return;
+
+    // Stop existing speech
+    synth.cancel();
+
+    // Clean text for speech
+    const cleanText = text.replace(/[*_#`]/g, '');
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.rate = 1.05;
+    utterance.pitch = 1.0;
+
+    // Pick a natural voice if available
+    const voices = synth.getVoices();
+    const preferred = voices.find(v => (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Ava')) && v.lang.startsWith('en'));
+    if (preferred) utterance.voice = preferred;
+
+    utterance.onstart = () => {
+      setOrbState('speaking');
+      statusText.textContent = 'Luna is speaking...';
+    };
+
+    utterance.onend = () => {
+      setOrbState('idle');
+      statusText.textContent = 'Ready for Voice Input';
+    };
+
+    utterance.onerror = () => {
+      setOrbState('idle');
+      statusText.textContent = 'Ready for Voice Input';
+    };
+
+    synth.speak(utterance);
+  }
+
+  // Handle Query (Send to backend or execute client fallback)
+  async function handleUserQuery(query) {
+    if (!query || !query.trim()) return;
+    
+    setOrbState('listening');
+    statusText.textContent = 'Processing request...';
+    userTranscript.textContent = query;
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: query })
+      });
+
+      if (!response.ok) throw new Error('API response failed');
+
+      const data = await response.json();
+      lunaTranscript.textContent = data.reply;
+      speakResponse(data.reply);
+
+      if (data.expenses) {
+        renderExpenses(data.expenses, data.total);
+      } else {
+        loadExpenses();
+      }
+    } catch (err) {
+      console.warn('Backend unavailable, running in client-side Luna mode:', err);
+      // Client-side fallback for static deployments (e.g. Vercel)
+      processClientFallback(query);
+    }
+  }
+
+  // Client-Side Fallback for Standalone Web Preview
+  function processClientFallback(query) {
+    let raw = query.toLowerCase();
+    let localExpenses = JSON.parse(localStorage.getItem('luna_expenses') || '[]');
+    let reply = "";
+
+    if (raw.includes('total') || raw.includes('balance') || raw.includes('how much')) {
+      const sum = localExpenses.reduce((acc, curr) => acc + Number(curr.amount || 0), 0);
+      reply = `You have ${localExpenses.length} recorded expenses totaling ${sum.toFixed(2)}.`;
+    } else if (raw.includes('add') || raw.includes('spent') || raw.includes('bought')) {
+      const match = raw.match(/\$?(\d+(?:\.\d{1,2})?)/);
+      const amount = match ? parseFloat(match[1]) : 20.0;
+      let name = "Expense";
+      let cat = "other";
+
+      if (raw.includes('lunch') || raw.includes('food') || raw.includes('coffee')) {
+        name = "Food & Coffee";
+        cat = "meals";
+      } else if (raw.includes('uber') || raw.includes('taxi') || raw.includes('flight')) {
+        name = "Transportation";
+        cat = "travel";
+      } else if (raw.includes('hotel')) {
+        name = "Hotel Stay";
+        cat = "lodging";
+      }
+
+      const newExpense = {
+        id: Date.now().toString(),
+        name: name,
+        amount: amount,
+        category: cat,
+        created_at: new Date().toLocaleDateString()
+      };
+      localExpenses.unshift(newExpense);
+      localStorage.setItem('luna_expenses', JSON.stringify(localExpenses));
+      reply = `I have logged ${amount.toFixed(2)} for ${name} under ${cat}.`;
+      renderExpenses(localExpenses);
+    } else {
+      reply = `I heard: "${query}". You can ask me to log an expense or check your total balance anytime!`;
+    }
+
+    lunaTranscript.textContent = reply;
+    speakResponse(reply);
+  }
+
+  // Load Expenses from Backend
+  async function loadExpenses() {
+    try {
+      const res = await fetch('/api/expenses');
+      if (res.ok) {
+        const data = await res.json();
+        renderExpenses(data.expenses, data.total);
+        return;
+      }
+    } catch (e) {
+      // Load local storage fallback
+      const local = JSON.parse(localStorage.getItem('luna_expenses') || '[]');
+      if (local.length === 0) {
+        const defaults = [
+          { id: '1', name: 'Team Lunch', amount: 42.50, category: 'meals', created_at: '2026-11-20' },
+          { id: '2', name: 'Uber to Airport', amount: 34.00, category: 'travel', created_at: '2026-11-19' },
+          { id: '3', name: 'Cloud Infrastructure', amount: 89.99, category: 'office_supplies', created_at: '2026-11-18' }
+        ];
+        localStorage.setItem('luna_expenses', JSON.stringify(defaults));
+        renderExpenses(defaults);
+      } else {
+        renderExpenses(local);
+      }
+    }
+  }
+
+  // Render Table
+  function renderExpenses(list, totalValue) {
+    if (!list) list = [];
+    const total = totalValue !== undefined ? totalValue : list.reduce((a, b) => a + Number(b.amount || 0), 0);
+    totalAmount.textContent = `${total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    expenseCount.textContent = `${list.length} transaction${list.length === 1 ? '' : 's'} recorded`;
+
+    expensesTbody.innerHTML = '';
+    if (list.length === 0) {
+      expensesTbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 24px; color: var(--text-dim);">No expenses recorded yet. Speak to Luna to add one!</td></tr>`;
+      return;
+    }
+
+    list.forEach(item => {
+      const tr = document.createElement('tr');
+      const catClass = `cat-${item.category || 'other'}`;
+      tr.innerHTML = `
+        <td><strong>${item.name || 'Expense'}</strong></td>
+        <td><span class="category-tag ${catClass}">${item.category || 'other'}</span></td>
+        <td class="expense-amount">${Number(item.amount).toFixed(2)}</td>
+        <td style="color: var(--text-dim); font-size: 0.8rem;">${item.created_at || 'Today'}</td>
+        <td>
+          <button class="btn-del" data-id="${item.id}" title="Delete expense">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          </button>
+        </td>
+      `;
+      expensesTbody.appendChild(tr);
+    });
+
+    // Attach delete listeners
+    document.querySelectorAll('.btn-del').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const id = btn.getAttribute('data-id');
+        deleteExpense(id);
+      });
+    });
+  }
+
+  async function deleteExpense(id) {
+    try {
+      await fetch(`/api/expenses/${id}`, { method: 'DELETE' });
+    } catch (e) {
+      let local = JSON.parse(localStorage.getItem('luna_expenses') || '[]');
+      local = local.filter(x => x.id !== id);
+      localStorage.setItem('luna_expenses', JSON.stringify(local));
+    }
+    loadExpenses();
+  }
+
+  // Event Listeners
+  btnVoice.addEventListener('click', () => {
+    if (!recognition) return;
+    if (isListening) {
+      recognition.stop();
+    } else {
+      try {
+        recognition.start();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  });
+
+  coreOrb.addEventListener('click', () => {
+    btnVoice.click();
+  });
+
+  btnMuteTTS.addEventListener('click', () => {
+    isTTSMuted = !isTTSMuted;
+    muteIcon.textContent = isTTSMuted ? 'ðŸ”‡' : 'ðŸ”Š';
+    btnMuteTTS.title = isTTSMuted ? 'Unmute Luna Voice' : 'Mute Luna Voice';
+    if (isTTSMuted && synth) synth.cancel();
+  });
+
+  textInputForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const query = textInput.value.trim();
+    if (query) {
+      handleUserQuery(query);
+      textInput.value = '';
+    }
+  });
+
+  btnRefresh.addEventListener('click', () => {
+    loadExpenses();
+  });
+
+  promptChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const q = chip.getAttribute('data-query');
+      handleUserQuery(q);
+    });
+  });
+
+  // Initial Data Load
+  loadExpenses();
+});
+
+  </script>
 </body>
 </html>
+

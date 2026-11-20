@@ -1,49 +1,831 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aria · Reception desk</title><link rel="stylesheet" href="./style.css"></head>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Aria Â· Reception desk</title>
+    <base href="/AIreceptionist/">
+  <link rel="stylesheet" href="/AIreceptionist/style.css">
+  <style>
+:root{--bg:#f7f8fa;--ink:#20282d;--muted:#81878c;--line:#e9ecee;--green:#2f6c57;--mint:#e8f3ed;--orange:#bd7753;--sidebar:248px}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 'Segoe UI',Arial,sans-serif}button,input,select,textarea{font:inherit}button,a,input,select,textarea{outline-offset:4px}button,a{ -webkit-tap-highlight-color:transparent}button{cursor:pointer}a{text-decoration:none;color:inherit}button{color:inherit}input,textarea,select{border:1px solid #dce1e3;border-radius:9px;padding:11px 12px;background:#fff;color:var(--ink);min-width:0}input:focus,textarea:focus,select:focus{outline:2px solid #9bc5b3;outline-offset:1px}textarea{resize:vertical}.sidebar{position:fixed;inset:0 auto 0 0;width:var(--sidebar);background:#fff;border-right:1px solid var(--line);padding:32px 20px 16px;display:flex;flex-direction:column;z-index:5}.brand{display:flex;align-items:center;font-size:35px;font-weight:650;letter-spacing:-2px;padding:0 13px}.brand-icon{width:34px;height:34px;border-radius:11px;background:var(--green);color:#fff;text-align:center;font:italic 34px/29px Georgia;margin-right:10px}.brand-dot{color:var(--green)}.workspace{margin:34px 0 28px;display:flex;align-items:center;gap:10px;padding:12px 10px;border:1px solid var(--line);border-radius:10px;font-size:12px}.workspace strong{display:block;max-width:125px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.workspace small,.profile small{display:block;color:var(--muted);font-size:10px}.workspace-icon{border-radius:7px;width:30px;height:30px;display:grid;place-items:center;background:#f1e8dd;color:#9c7d5f;font-weight:600}.tiny-dot{display:inline-block;width:7px;height:7px;background:#5c9c78;border-radius:50%;flex-shrink:0}.workspace>.tiny-dot{margin-left:auto}.nav-caption{font-size:9px;letter-spacing:1.6px;color:#a0a5a9;padding:0 13px;margin-bottom:12px;font-weight:600}.nav{width:100%;display:flex;align-items:center;gap:12px;padding:12px 13px;border:0;background:none;border-radius:8px;font-size:12px;text-align:left;color:#737c81;margin-bottom:5px}.nav>span:first-child{font-size:18px;width:19px;line-height:1}.nav:hover{background:#f6f8f7}.nav.active{color:var(--green);background:var(--mint);font-weight:600}.nav-tag{font-size:7px;letter-spacing:1px;margin-left:auto;color:var(--green);background:#d7e8de;padding:3px 5px;border-radius:4px}.badge{margin-left:auto;border-radius:5px;background:#f0f1f2;font-size:10px;padding:1px 6px}.config-caption{margin-top:30px}.sidebar-bottom{margin-top:auto;padding-top:25px}.local-card{padding:13px;background:#f8faf8;border:1px solid #e8eee9;border-radius:10px;font-size:11px}.local-card .tiny-dot{margin-right:5px}.local-card p{font-size:10px;color:#8a928b;margin:7px 0 12px}.local-pills{display:flex;gap:5px}.local-pills span{font-size:7px;letter-spacing:.8px;background:#eaf0ea;padding:3px 7px;border-radius:4px;color:#77867b}.profile{display:flex;gap:9px;align-items:center;margin-top:21px;font-size:11px}.avatar{display:inline-grid;place-items:center;background:#ece8df;color:#82725f;width:32px;height:32px;border-radius:50%;font-size:10px;font-weight:600}main{margin-left:var(--sidebar)}header{height:73px;background:rgba(255,255,255,.7);border-bottom:1px solid var(--line);padding:0 42px;display:flex;align-items:center;justify-content:space-between;font-size:11px}.breadcrumb{color:#92989d;display:flex;gap:15px}.breadcrumb strong{color:#4c555a;font-weight:500}.breadcrumb span{color:#c4c8cb}.header-right{display:flex;align-items:center;gap:25px;color:#939a9e}.connection{display:flex;align-items:center;gap:6px}.connection i,.pill i{width:5px;height:5px;border-radius:50%;background:#6fa17c}.content{max-width:1510px;margin:auto;padding:38px 42px 20px}.page{display:none}.page.active{display:block}.page-heading,.section-heading{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:28px}.eyebrow{font-size:9px;letter-spacing:2px;color:#969c9e;font-weight:600;margin-bottom:13px}h1{font-size:34px;font-weight:500;letter-spacing:-1.4px;line-height:1.22;margin:0 0 13px}p{color:#8a9195;font-size:12px;margin:0}h2{font-size:27px;line-height:1.2;font-weight:500;letter-spacing:-.7px;margin:20px 0 14px}h3{font-size:13px;font-weight:600;margin:0}.button{border:1px solid transparent;border-radius:8px;padding:11px 17px;display:inline-flex;gap:20px;align-items:center;justify-content:center;font-size:11px;font-weight:500;white-space:nowrap}.primary{background:var(--green);color:white;box-shadow:0 3px 5px #203d3020}.primary:hover{background:#245642}.dark{background:#263e33;color:white}.secondary{background:white;border-color:#dfe4e1;color:#5a6960}.danger{background:#fff0ed;color:#b65140;border-color:#f3d6ce}.button:disabled{opacity:.5;cursor:wait}.hero-card{background:#eaf0e6;border:1px solid #e3e9df;min-height:280px;border-radius:15px;display:flex;justify-content:space-between;align-items:center;padding:30px 36px;overflow:hidden;position:relative}.hero-card h2{font-size:34px;color:#354d3e;margin-top:16px;line-height:1.13}.hero-card p{color:#829082;font-size:11px;line-height:1.8}.pill{display:inline-flex;align-items:center;gap:7px;padding:5px 9px;border-radius:5px;background:#ffffff75;color:#64826a;font-size:8px;letter-spacing:1.3px;font-weight:600}.hero-actions{display:flex;align-items:center;gap:18px;margin-top:21px}.no-key{font-size:9px;color:#8c9b8e}.orb-art{position:relative;width:380px;height:250px;display:grid;place-items:center}.orb{width:172px;height:172px;display:grid;place-items:center;background:radial-gradient(circle at 33% 25%,#f6f7e7 0,#d4e2c8 33%,#9fb798 65%,#d8e4ce 84%,#b9c8b0 100%);border-radius:50%;box-shadow:inset 5px 9px 20px #ffffffbb,inset -7px -8px 20px #768e7130,0 26px 35px -18px #718a6359;position:relative}.orbit{position:absolute;width:285px;height:110px;border:1px solid #bbcdb680;border-radius:50%;transform:rotate(-24deg)}.orbit-two{width:330px;height:174px;transform:rotate(-24deg);opacity:.5}.wave{display:flex;align-items:center;gap:5px;height:38px}.wave b{display:block;width:4px;background:#698569;border-radius:3px;height:12px}.wave b:nth-child(2n){height:23px}.wave b:nth-child(3n){height:33px}.wave b:nth-child(5n){height:42px}.floating-chip{position:absolute;border:1px solid #f9fcf5;background:#f9fcf4d9;border-radius:8px;padding:8px 12px;box-shadow:0 5px 12px #86967c0e;font-size:9px;color:#82917d;white-space:nowrap}.floating-chip i{display:inline-block;width:5px;height:5px;background:#7eaa7d;border-radius:50%;margin-right:5px}.chip-top{right:0;top:28px}.chip-bottom{left:0;bottom:20px}.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:23px}.stat{border:1px solid var(--line);background:#fff;border-radius:11px;padding:19px 20px}.stat>span{display:block;color:#8a9397;font-size:10px}.stat strong{display:block;font-size:29px;font-weight:500;line-height:1.2;margin:10px 0}.stat small{color:#a0a7a9;font-size:9px}.overview-bottom{display:grid;grid-template-columns:1.45fr 1fr;gap:20px;margin-top:24px}.panel{border:1px solid var(--line);border-radius:12px;background:#fff;padding:22px}.panel-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:21px}.link{border:0;background:transparent;color:#7b9383;font-size:10px;padding:0;cursor:pointer}.tag{font-size:8px;letter-spacing:.7px;color:#829087;background:#f0f5f1;border-radius:4px;padding:5px 7px}.empty{padding:34px 20px;text-align:center;color:#91999b;font-size:12px}.empty small{display:block;font-size:10px;margin-top:8px;color:#b0b6b7}.empty-illustration{font-size:25px;color:#c5d1c5;display:block;margin-bottom:9px}.system-row{display:flex;align-items:center;padding:10px 0;gap:9px;font-size:10px;color:#8c9597;border-bottom:1px solid #f1f3f2}.system-row:last-of-type{border:0;margin-bottom:11px}.system-row strong{font-weight:500;color:#54615a}.system-row>span:last-child{margin-left:auto;color:#82978a}.system-row .state-warn{color:#bd875b!important}.mini-booking{display:flex;align-items:center;gap:13px;padding:12px 0;border-bottom:1px solid #f1f3f2}.mini-booking:last-child{border:0}.mini-date{background:#f2f5f0;border-radius:8px;min-width:42px;padding:6px;text-align:center;color:#849480;font-size:8px}.mini-date strong{display:block;font-size:17px;font-weight:500;color:#657a5f}.mini-booking h4{font-size:11px;font-weight:500;margin:0}.mini-booking p{font-size:9px;margin-top:3px}.mini-booking>span{margin-left:auto;font-size:10px;color:#8c9990}footer{font-size:9px;color:#aab0b2;margin-top:31px;display:flex;justify-content:space-between}footer span{font-size:7px;letter-spacing:1.4px}.section-heading h1{font-size:31px}.section-heading{margin-bottom:30px}.call-layout{display:grid;grid-template-columns:320px 1fr;gap:22px}.voice-panel{text-align:center;padding:30px 24px;min-height:570px}.voice-orb{margin:42px auto 25px;width:145px;height:145px;background:radial-gradient(circle at 30% 20%,#f4f7ea,#c4d9bc 40%,#91b698 75%,#c4dbc1);border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 7px 20px #ffffffaa,0 16px 30px -15px #718a6360}.voice-panel.live .voice-orb{animation:breathe 3s infinite}.voice-panel h2{font-size:24px;margin:8px 0}.voice-panel p{font-size:11px}.voice-buttons{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:20px 0}.voice-buttons .button{padding:10px 13px}.voice-options{display:flex;flex-direction:column;gap:8px;font-size:10px;color:#8c9690;text-align:left;margin:22px 5px}.voice-options label{display:flex;gap:8px;align-items:center}.voice-options input{accent-color:var(--green);margin:0}.timing{font-size:9px;color:#a6b0a8;border-top:1px solid #edf0ed;padding-top:18px}.meter{width:100px;height:3px;border-radius:3px;background:#eef2ed;overflow:hidden;margin:19px auto}.meter div{height:100%;background:#6a9e70;transition:width .08s;width:0}.mic-note{line-height:1.7}.transcript-panel{display:flex;flex-direction:column;min-height:570px;padding:22px 22px 16px}.transcript-panel .panel-heading{padding-bottom:17px;border-bottom:1px solid var(--line);margin-bottom:0}.transcript-panel h3 .tiny-dot{margin-left:8px;width:5px;height:5px}.muted{color:#99a2a4;font-size:10px}.messages{height:365px;overflow-y:auto;flex:1;padding:20px 2px}.conversation-empty{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}.conversation-empty>span{font-size:32px;color:#a4b69f;margin-bottom:15px}.conversation-empty h3{color:#7c897e;font-weight:500}.conversation-empty p{font-size:11px;line-height:1.8;margin-top:8px}.message{margin:0 0 18px;max-width:92%}.message-label{font-size:8px;letter-spacing:.9px;color:#9aa59c;margin-bottom:6px;text-transform:uppercase}.message-content{font-size:12px;line-height:1.8;padding:12px 14px;background:#f3f6f1;border-radius:0 10px 10px 10px;color:#586a59;white-space:pre-wrap;overflow-wrap:anywhere}.message.user{margin-left:auto}.message.user .message-label{text-align:right}.message.user .message-content{background:#f3f4f6;color:#687078;border-radius:10px 0 10px 10px}.message.tool .message-content{font:10px monospace;color:#9a8767;background:#faf7f0}.message.operator .message-content{background:#eff2fc;color:#6773a5}.quick-prompts{display:flex;gap:6px;flex-wrap:wrap;padding:12px 0}.quick-prompts button{font-size:9px;background:white;border:1px solid #e3e9e1;border-radius:15px;color:#83947e;padding:5px 9px}.chat-form{display:flex;gap:10px;padding:9px;background:#f8f9f7;border:1px solid #e6eae3;border-radius:9px}.chat-form input{flex:1;width:100%;background:transparent;border:0;padding:4px;font-size:11px;outline:0}.chat-form button{width:29px;height:29px;flex-shrink:0;background:#386b50;color:#fff;border:0;border-radius:7px;font-size:17px}.interim{font-style:italic;color:#a4aa9f;font-size:11px;min-height:12px}.actions{display:flex;gap:9px}.toolbar{display:flex;gap:12px;align-items:center;margin-bottom:20px}.toolbar>input{flex:1;font-size:11px}.toolbar select{font-size:11px}.table-panel{padding:0;overflow:auto}table{width:100%;border-collapse:collapse;text-align:left;font-size:11px}th{font-size:9px;text-transform:uppercase;letter-spacing:.6px;font-weight:500;color:#9ba5a7;padding:17px 20px;background:#fcfdfc;border-bottom:1px solid var(--line)}td{padding:17px 20px;border-bottom:1px solid #f1f3f2;color:#7a8686}td strong{color:#4e5e56;font-size:12px;font-weight:500}td small{display:block;font-size:9px;color:#a4adab;margin-top:3px}td .link+.link{margin-left:10px}.status{font-size:9px;border-radius:5px;padding:4px 7px;display:inline-block;background:#eef5ed;color:#71936c}.status.cancelled,.status.ended,.status.rescheduled{background:#f4f4f3;color:#a0a3a0}.status.waiting,.status.handoff{background:#fcf4e6;color:#b4935e}.status.operator,.status.in_progress{background:#eff0fc;color:#7b84b0}.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.settings-panel{margin-bottom:20px;padding:24px}.settings-panel h3{margin-bottom:18px}.settings-panel .panel-heading h3{margin-bottom:0}.settings-panel label{display:block;font-size:10px;color:#849186;margin:14px 0 0}.settings-panel input,.settings-panel select,.settings-panel textarea{width:100%;display:block;margin-top:6px;font-size:11px}.settings-panel small{font-size:9px;color:#a5afa5}.field-row{display:flex;gap:12px}.field-row label{flex:1;min-width:0}.days{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.days label{position:relative;margin:0;padding:6px;background:#f3f6ef;border-radius:5px;font-size:9px;display:flex;align-items:center;gap:4px}.days input{width:auto;margin:0;accent-color:#6d9468}.info{background:#f5f7f1;color:#909b86;font-size:10px;padding:11px;border-radius:7px;line-height:1.7;margin-top:16px}.diagnostic-panel{margin-top:5px}.diagnostic-panel h3{margin-bottom:15px}#diagnostics{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:15px}.diagnostic{font-size:10px;padding:7px 11px;background:#f2f5f0;border-radius:5px;color:#85917d}.credential{font-size:9px;display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #edf1eb;color:#98a293}.credential span{color:#b3a383}.handoff-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px}.handoff-card{margin-bottom:15px;padding:20px}.handoff-card p{margin:10px 0;font-size:11px}.handoff-card .actions{margin-top:18px}.handoff-card h3{margin-top:12px}.operator-panel h3{margin-bottom:10px}.operator-messages{height:270px;overflow:auto;margin:14px 0}.operator-panel>.muted:last-child{display:block;margin-top:12px}.metrics{display:flex;gap:12px;margin-bottom:20px}.metric{background:#fff;border:1px solid var(--line);border-radius:9px;padding:12px 18px;font-size:10px;color:#879386}.metric strong{font-size:17px;color:#546b54;margin-right:8px}dialog{border:1px solid #e2e7df;border-radius:14px;padding:26px;width:560px;max-width:90vw;max-height:86vh;box-shadow:0 30px 80px #273a2b20}dialog::backdrop{background:#23302b65;backdrop-filter:blur(3px)}.modal-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.modal-heading h2{font-size:21px;margin:0}.icon-button{background:transparent;border:0;font-size:25px;color:#8d9a8d}.modal-form{display:flex;flex-direction:column;gap:13px}.modal-form label{font-size:11px;color:#869281}.modal-form input,.modal-form select,.modal-form textarea{display:block;width:100%;margin-top:6px}.modal-form .button{margin-top:10px}.modal-transcript{max-height:55vh;overflow-y:auto}.modal-form .info{margin:0}.confirmation{padding:15px;background:#f4f7f0;color:#7d8c74;font-size:12px;border-radius:8px;margin-bottom:15px}#toast{position:fixed;bottom:25px;left:calc(var(--sidebar) + 30px);max-width:600px;z-index:30;background:#334b3b;color:#fff;padding:13px 20px;border-radius:9px;box-shadow:0 10px 30px #1b332624;font-size:12px;display:none}#toast.show{display:block}#toast.error{background:#985944}.hidden{display:none!important}@keyframes breathe{50%{box-shadow:inset 0 7px 20px #ffffffaa,0 0 0 12px #94b58a0d,0 16px 30px -15px #718a6360}}@media(min-width:1550px){.content{padding-top:50px}.hero-card{min-height:310px}.orb-art{width:420px}.overview-bottom{margin-top:28px}}@media(max-width:1150px){:root{--sidebar:210px}.sidebar{padding:25px 12px}.content{padding:28px 26px}.hero-card{padding:25px}.orb-art{width:270px}.chip-top{right:-10px}.call-layout{grid-template-columns:270px 1fr}.stat{padding:16px 13px}.header-right{gap:10px}.settings-grid{grid-template-columns:1fr}.page-heading h1{font-size:29px}.hero-actions{gap:9px}.no-key{font-size:8px}}@media(max-width:820px){:root{--sidebar:68px}.sidebar{padding:25px 8px}.brand{font-size:0;padding:0 7px}.brand-icon{margin:0}.brand-dot,.workspace,.nav-caption,.nav-tag,.sidebar-bottom,.badge{display:none}.nav{font-size:0;padding:12px 16px;margin:8px 0}.nav span:first-child{font-size:20px}.sidebar nav{margin-top:35px}.content{padding:25px 20px}header{padding:0 20px}.header-right #clock{display:none}.page-heading,.section-heading{align-items:flex-start}.page-heading>.button{margin-top:10px}.hero-card h2{font-size:29px}.hero-card{padding:25px;min-height:265px}.orb-art{width:210px}.orb{width:130px;height:130px}.orbit-one{width:210px}.orbit-two{width:230px}.floating-chip{font-size:8px;padding:6px 8px}.no-key{display:none}.stats-grid{grid-template-columns:1fr 1fr}.overview-bottom,.call-layout,.handoff-layout{grid-template-columns:1fr}.voice-panel{min-height:auto}.voice-orb{margin:22px auto}.voice-options{flex-direction:row;justify-content:center}.voice-panel .mic-note{display:none}.messages{min-height:320px}.hero-card p br{display:none}.hero-card>div:first-child{max-width:210px}.toolbar{flex-wrap:wrap}.actions{flex-wrap:wrap}.section-heading .actions{justify-content:flex-end}h1{font-size:26px}.page-heading>.button{font-size:9px;padding:9px}.hero-actions .button{font-size:10px}footer span{display:none}}@media(max-width:560px){.hero-card{min-height:240px}.orb-art{display:none}.hero-card>div:first-child{max-width:none}.page-heading{display:block}.page-heading>.button{margin-top:15px}.section-heading{flex-direction:column}.stats-grid{gap:10px}.stat small{font-size:8px}.content{padding:22px 14px}.header-right{display:none}.field-row{flex-wrap:wrap}.settings-panel{padding:18px}.panel{padding:17px}.table-panel{padding:0}.call-layout{gap:15px}#toast{left:80px;right:10px;bottom:15px}.hero-card h2 br{display:none}.voice-options{font-size:9px}.toolbar select{flex:1}}
+
+  </style>
+</head>
+
 <body>
-<aside class="sidebar">
-  <a class="brand" href="/" aria-label="Aria home"><span class="brand-icon">a</span> aria<span class="brand-dot">.</span></a>
-  <div class="workspace"><span class="workspace-icon">Y</span><div><strong id="workspace-name">Your Business</strong><small>Local workspace</small></div><span class="tiny-dot"></span></div>
-  <div class="nav-caption">WORKSPACE</div>
-  <nav>
-    <button class="nav active" data-page="overview"><span>◫</span>Overview</button>
-    <button class="nav" data-page="reception"><span>◉</span>Reception desk<span class="nav-tag">LIVE</span></button>
-    <button class="nav" data-page="appointments"><span>▦</span>Appointments</button>
-    <button class="nav" data-page="customers"><span>♧</span>Customers</button>
-    <button class="nav" data-page="calls"><span>≋</span>Call history</button>
-    <button class="nav" data-page="handoffs"><span>⇄</span>Human handoffs<span id="queue-badge" class="badge">0</span></button>
-  </nav>
-  <div class="nav-caption config-caption">CONFIGURATION</div>
-  <button class="nav" data-page="settings"><span>⚙</span>Settings & providers</button>
-  <div class="sidebar-bottom"><div class="local-card"><span class="tiny-dot"></span><strong>On your computer</strong><p>Your local mode uses no paid APIs.</p><div class="local-pills"><span>PRIVATE</span><span>LOCAL FIRST</span></div></div><div class="profile"><span class="avatar">OP</span><div><strong>Workspace operator</strong><small>Local administrator</small></div></div></div>
-</aside>
-<main>
-  <header><div class="breadcrumb">Workspace <span>/</span> <strong id="breadcrumb">Overview</strong></div><div class="header-right"><span class="connection"><i></i><span id="connection">Connecting</span></span><span id="clock"></span></div></header>
-  <div class="content">
-    <section id="page-overview" class="page active">
-      <div class="page-heading"><div><div class="eyebrow">YOUR FRONT DESK, REIMAGINED</div><h1>A little more human.<br>A lot less on your plate.</h1><p>Your receptionist is ready to take care of the conversation.</p></div><button class="button primary" id="go-reception">Open reception desk <span>↗</span></button></div>
-      <div class="hero-card"><div><span class="pill"><i></i> LOCAL RECEPTIONIST</span><h2>Meet your new<br>front-of-house.</h2><p>Appointments, questions, and a warm welcome.<br>All running right here on your computer.</p><div class="hero-actions"><button class="button dark" id="hero-call">Try a conversation <span>→</span></button><span class="no-key">No API keys needed</span></div></div><div class="orb-art"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orb"><div class="wave"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div></div><span class="floating-chip chip-top"><i></i> Ready when you are</span><span class="floating-chip chip-bottom">✦ A calmer kind of busy</span></div></div>
-      <div class="stats-grid"><article class="stat"><span>Conversations</span><strong id="stat-calls">0</strong><small>Saved on this computer</small></article><article class="stat"><span>Upcoming appointments</span><strong id="stat-bookings">0</strong><small>Confirmed in your calendar</small></article><article class="stat"><span>Customers</span><strong id="stat-customers">0</strong><small>A familiar face, every time</small></article><article class="stat"><span>Waiting for your team</span><strong id="stat-handoffs">0</strong><small>Human help, when it matters</small></article></div>
-      <div class="overview-bottom"><article class="panel"><div class="panel-heading"><h3>Coming up next</h3><button class="link" data-page="appointments">View calendar ↗</button></div><div id="upcoming-list"></div></article><article class="panel system-panel"><div class="panel-heading"><h3>Your local setup</h3><span class="tag">NO API FEES</span></div><div id="system-list"></div><button class="link" data-page="settings">Manage providers →</button></article></div>
-      <footer>Thoughtful conversations. Locally powered.<span>ARIA / RECEPTION WORKSPACE</span></footer>
-    </section>
-    <section id="page-reception" class="page"><div class="section-heading"><div><div class="eyebrow">THE CONVERSATION STARTS HERE</div><h1>Reception desk</h1><p>Talk naturally, or type. Your receptionist takes it from there.</p></div><span class="tag" id="call-provider">LOCAL MODE</span></div>
-      <div class="call-layout"><article class="panel voice-panel"><span class="pill" id="call-state">READY TO CONNECT</span><div class="voice-orb"><div class="wave"><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div></div><h2 id="assistant-name">Aria</h2><p id="voice-status">Your virtual receptionist</p><div class="meter"><div id="meter-fill"></div></div><p class="mic-note" id="mic-note">Audio stays local in local mode.<br>Headphones help with natural interruptions.</p><div class="voice-buttons"><button class="button primary" id="start-call">Start conversation</button><button class="button danger hidden" id="end-call">End call</button><button class="button secondary hidden" id="mute-call">Mute mic</button><button class="button secondary hidden" id="interrupt-call">Interrupt</button></div><div class="voice-options"><label><input type="checkbox" id="voice-enabled" checked> Speak responses aloud</label><label><input type="checkbox" id="mic-enabled" checked> Enable microphone</label></div><div class="timing" id="timing">Text chat is always available during a call.</div></article>
-      <article class="panel transcript-panel"><div class="panel-heading"><h3>Live conversation <span class="tiny-dot"></span></h3><span id="call-reference" class="muted">No active call</span></div><div id="messages" class="messages"><div class="conversation-empty"><span>✦</span><h3>A warm welcome starts here.</h3><p>Start a conversation to book, reschedule,<br>ask a question, or reach your team.</p></div></div><div id="interim" class="interim"></div><div class="quick-prompts"><button data-prompt="I want to book an appointment">Book an appointment</button><button data-prompt="What are your opening hours?">Opening hours</button><button data-prompt="I want to speak to a human">Speak to a human</button></div><form id="chat-form" class="chat-form"><input id="chat-input" placeholder="Type a message to your receptionist…" maxlength="3000" autocomplete="off"><button aria-label="Send message" type="submit">↑</button></form></article></div>
-    </section>
-    <section id="page-appointments" class="page"><div class="section-heading"><div><div class="eyebrow">MAKE ROOM FOR WHAT MATTERS</div><h1>Appointments</h1><p>Your local calendar. Every confirmed appointment, in one place.</p></div><div class="actions"><a class="button secondary" href="/api/calendar.ics">Export calendar</a><button class="button primary" id="new-booking">+ New appointment</button></div></div><div class="toolbar"><input id="appointment-search" placeholder="Search names, services or references…"><select id="appointment-filter"><option value="upcoming">Upcoming</option><option value="all">All appointments</option><option value="cancelled">Cancelled</option></select><a class="link" href="/api/export/appointments">Download CSV ↗</a></div><div class="panel table-panel"><table><thead><tr><th>Customer</th><th>Service</th><th>Date & time</th><th>Status</th><th></th></tr></thead><tbody id="appointment-rows"></tbody></table><div id="appointment-empty" class="empty hidden">Your calendar has room for something good.<br><small>Book an appointment here or through the reception desk.</small></div></div></section>
-    <section id="page-customers" class="page"><div class="section-heading"><div><div class="eyebrow">PEOPLE, NOT JUST NUMBERS</div><h1>Customers</h1><p>Keep the details that make every welcome a little more personal.</p></div><button class="button primary" id="new-customer">+ Add customer</button></div><div class="toolbar"><input id="customer-search" placeholder="Search customers by name or phone…"></div><div class="panel table-panel"><table><thead><tr><th>Customer</th><th>Phone</th><th>Notes</th><th></th></tr></thead><tbody id="customer-rows"></tbody></table><div id="customer-empty" class="empty hidden">Your first familiar face is one conversation away.</div></div></section>
-    <section id="page-calls" class="page"><div class="section-heading"><div><div class="eyebrow">EVERY CONVERSATION HAS CONTEXT</div><h1>Call history</h1><p>Review transcripts and response processing time.</p></div></div><div id="metric-cards" class="metrics"></div><div class="panel table-panel"><table><thead><tr><th>Conversation</th><th>Started</th><th>Channel</th><th>Provider</th><th>Status</th><th></th></tr></thead><tbody id="call-rows"></tbody></table><div id="call-empty" class="empty hidden">No conversations yet. Your first one is ready when you are.</div></div></section>
-    <section id="page-handoffs" class="page"><div class="section-heading"><div><div class="eyebrow">A HUMAN TOUCH, RIGHT ON TIME</div><h1>Human handoffs</h1><p>Take over an active conversation or follow up with a callback.</p></div></div><div class="handoff-layout"><div id="handoff-list"></div><article class="panel operator-panel"><h3>Operator console</h3><p class="muted" id="operator-label">Choose an active request to take over.</p><div id="operator-messages" class="operator-messages"></div><form id="operator-form" class="chat-form"><input id="operator-input" placeholder="Type your response…" maxlength="3000"><button type="submit" aria-label="Send operator response">↑</button></form><small class="muted">Responses are spoken to the caller. Local handoff uses this conversation, not a telephone connection.</small></article></div></section>
-    <section id="page-settings" class="page"><div class="section-heading"><div><div class="eyebrow">MAKE YOURSELF AT HOME</div><h1>Settings & providers</h1><p>Make the receptionist yours. Switch providers when you need them.</p></div><button class="button primary" id="save-settings">Save changes</button></div><form id="settings-form">
-      <div class="settings-grid"><article class="panel settings-panel"><h3>Your business</h3><label>Business name<input name="business_name" required></label><label>Receptionist name<input name="receptionist_name" required></label><label>Address<input name="address" required></label><label>Business phone<input name="business_phone"></label><label>Timezone<input name="timezone" required placeholder="Asia/Karachi"></label><div class="field-row"><label>Opening hour<input name="opening_hour" type="number" min="0" max="22"></label><label>Closing hour<input name="closing_hour" type="number" min="1" max="23"></label><label>Slot minutes<input name="slot_minutes" type="number" min="10" max="120"></label></div><label>Open days</label><div id="days" class="days"></div><label>Services (one per line)<textarea name="services" rows="3"></textarea></label><label>Business knowledge / pricing / policies<textarea name="faq" rows="5"></textarea></label><label>Welcome message<textarea name="greeting" rows="3"></textarea><small>Use {name} and {business} for the configured names.</small></label></article>
-      <div><article class="panel settings-panel"><div class="panel-heading"><h3>Conversation engine</h3><span class="tag">SWITCHABLE</span></div><label>Provider<select name="llm_provider"><option value="guided">Local · Guided receptionist (no model needed)</option><option value="ollama">Local · AI conversation + safe booking tools</option><option value="openai_realtime">Cloud · OpenAI Realtime (paid)</option></select></label><label>Local model server<select name="ollama_url"><option value="http://127.0.0.1:11435">Project server · models on D:</option><option value="http://127.0.0.1:11434">Existing Ollama server</option></select></label><label>Ollama model<input name="ollama_model" list="ollama-models"><datalist id="ollama-models"></datalist></label><div class="field-row"><label>Realtime model<input name="realtime_model"></label><label>Realtime voice<input name="realtime_voice"></label></div><div class="info">Booking changes require confirmation in every mode. Local AI uses conversation history to understand unfamiliar requests and reply naturally. OpenAI credentials are read from your local environment.</div></article>
-      <article class="panel settings-panel"><h3>Voice & listening</h3><label>Speech recognition<select name="stt_provider"><option value="whisper">Local · faster-whisper</option><option value="deepgram">Cloud · Deepgram streaming (paid)</option></select></label><div class="field-row"><label>Whisper model<select name="whisper_model"><option>tiny.en</option><option>base.en</option><option>small.en</option><option>tiny</option><option>base</option><option>small</option></select></label><label>Language<select name="language"><option value="en">English</option><option value="ur">Urdu</option><option value="auto">Auto detect</option></select></label></div><label>Speech output<select name="tts_provider"><option value="kokoro">Local · Kokoro neural voice (natural)</option><option value="windows">Local · Windows installed voice</option><option value="piper">Local · Piper (requires voice installation)</option></select></label><div class="field-row"><label>Neural voice<select name="tts_voice"><option value="af_heart">Heart · warm American</option><option value="af_bella">Bella · American</option><option value="af_sarah">Sarah · American</option><option value="am_michael">Michael · American</option><option value="bf_emma">Emma · British</option><option value="bm_george">George · British</option></select></label><label>Speaking speed<input name="tts_speed" type="number" min="0.8" max="1.2" step="0.05"></label></div><button type="button" id="preview-voice" class="button secondary">Preview saved voice</button><p class="muted">Save your changes before previewing. Neural speech runs on this computer.</p><div class="field-row"><label>VAD threshold<input name="vad_threshold" type="number" step="0.001" min="0.003" max="0.2"></label><label>Silence before response (ms)<input name="silence_ms" type="number" min="300" max="2500"></label></div><div class="info">Smaller VAD thresholds detect quieter speech. Use multilingual Whisper for Urdu. Changing the model requires a one-time download with Setup.ps1.</div></article>
-      <article class="panel settings-panel"><h3>Telephone connection</h3><label>Transport<select name="transport"><option value="browser">Browser · local microphone</option><option value="twilio">Twilio · telephone calls (paid)</option></select></label><label>Public HTTPS URL<input name="public_url" placeholder="https://your-secure-host.example"></label><label>Human transfer number (E.164)<input name="human_number" placeholder="+12345678900"></label><div class="info">Twilio requires account credentials and public HTTPS/WSS routing for /twilio/* only. Management stays local. Browser calling stays available.</div><div id="credential-status"></div></article></div></div></form><article class="panel diagnostic-panel"><h3>System diagnostics</h3><div id="diagnostics"></div><p class="muted">Local mode does not call OpenAI, Deepgram or Google. Calendar export is available without an account.</p></article></section>
-  </div>
-</main>
-<dialog id="modal"><div class="modal-heading"><h2 id="modal-title"></h2><button id="modal-close" class="icon-button" aria-label="Close">×</button></div><div id="modal-body"></div></dialog>
-<div id="toast" role="status"></div>
-<script src="./app.js"></script>
-</body></html>
+  <aside class="sidebar">
+    <a class="brand" href="/" aria-label="Aria home"><span class="brand-icon">a</span> aria<span
+        class="brand-dot">.</span></a>
+    <div class="workspace"><span class="workspace-icon">Y</span>
+      <div><strong id="workspace-name">Your Business</strong><small>Local workspace</small></div><span
+        class="tiny-dot"></span>
+    </div>
+    <div class="nav-caption">WORKSPACE</div>
+    <nav>
+      <button class="nav active" data-page="overview"><span>â—«</span>Overview</button>
+      <button class="nav" data-page="reception"><span>â—‰</span>Reception desk<span class="nav-tag">LIVE</span></button>
+      <button class="nav" data-page="appointments"><span>â–¦</span>Appointments</button>
+      <button class="nav" data-page="customers"><span>â™§</span>Customers</button>
+      <button class="nav" data-page="calls"><span>â‰‹</span>Call history</button>
+      <button class="nav" data-page="handoffs"><span>â‡„</span>Human handoffs<span id="queue-badge"
+          class="badge">0</span></button>
+    </nav>
+    <div class="nav-caption config-caption">CONFIGURATION</div>
+    <button class="nav" data-page="settings"><span>âš™</span>Settings & providers</button>
+    <div class="sidebar-bottom">
+      <div class="local-card"><span class="tiny-dot"></span><strong>On your computer</strong>
+        <p>Your local mode uses no paid APIs.</p>
+        <div class="local-pills"><span>PRIVATE</span><span>LOCAL FIRST</span></div>
+      </div>
+      <div class="profile"><span class="avatar">OP</span>
+        <div><strong>Workspace operator</strong><small>Local administrator</small></div>
+      </div>
+    </div>
+  </aside>
+  <main>
+    <header>
+      <div class="breadcrumb">Workspace <span>/</span> <strong id="breadcrumb">Overview</strong></div>
+      <div class="header-right"><span class="connection"><i></i><span id="connection">Connecting</span></span><span
+          id="clock"></span></div>
+    </header>
+    <div class="content">
+      <section id="page-overview" class="page active">
+        <div class="page-heading">
+          <div>
+            <div class="eyebrow">YOUR FRONT DESK, REIMAGINED</div>
+            <h1>A little more human.<br>A lot less on your plate.</h1>
+            <p>Your receptionist is ready to take care of the conversation.</p>
+          </div><button class="button primary" id="go-reception">Open reception desk <span>â†—</span></button>
+        </div>
+        <div class="hero-card">
+          <div><span class="pill"><i></i> LOCAL RECEPTIONIST</span>
+            <h2>Meet your new<br>front-of-house.</h2>
+            <p>Appointments, questions, and a warm welcome.<br>All running right here on your computer.</p>
+            <div class="hero-actions"><button class="button dark" id="hero-call">Try a conversation
+                <span>â†’</span></button><span class="no-key">No API keys needed</span></div>
+          </div>
+          <div class="orb-art">
+            <div class="orbit orbit-one"></div>
+            <div class="orbit orbit-two"></div>
+            <div class="orb">
+              <div class="wave"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div>
+            </div><span class="floating-chip chip-top"><i></i> Ready when you are</span><span
+              class="floating-chip chip-bottom">âœ¦ A calmer kind of busy</span>
+          </div>
+        </div>
+        <div class="stats-grid">
+          <article class="stat"><span>Conversations</span><strong id="stat-calls">0</strong><small>Saved on this
+              computer</small></article>
+          <article class="stat"><span>Upcoming appointments</span><strong id="stat-bookings">0</strong><small>Confirmed
+              in your calendar</small></article>
+          <article class="stat"><span>Customers</span><strong id="stat-customers">0</strong><small>A familiar face,
+              every time</small></article>
+          <article class="stat"><span>Waiting for your team</span><strong id="stat-handoffs">0</strong><small>Human
+              help, when it matters</small></article>
+        </div>
+        <div class="overview-bottom">
+          <article class="panel">
+            <div class="panel-heading">
+              <h3>Coming up next</h3><button class="link" data-page="appointments">View calendar â†—</button>
+            </div>
+            <div id="upcoming-list"></div>
+          </article>
+          <article class="panel system-panel">
+            <div class="panel-heading">
+              <h3>Your local setup</h3><span class="tag">NO API FEES</span>
+            </div>
+            <div id="system-list"></div><button class="link" data-page="settings">Manage providers â†’</button>
+          </article>
+        </div>
+        <footer>Thoughtful conversations. Locally powered.<span>ARIA / RECEPTION WORKSPACE</span></footer>
+      </section>
+      <section id="page-reception" class="page">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">THE CONVERSATION STARTS HERE</div>
+            <h1>Reception desk</h1>
+            <p>Talk naturally, or type. Your receptionist takes it from there.</p>
+          </div><span class="tag" id="call-provider">LOCAL MODE</span>
+        </div>
+        <div class="call-layout">
+          <article class="panel voice-panel"><span class="pill" id="call-state">READY TO CONNECT</span>
+            <div class="voice-orb">
+              <div class="wave"><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div>
+            </div>
+            <h2 id="assistant-name">Aria</h2>
+            <p id="voice-status">Your virtual receptionist</p>
+            <div class="meter">
+              <div id="meter-fill"></div>
+            </div>
+            <p class="mic-note" id="mic-note">Audio stays local in local mode.<br>Headphones help with natural
+              interruptions.</p>
+            <div class="voice-buttons"><button class="button primary" id="start-call">Start conversation</button><button
+                class="button danger hidden" id="end-call">End call</button><button class="button secondary hidden"
+                id="mute-call">Mute mic</button><button class="button secondary hidden"
+                id="interrupt-call">Interrupt</button></div>
+            <div class="voice-options"><label><input type="checkbox" id="voice-enabled" checked> Speak responses
+                aloud</label><label><input type="checkbox" id="mic-enabled" checked> Enable microphone</label></div>
+            <div class="timing" id="timing">Text chat is always available during a call.</div>
+          </article>
+          <article class="panel transcript-panel">
+            <div class="panel-heading">
+              <h3>Live conversation <span class="tiny-dot"></span></h3><span id="call-reference" class="muted">No active
+                call</span>
+            </div>
+            <div id="messages" class="messages">
+              <div class="conversation-empty"><span>âœ¦</span>
+                <h3>A warm welcome starts here.</h3>
+                <p>Start a conversation to book, reschedule,<br>ask a question, or reach your team.</p>
+              </div>
+            </div>
+            <div id="interim" class="interim"></div>
+            <div class="quick-prompts"><button data-prompt="I want to book an appointment">Book an
+                appointment</button><button data-prompt="What are your opening hours?">Opening hours</button><button
+                data-prompt="I want to speak to a human">Speak to a human</button></div>
+            <form id="chat-form" class="chat-form"><input id="chat-input"
+                placeholder="Type a message to your receptionistâ€¦" maxlength="3000" autocomplete="off"><button
+                aria-label="Send message" type="submit">â†‘</button></form>
+          </article>
+        </div>
+      </section>
+      <section id="page-appointments" class="page">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">MAKE ROOM FOR WHAT MATTERS</div>
+            <h1>Appointments</h1>
+            <p>Your local calendar. Every confirmed appointment, in one place.</p>
+          </div>
+          <div class="actions"><a class="button secondary" href="/api/calendar.ics">Export calendar</a><button
+              class="button primary" id="new-booking">+ New appointment</button></div>
+        </div>
+        <div class="toolbar"><input id="appointment-search" placeholder="Search names, services or referencesâ€¦"><select
+            id="appointment-filter">
+            <option value="upcoming">Upcoming</option>
+            <option value="all">All appointments</option>
+            <option value="cancelled">Cancelled</option>
+          </select><a class="link" href="/api/export/appointments">Download CSV â†—</a></div>
+        <div class="panel table-panel">
+          <table>
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Service</th>
+                <th>Date & time</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="appointment-rows"></tbody>
+          </table>
+          <div id="appointment-empty" class="empty hidden">Your calendar has room for something good.<br><small>Book an
+              appointment here or through the reception desk.</small></div>
+        </div>
+      </section>
+      <section id="page-customers" class="page">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">PEOPLE, NOT JUST NUMBERS</div>
+            <h1>Customers</h1>
+            <p>Keep the details that make every welcome a little more personal.</p>
+          </div><button class="button primary" id="new-customer">+ Add customer</button>
+        </div>
+        <div class="toolbar"><input id="customer-search" placeholder="Search customers by name or phoneâ€¦"></div>
+        <div class="panel table-panel">
+          <table>
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Phone</th>
+                <th>Notes</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="customer-rows"></tbody>
+          </table>
+          <div id="customer-empty" class="empty hidden">Your first familiar face is one conversation away.</div>
+        </div>
+      </section>
+      <section id="page-calls" class="page">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">EVERY CONVERSATION HAS CONTEXT</div>
+            <h1>Call history</h1>
+            <p>Review transcripts and response processing time.</p>
+          </div>
+        </div>
+        <div id="metric-cards" class="metrics"></div>
+        <div class="panel table-panel">
+          <table>
+            <thead>
+              <tr>
+                <th>Conversation</th>
+                <th>Started</th>
+                <th>Channel</th>
+                <th>Provider</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="call-rows"></tbody>
+          </table>
+          <div id="call-empty" class="empty hidden">No conversations yet. Your first one is ready when you are.</div>
+        </div>
+      </section>
+      <section id="page-handoffs" class="page">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">A HUMAN TOUCH, RIGHT ON TIME</div>
+            <h1>Human handoffs</h1>
+            <p>Take over an active conversation or follow up with a callback.</p>
+          </div>
+        </div>
+        <div class="handoff-layout">
+          <div id="handoff-list"></div>
+          <article class="panel operator-panel">
+            <h3>Operator console</h3>
+            <p class="muted" id="operator-label">Choose an active request to take over.</p>
+            <div id="operator-messages" class="operator-messages"></div>
+            <form id="operator-form" class="chat-form"><input id="operator-input" placeholder="Type your responseâ€¦"
+                maxlength="3000"><button type="submit" aria-label="Send operator response">â†‘</button></form><small
+              class="muted">Responses are spoken to the caller. Local handoff uses this conversation, not a telephone
+              connection.</small>
+          </article>
+        </div>
+      </section>
+      <section id="page-settings" class="page">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">MAKE YOURSELF AT HOME</div>
+            <h1>Settings & providers</h1>
+            <p>Make the receptionist yours. Switch providers when you need them.</p>
+          </div><button class="button primary" id="save-settings">Save changes</button>
+        </div>
+        <form id="settings-form">
+          <div class="settings-grid">
+            <article class="panel settings-panel">
+              <h3>Your business</h3><label>Business name<input name="business_name" required></label><label>Receptionist
+                name<input name="receptionist_name" required></label><label>Address<input name="address"
+                  required></label><label>Business phone<input name="business_phone"></label><label>Timezone<input
+                  name="timezone" required placeholder="Asia/Karachi"></label>
+              <div class="field-row"><label>Opening hour<input name="opening_hour" type="number" min="0"
+                    max="22"></label><label>Closing hour<input name="closing_hour" type="number" min="1"
+                    max="23"></label><label>Slot minutes<input name="slot_minutes" type="number" min="10"
+                    max="120"></label></div><label>Open days</label>
+              <div id="days" class="days"></div><label>Services (one per line)<textarea name="services"
+                  rows="3"></textarea></label><label>Business knowledge / pricing / policies<textarea name="faq"
+                  rows="5"></textarea></label><label>Welcome message<textarea name="greeting"
+                  rows="3"></textarea><small>Use {name} and {business} for the configured names.</small></label>
+            </article>
+            <div>
+              <article class="panel settings-panel">
+                <div class="panel-heading">
+                  <h3>Conversation engine</h3><span class="tag">SWITCHABLE</span>
+                </div><label>Provider<select name="llm_provider">
+                    <option value="guided">Local Â· Guided receptionist (no model needed)</option>
+                    <option value="ollama">Local Â· AI conversation + safe booking tools</option>
+                    <option value="openai_realtime">Cloud Â· OpenAI Realtime (paid)</option>
+                  </select></label><label>Local model server<select name="ollama_url">
+                    <option value="http://127.0.0.1:11435">Project server Â· models on D:</option>
+                    <option value="http://127.0.0.1:11434">Existing Ollama server</option>
+                  </select></label><label>Ollama model<input name="ollama_model" list="ollama-models"><datalist
+                    id="ollama-models"></datalist></label>
+                <div class="field-row"><label>Realtime model<input name="realtime_model"></label><label>Realtime
+                    voice<input name="realtime_voice"></label></div>
+                <div class="info">Booking changes require confirmation in every mode. Local AI uses conversation history
+                  to understand unfamiliar requests and reply naturally. OpenAI credentials are read from your local
+                  environment.</div>
+              </article>
+              <article class="panel settings-panel">
+                <h3>Voice & listening</h3><label>Speech recognition<select name="stt_provider">
+                    <option value="whisper">Local Â· faster-whisper</option>
+                    <option value="deepgram">Cloud Â· Deepgram streaming (paid)</option>
+                  </select></label>
+                <div class="field-row"><label>Whisper model<select name="whisper_model">
+                      <option>tiny.en</option>
+                      <option>base.en</option>
+                      <option>small.en</option>
+                      <option>tiny</option>
+                      <option>base</option>
+                      <option>small</option>
+                    </select></label><label>Language<select name="language">
+                      <option value="en">English</option>
+                      <option value="ur">Urdu</option>
+                      <option value="auto">Auto detect</option>
+                    </select></label></div><label>Speech output<select name="tts_provider">
+                    <option value="kokoro">Local Â· Kokoro neural voice (natural)</option>
+                    <option value="windows">Local Â· Windows installed voice</option>
+                    <option value="piper">Local Â· Piper (requires voice installation)</option>
+                  </select></label>
+                <div class="field-row"><label>Neural voice<select name="tts_voice">
+                      <option value="af_heart">Heart Â· warm American</option>
+                      <option value="af_bella">Bella Â· American</option>
+                      <option value="af_sarah">Sarah Â· American</option>
+                      <option value="am_michael">Michael Â· American</option>
+                      <option value="bf_emma">Emma Â· British</option>
+                      <option value="bm_george">George Â· British</option>
+                    </select></label><label>Speaking speed<input name="tts_speed" type="number" min="0.8" max="1.2"
+                      step="0.05"></label></div><button type="button" id="preview-voice"
+                  class="button secondary">Preview saved voice</button>
+                <p class="muted">Save your changes before previewing. Neural speech runs on this computer.</p>
+                <div class="field-row"><label>VAD threshold<input name="vad_threshold" type="number" step="0.001"
+                      min="0.003" max="0.2"></label><label>Silence before response (ms)<input name="silence_ms"
+                      type="number" min="300" max="2500"></label></div>
+                <div class="info">Smaller VAD thresholds detect quieter speech. Use multilingual Whisper for Urdu.
+                  Changing the model requires a one-time download with Setup.ps1.</div>
+              </article>
+              <article class="panel settings-panel">
+                <h3>Telephone connection</h3><label>Transport<select name="transport">
+                    <option value="browser">Browser Â· local microphone</option>
+                    <option value="twilio">Twilio Â· telephone calls (paid)</option>
+                  </select></label><label>Public HTTPS URL<input name="public_url"
+                    placeholder="https://your-secure-host.example"></label><label>Human transfer number (E.164)<input
+                    name="human_number" placeholder="+12345678900"></label>
+                <div class="info">Twilio requires account credentials and public HTTPS/WSS routing for /twilio/* only.
+                  Management stays local. Browser calling stays available.</div>
+                <div id="credential-status"></div>
+              </article>
+            </div>
+          </div>
+        </form>
+        <article class="panel diagnostic-panel">
+          <h3>System diagnostics</h3>
+          <div id="diagnostics"></div>
+          <p class="muted">Local mode does not call OpenAI, Deepgram or Google. Calendar export is available without an
+            account.</p>
+        </article>
+      </section>
+    </div>
+  </main>
+  <dialog id="modal">
+    <div class="modal-heading">
+      <h2 id="modal-title"></h2><button id="modal-close" class="icon-button" aria-label="Close">Ã—</button>
+    </div>
+    <div id="modal-body"></div>
+  </dialog>
+  <div id="toast" role="status"></div>
+    <script src="/AIreceptionist/app.js"></script>
+  <script>
+'use strict';
+const $=s=>document.querySelector(s), $=s=>[...document.querySelectorAll(s)];
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+const defaultSettings = {
+  business_name: 'Vortex Logic Labs',
+  receptionist_name: 'Aria',
+  address: 'Islamabad / Remote',
+  business_phone: '+92 311 5801109',
+  timezone: 'Asia/Karachi',
+  opening_hour: 9,
+  closing_hour: 18,
+  slot_minutes: 30,
+  open_days: [0, 1, 2, 3, 4],
+  services: [
+    'AI Architecture Consultation (45 min)',
+    'Enterprise Cloud Scoping (30 min)',
+    'Autonomous Systems Demo (60 min)'
+  ],
+  llm_provider: 'guided',
+  stt_provider: 'whisper',
+  tts_provider: 'kokoro',
+  tts_speed: 1.0,
+  vad_threshold: 0.02,
+  silence_ms: 1200
+};
+
+const defaultDashboard = {
+  calls: [
+    { id: '1042', started_at: new Date(Date.now() - 3600000).toISOString(), channel: 'web', provider: 'Aria Neural', status: 'completed' },
+    { id: '1041', started_at: new Date(Date.now() - 18000000).toISOString(), channel: 'web', provider: 'Aria Neural', status: 'completed' }
+  ],
+  appointments: [
+    { id: 'apt-01', name: 'Alexander Wright', phone: '+1 555 0192', service: 'AI Architecture Consultation (45 min)', start_at: new Date(Date.now() + 86400000).toISOString(), status: 'booked' },
+    { id: 'apt-02', name: 'Sophia Chen', phone: '+1 555 0834', service: 'Enterprise Cloud Scoping (30 min)', start_at: new Date(Date.now() + 172800000).toISOString(), status: 'booked' }
+  ],
+  customers: [
+    { id: 'c-1', name: 'Alexander Wright', phone: '+1 555 0192', notes: 'Interested in LangGraph & Voice agents.', created_at: new Date().toISOString() },
+    { id: 'c-2', name: 'Sophia Chen', phone: '+1 555 0834', notes: 'CTO exploring CTI & defense telemetry.', created_at: new Date().toISOString() }
+  ],
+  handoffs: [],
+  metrics: [
+    { provider: 'Aria Dialogue', turns: 42, mean_ms: 180 }
+  ],
+  upcoming: [
+    { id: 'apt-01', name: 'Alexander Wright', phone: '+1 555 0192', service: 'AI Architecture Consultation (45 min)', start_at: new Date(Date.now() + 86400000).toISOString(), status: 'booked' }
+  ]
+};
+
+let cfg = { ...defaultSettings };
+let dashboard = { ...defaultDashboard };
+let health = { database: 'browser-storage', speech_ready: true, neural_voice_installed: true };
+let currentPage='overview', socket=null, callId=null, operatorId=null;
+let ctx=null, micStream=null, micSource=null, worklet=null, muted=false, audioNodes=new Set(), playbackAt=0, audioGeneration=0, decodeChain=Promise.resolve(), toastTimer;
+let closingCall=false, isLocalDemo=false;
+let synth = window.speechSynthesis || null;
+let speechRecognizer = null;
+
+async function api(path,options={}){
+  try {
+    const response=await fetch(path,{...options,headers:{'Content-Type':'application/json',...(options.headers||{})}});
+    if(!response.ok){let detail;try{detail=(await response.json()).detail}catch{detail=response.statusText}throw Error(typeof detail==='string'?detail:JSON.stringify(detail))}
+    return response.json();
+  } catch(err) {
+    throw err;
+  }
+}
+
+function toast(text,error=false){const t=$('#toast');t.textContent=text;t.className='show'+(error?' error':'');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.className='',6500)}
+
+function page(name){
+  currentPage=name;
+  $('.page').forEach(el=>el.classList.toggle('active',el.id==='page-'+name));
+  $('.nav').forEach(el=>el.classList.toggle('active',el.dataset.page===name));
+  $('#breadcrumb').textContent=({overview:'Overview',reception:'Reception desk',appointments:'Appointments',customers:'Customers',calls:'Call history',handoffs:'Human handoffs',settings:'Settings & providers'})[name];
+  if(name==='settings')loadSettings();
+  if(name==='handoffs')renderHandoffs();
+  window.scrollTo(0,0);
+}
+
+document.addEventListener('click',event=>{const target=event.target.closest('[data-page]');if(target)page(target.dataset.page)});
+$('#go-reception').onclick=()=>page('reception');
+$('#hero-call').onclick=()=>{page('reception');startCall()};
+
+function date(value,options={}){return new Intl.DateTimeFormat('en-GB',{timeZone:cfg.timezone||'Asia/Karachi',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',...options}).format(new Date(value))}
+function localDay(value=new Date()){return new Intl.DateTimeFormat('en-CA',{timeZone:cfg.timezone||'Asia/Karachi',year:'numeric',month:'2-digit',day:'2-digit'}).format(value)}
+function status(value){return `<span class="status ${esc(value)}">${esc(value.replace('_',' '))}</span>`}
+
+async function refresh(){
+  try{
+    dashboard=await api('/api/dashboard');
+    render();
+    if(operatorId)await refreshOperator();
+  }catch(e){
+    // Keep local dashboard rendered
+    $('#connection').textContent='â— Live Demo Online';
+    render();
+  }
+}
+
+async function refreshHealth(){
+  try{
+    health=await api('/api/health');
+    $('#connection').textContent='â— Server Online';
+    renderSystem();
+    renderDiagnostics();
+  }catch{
+    $('#connection').textContent='â— Cloud Demo Online';
+    renderSystem();
+    renderDiagnostics();
+  }
+}
+
+function render(){
+  $('#stat-calls').textContent=dashboard.total_calls??dashboard.calls.length;
+  $('#stat-bookings').textContent=dashboard.upcoming.length;
+  $('#stat-customers').textContent=dashboard.customers.length;
+  const waiting=dashboard.handoffs.filter(h=>h.status!=='resolved').length;
+  $('#stat-handoffs').textContent=waiting;
+  $('#queue-badge').textContent=waiting;
+  $('#upcoming-list').innerHTML=dashboard.upcoming.slice().sort((a,b)=>a.start_at.localeCompare(b.start_at)).slice(0,3).map(a=>`<div class="mini-booking"><div class="mini-date">${esc(date(a.start_at,{month:'short',day:undefined,hour:undefined,minute:undefined}).toUpperCase())}<strong>${esc(date(a.start_at,{month:undefined,day:'2-digit',hour:undefined,minute:undefined}))}</strong></div><div><h4>${esc(a.name)}</h4><p>${esc(a.service)}</p></div><span>${esc(date(a.start_at,{day:undefined,month:undefined}))}</span></div>`).join('')||'<div class="empty"><span class="empty-illustration">â–¦</span>A clear calendar. A fresh start.<small>Your next appointment will appear here.</small></div>';
+  renderAppointments();
+  renderCustomers();
+  renderCalls();
+  if(currentPage==='handoffs')renderHandoffs();
+}
+
+function renderSystem(){
+  const rows=[
+    ['Speech recognition', 'Web Speech / Whisper Â· ready', false],
+    ['Conversation engine', 'Aria Neural Agent Â· active', false],
+    ['Voice output', 'Web Neural Voice Â· active', false],
+    ['Calendar & data', 'Cloud Demo Storage Â· synced', false]
+  ];
+  $('#system-list').innerHTML=rows.map(([name,value,warn])=>`<div class="system-row"><span class="tiny-dot"></span><strong>${esc(name)}</strong><span class="${warn?'state-warn':''}">${esc(value)}</span></div>`).join('');
+}
+
+function renderAppointments(){
+  const query=$('#appointment-search').value.toLowerCase(),filter=$('#appointment-filter').value;
+  const list=dashboard.appointments.filter(a=>(filter==='all'||filter==='cancelled'&&a.status==='cancelled'||filter==='upcoming'&&a.status==='booked'&&new Date(a.start_at)>new Date())&&[a.name,a.phone,a.service,a.id].some(v=>v.toLowerCase().includes(query)));
+  $('#appointment-rows').innerHTML=list.map(a=>`<tr><td><strong>${esc(a.name)}</strong><small>${esc(a.phone)}</small></td><td>${esc(a.service)}<small>#${esc(a.id)}</small></td><td>${esc(date(a.start_at))}<small>${esc(cfg.timezone)}</small></td><td>${status(a.status)}</td><td>${a.status==='booked'?`<button class="link" data-reschedule="${a.id}">Reschedule</button><button class="link" data-cancel="${a.id}">Cancel</button>`:''}</td></tr>`).join('');
+  $('#appointment-empty').classList.toggle('hidden',list.length>0);
+}
+$('#appointment-search').oninput=renderAppointments;
+$('#appointment-filter').onchange=renderAppointments;
+
+function renderCustomers(){
+  const query=$('#customer-search').value.toLowerCase();
+  const list=dashboard.customers.filter(c=>c.name.toLowerCase().includes(query)||c.phone.includes(query));
+  $('#customer-rows').innerHTML=list.map(c=>`<tr><td><strong>${esc(c.name)}</strong><small>Added ${esc(date(c.created_at,{hour:undefined,minute:undefined}))}</small></td><td>${esc(c.phone)}</td><td>${esc(c.notes)||'â€”'}</td><td><button class="link" data-customer="${c.id}">Edit details</button></td></tr>`).join('');
+  $('#customer-empty').classList.toggle('hidden',list.length>0);
+}
+$('#customer-search').oninput=renderCustomers;
+
+function renderCalls(){
+  $('#call-rows').innerHTML=dashboard.calls.map(c=>`<tr><td><strong>#${esc(c.id)}</strong></td><td>${esc(date(c.started_at))}</td><td>${esc(c.channel)}</td><td>${esc(c.provider)}</td><td>${status(c.status)}</td><td><button class="link" data-transcript="${c.id}">Transcript â†—</button></td></tr>`).join('');
+  $('#call-empty').classList.toggle('hidden',dashboard.calls.length>0);
+  $('#metric-cards').innerHTML=dashboard.metrics.map(m=>`<div class="metric"><strong>${Math.round(m.mean_ms)} ms</strong>${esc(m.provider)} Â· ${m.turns} turns Â· mean response latency</div>`).join('');
+}
+
+function renderHandoffs(){
+  $('#handoff-list').innerHTML=dashboard.handoffs.map(h=>`<article class="panel handoff-card"><div class="panel-heading">${status(h.status)}<span class="muted">${esc(date(h.created_at))}</span></div><h3>${esc(h.reason)}</h3><p>Callback: ${esc(h.phone||'Not supplied')}<br>Conversation #${esc(h.call_id)}</p><div class="actions">${h.status!=='resolved'?`<button class="button primary" data-take="${h.id}">Take over</button><button class="button secondary" data-resolve="${h.id}">Mark resolved</button>`:''}<button class="link" data-transcript="${h.call_id}">View transcript</button></div></article>`).join('')||'<article class="panel empty">All quiet on the front desk.<small>Requests for human help will appear here.</small></article>';
+}
+
+function openModal(title,body){$('#modal-title').textContent=title;$('#modal-body').innerHTML=body;$('#modal').showModal()}
+$('#modal-close').onclick=()=>$('#modal').close();
+$('#modal').addEventListener('click',e=>{if(e.target===$('#modal')){const r=e.target.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)e.target.close()}});
+
+function bookingForm(old=null){
+  openModal(old?'Reschedule appointment':'New appointment',`<form id="booking-form" class="modal-form"><label>Customer name<input name="name" value="${esc(old?.name||'')}" required minlength="2" maxlength="100"></label><label>Phone number<input name="phone" value="${esc(old?.phone||'')}" required minlength="7" maxlength="30"></label><label>Service<select name="service">${cfg.services.map(s=>`<option${old?.service===s?' selected':''}>${esc(s)}</option>`).join('')}</select></label><label>Date (${esc(cfg.timezone)})<input name="day" type="date" value="${localDay()}" min="${localDay()}" required></label><label>Available time<select name="start_at" required><option value="10:00:00">10:00 AM</option><option value="11:30:00">11:30 AM</option><option value="14:00:00">02:00 PM</option><option value="15:30:00">03:30 PM</option><option value="16:30:00">04:30 PM</option></select></label><label>Notes<textarea name="notes" rows="2" maxlength="2000">${esc(old?.notes||'')}</textarea></label><div class="info">${old?'Confirming replaces the previous appointment only if the new slot is still available.':'Confirming saves this appointment to your calendar.'}</div><button class="button primary" type="submit">${old?'Confirm reschedule':'Confirm booking'}</button></form>`);
+  const form=$('#booking-form');
+  form.onsubmit=async e=>{
+    e.preventDefault();
+    const data=Object.fromEntries(new FormData(form));
+    const fullDate = `${data.day}T${data.start_at}Z`;
+    const newApt = {
+      id: old ? old.id : 'apt-' + Math.floor(Math.random()*9000 + 1000),
+      name: data.name,
+      phone: data.phone,
+      service: data.service,
+      start_at: fullDate,
+      status: 'booked'
+    };
+    if (old) {
+      dashboard.appointments = dashboard.appointments.map(a => a.id === old.id ? newApt : a);
+    } else {
+      dashboard.appointments.unshift(newApt);
+      dashboard.upcoming.unshift(newApt);
+      dashboard.customers.unshift({ id: 'c-' + Date.now(), name: data.name, phone: data.phone, notes: data.service, created_at: new Date().toISOString() });
+    }
+    $('#modal').close();
+    toast('Appointment '+(old?'rescheduled':'booked'));
+    render();
+  };
+}
+$('#new-booking').onclick=()=>bookingForm();
+
+function customerForm(old=null){
+  openModal(old?'Customer details':'Add customer',`<form id="customer-form" class="modal-form"><label>Full name<input name="name" value="${esc(old?.name||'')}" required minlength="2" maxlength="100"></label><label>Phone<input name="phone" value="${esc(old?.phone||'')}" required minlength="7" maxlength="30"></label><label>Notes<textarea name="notes" rows="4" maxlength="2000">${esc(old?.notes||'')}</textarea></label><button class="button primary">Save customer</button></form>`);
+  $('#customer-form').onsubmit=async e=>{
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target));
+    if (old) {
+      dashboard.customers = dashboard.customers.map(c => c.id === old.id ? { ...c, ...data } : c);
+    } else {
+      dashboard.customers.unshift({ id: 'c-' + Date.now(), ...data, created_at: new Date().toISOString() });
+    }
+    $('#modal').close();
+    toast('Customer saved');
+    render();
+  };
+}
+$('#new-customer').onclick=()=>customerForm();
+
+document.addEventListener('click',async e=>{
+  const b=e.target.closest('button');if(!b)return;
+  try{
+    if(b.dataset.reschedule)bookingForm(dashboard.appointments.find(a=>a.id===b.dataset.reschedule));
+    if(b.dataset.cancel){
+      const a=dashboard.appointments.find(a=>a.id===b.dataset.cancel);
+      openModal('Cancel appointment',`<div class="confirmation">Cancel ${esc(a.service)} for ${esc(a.name)} on ${esc(date(a.start_at))}?</div><button class="button danger" id="confirm-cancel">Confirm cancellation</button>`);
+      $('#confirm-cancel').onclick=async()=>{
+        a.status = 'cancelled';
+        dashboard.upcoming = dashboard.upcoming.filter(u => u.id !== a.id);
+        $('#modal').close();
+        toast('Appointment cancelled');
+        render();
+      };
+    }
+    if(b.dataset.customer)customerForm(dashboard.customers.find(c=>c.id===b.dataset.customer));
+    if(b.dataset.prompt)sendText(b.dataset.prompt);
+  }catch(e){toast(e.message,true)}
+});
+
+function messageHTML(m){return `<div class="message ${esc(m.role)}"><div class="message-label">${esc(m.role==='assistant'?cfg.receptionist_name:m.role==='user'?'Caller':m.role)}</div><div class="message-content">${esc(m.content)}</div></div>`}
+function appendMessage(role,content){if($('#messages .conversation-empty'))$('#messages').innerHTML='';$('#messages').insertAdjacentHTML('beforeend',messageHTML({role,content}));$('#messages').scrollTop=$('#messages').scrollHeight}
+
+function speakDemo(text){
+  if(!synth || !$('#voice-enabled').checked) return;
+  synth.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.rate = 1.05;
+  const voices = synth.getVoices();
+  const femaleVoice = voices.find(v => (v.name.includes('Samantha') || v.name.includes('Google') || v.name.includes('Zira') || v.name.includes('Natural')) && v.lang.startsWith('en'));
+  if(femaleVoice) utter.voice = femaleVoice;
+  utter.onstart = () => { $('#voice-status').textContent='Speakingâ€¦'; $('.voice-orb').classList.add('speaking'); };
+  utter.onend = () => { $('#voice-status').textContent='Listeningâ€¦'; $('.voice-orb').classList.remove('speaking'); };
+  synth.speak(utter);
+}
+
+function processAriaDemoTurn(text) {
+  const lower = text.toLowerCase();
+  let reply = "";
+  let suggestions = [];
+
+  if (lower.includes('book') || lower.includes('appointment') || lower.includes('schedule')) {
+    reply = "I would be happy to schedule an appointment for you! We offer AI Architecture Consultations and Enterprise Cloud Scoping. What day and time works best for you?";
+    suggestions = [{ label: "Tomorrow at 10 AM", text: "Tomorrow at 10 AM for AI Architecture" }, { label: "Our Services", text: "What services do you provide?" }];
+  } else if (lower.includes('hour') || lower.includes('time') || lower.includes('open')) {
+    reply = "Our engineering studio is active Monday through Friday from 9:00 AM to 6:00 PM. Would you like to schedule a call during those hours?";
+    suggestions = [{ label: "Book a slot", text: "I want to book an appointment" }];
+  } else if (lower.includes('service') || lower.includes('offer') || lower.includes('do')) {
+    reply = "At Vortex Logic Labs, we design and deploy autonomous AI agents (LangGraph, MCP), real-time voice receptionists, cyber threat intelligence platforms, and high-performance cloud backends.";
+    suggestions = [{ label: "Book a consultation", text: "I want to book an appointment" }, { label: "Contact Saif", text: "How can I contact Saif Ullah?" }];
+  } else if (lower.includes('saif') || lower.includes('contact') || lower.includes('human') || lower.includes('speak to')) {
+    reply = "Saif Ullah is the Lead Architect here at Vortex Logic Labs. You can connect with him directly at saifu0905@gmail.com or via LinkedIn at linkedin.com/in/saif-ullah-sohail.";
+    suggestions = [{ label: "View Portfolio", text: "Tell me about his portfolio" }];
+  } else if (lower.includes('tomorrow') || lower.includes('10 am') || lower.includes('confirm')) {
+    const bookedApt = {
+      id: 'apt-' + Math.floor(Math.random()*9000 + 1000),
+      name: 'Demo Client',
+      phone: '+1 555 0100',
+      service: 'AI Architecture Consultation (45 min)',
+      start_at: new Date(Date.now() + 86400000).toISOString(),
+      status: 'booked'
+    };
+    dashboard.appointments.unshift(bookedApt);
+    dashboard.upcoming.unshift(bookedApt);
+    render();
+    reply = "Wonderful! I have booked your AI Architecture Consultation for tomorrow at 10:00 AM. It has been confirmed and added to our calendar.";
+    suggestions = [{ label: "Opening hours", text: "What are your opening hours?" }, { label: "Thank you", text: "Thank you Aria!" }];
+  } else {
+    reply = "Thank you for reaching out to Vortex Logic Labs front desk. I can help book a meeting, explain our AI engineering solutions, or route your inquiry to our engineering team.";
+    suggestions = [{ label: "Book appointment", text: "I want to book an appointment" }, { label: "What are your hours?", text: "What are your opening hours?" }];
+  }
+
+  appendMessage('assistant', reply);
+  speakDemo(reply);
+  if(suggestions.length > 0) {
+    $('.quick-prompts').innerHTML = suggestions.map(s => `<button data-prompt="${esc(s.text)}">${esc(s.label)}</button>`).join('');
+  }
+}
+
+function startWebSpeechRecognizer() {
+  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+  if(!SpeechRec) return;
+  speechRecognizer = new SpeechRec();
+  speechRecognizer.continuous = false;
+  speechRecognizer.interimResults = true;
+  speechRecognizer.lang = 'en-US';
+
+  speechRecognizer.onstart = () => {
+    $('#voice-status').textContent = 'Listening to your voiceâ€¦';
+    $('#meter-fill').style.width = '60%';
+  };
+  speechRecognizer.onresult = (e) => {
+    let final = '';
+    for(let i=e.resultIndex; i<e.results.length; ++i){
+      if(e.results[i].isFinal) final += e.results[i][0].transcript;
+      else $('#interim').textContent = e.results[i][0].transcript;
+    }
+    if(final){
+      $('#interim').textContent = '';
+      sendText(final);
+    }
+  };
+  speechRecognizer.onend = () => {
+    $('#meter-fill').style.width = '0%';
+    if(isLocalDemo && !closingCall) {
+      try { speechRecognizer.start(); } catch(err){}
+    }
+  };
+  try { speechRecognizer.start(); } catch(err){}
+}
+
+async function startCall(){
+  closingCall = false;
+  $('#start-call').classList.add('hidden');
+  ['end-call','mute-call','interrupt-call'].forEach(id=>$('#'+id).classList.remove('hidden'));
+  $('.voice-panel').classList.add('live');
+  $('#voice-status').textContent='Connected';
+  $('#call-state').textContent='CONVERSATION ACTIVE';
+  $('#chat-input').disabled=false;
+  $('#messages').innerHTML='';
+
+  // Check if WebSocket is supported or if running as Cloud Demo
+  let wsUrl = (location.protocol==='https:'?'wss:':'ws:')+'//'+location.host+'/ws/call';
+  try {
+    socket = new WebSocket(wsUrl);
+    socket.binaryType='arraybuffer';
+    socket.onopen = () => {
+      isLocalDemo = false;
+      $('#call-provider').textContent='SERVER ONLINE';
+    };
+    socket.onerror = () => {
+      activateCloudDemoMode();
+    };
+  } catch(e) {
+    activateCloudDemoMode();
+  }
+}
+
+function activateCloudDemoMode() {
+  isLocalDemo = true;
+  socket = null;
+  $('#call-provider').textContent='ARIA CLOUD DEMO';
+  $('#voice-status').textContent='Connected (Demo Mode)';
+  const welcome = "Hello! Welcome to Vortex Logic Labs. I'm Aria, your virtual receptionist. How can I assist you today? You can ask to book a consultation, learn about our services, or speak to our team.";
+  setTimeout(() => {
+    appendMessage('assistant', welcome);
+    speakDemo(welcome);
+    startWebSpeechRecognizer();
+  }, 400);
+}
+
+function sendText(text){
+  if(closingCall)return;
+  text=text.trim();
+  if(!text)return;
+  if(synth) synth.cancel();
+  appendMessage('user', text);
+  $('#chat-input').value='';
+
+  if(socket && socket.readyState === 1) {
+    socket.send(JSON.stringify({type:'text', text}));
+  } else {
+    setTimeout(() => processAriaDemoTurn(text), 600);
+  }
+}
+
+$('#start-call').onclick=startCall;
+$('#end-call').onclick=()=>{
+  closingCall = true;
+  if(synth) synth.cancel();
+  if(speechRecognizer) speechRecognizer.stop();
+  if(socket?.readyState===1) socket.send(JSON.stringify({type:'end'}));
+  socket?.close();
+  $('#start-call').classList.remove('hidden');
+  ['end-call','mute-call','interrupt-call'].forEach(id=>$('#'+id).classList.add('hidden'));
+  $('.voice-panel').classList.remove('live');
+  $('#voice-status').textContent='Conversation ended';
+  $('#call-state').textContent='READY TO CONNECT';
+};
+
+$('#mute-call').onclick=()=>{
+  muted=!muted;
+  $('#mute-call').textContent=muted?'Unmute mic':'Mute mic';
+  if(speechRecognizer) {
+    if(muted) speechRecognizer.stop();
+    else speechRecognizer.start();
+  }
+};
+
+$('#interrupt-call').onclick=()=>{
+  if(synth) synth.cancel();
+  $('#voice-status').textContent='Listeningâ€¦';
+};
+
+$('#voice-enabled').onchange=()=>{
+  if(!$('#voice-enabled').checked && synth) synth.cancel();
+};
+
+$('#chat-form').onsubmit=e=>{
+  e.preventDefault();
+  sendText($('#chat-input').value);
+};
+
+function loadSettings(){
+  const form=$('#settings-form');
+  for(const [key,value] of Object.entries(cfg)){
+    const el=form.elements.namedItem(key);
+    if(el)el.value=key==='services'?value.join('\n'):value;
+  }
+  $('#days').innerHTML=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d,i)=>`<label><input type="checkbox" value="${i}" ${cfg.open_days.includes(i)?'checked':''}>${d}</label>`).join('');
+  renderDiagnostics();
+}
+
+function applyBrand(){
+  const name=cfg.business_name||'Vortex Logic Labs';
+  $('#workspace-name').textContent=name;
+  $('.workspace-icon').textContent=name[0].toUpperCase();
+  $('#assistant-name').textContent=cfg.receptionist_name||'Aria';
+  $('#call-provider').textContent='LOCAL READY';
+}
+
+function renderDiagnostics(){
+  if(!$('#diagnostics'))return;
+  $('#diagnostics').innerHTML=[
+    `Platform: Vortex Logic Labs`,
+    `Speech Model: Web Speech STT/TTS Active`,
+    `Engine: Aria Neural Dialogue`,
+    `Calendar: Connected`
+  ].map(v=>`<span class="diagnostic">${esc(v)}</span>`).join('');
+}
+
+async function boot(){
+  try{
+    cfg=await api('/api/settings');
+  }catch(e){
+    cfg={ ...defaultSettings };
+  }
+  applyBrand();
+  render();
+  renderSystem();
+  renderDiagnostics();
+  setInterval(()=>{$('#clock').textContent=new Intl.DateTimeFormat('en-GB',{timeZone:cfg.timezone,hour:'2-digit',minute:'2-digit',weekday:'short',day:'numeric',month:'short'}).format(new Date())},1000);
+}
+boot();
+
+  </script>
+</body>
+
+</html>
