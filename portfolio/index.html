@@ -9,6 +9,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
     rel="stylesheet">
+  <script defer src="https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.min.js"></script>
   <style>
     *,
     *::before,
@@ -1414,6 +1415,525 @@
       opacity: 1;
       transform: translateY(0)
     }
+
+    /* ── V2 MINIMALIST UPGRADES ── */
+    #hero-3d {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      opacity: .72;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+    }
+
+    .cmd-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-family: var(--fm);
+      font-size: .68rem;
+      padding: .34rem .65rem;
+      background: rgba(20, 22, 32, .85);
+      border: 1px solid var(--bd2);
+      color: var(--m);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+
+    .cmd-trigger:hover {
+      border-color: var(--a);
+      color: var(--txt);
+      background: rgba(79, 142, 255, .08);
+    }
+
+    .cmd-trigger kbd {
+      font-family: var(--fm);
+      font-size: .62rem;
+      padding: .08rem .32rem;
+      border-radius: 3px;
+      background: var(--s1);
+      border: 1px solid var(--bd2);
+      color: var(--a);
+    }
+
+    /* Cursor-tracked spotlight border + subtle tilt */
+    .pc,
+    .bento-card,
+    .sk,
+    .info-card {
+      position: relative;
+      isolation: isolate;
+      --mx: 50%;
+      --my: 50%;
+    }
+
+    .pc::before,
+    .bento-card::before,
+    .sk::before,
+    .info-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(380px circle at var(--mx) var(--my), rgba(79, 142, 255, .13), transparent 60%);
+      opacity: 0;
+      transition: opacity .25s ease;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .pc:hover::before,
+    .bento-card:hover::before,
+    .sk:hover::before,
+    .info-card:hover::before {
+      opacity: 1;
+    }
+
+    .pc > *,
+    .bento-card > *,
+    .sk > *,
+    .info-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── FLAGSHIP BENTO SHOWCASE ── */
+    .bento-wrap {
+      margin-bottom: 3rem;
+    }
+
+    .bento-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      font-family: var(--fm);
+      font-size: .68rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--m);
+    }
+
+    .bento-label span {
+      color: var(--a);
+    }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+
+    .bento-card {
+      background: linear-gradient(160deg, rgba(20, 22, 32, .96), rgba(13, 15, 24, .98));
+      border: 1px solid var(--bd);
+      border-radius: 10px;
+      padding: 1.4rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: .95rem;
+      cursor: pointer;
+      transition: border-color .22s ease, transform .22s ease, box-shadow .22s ease;
+      will-change: transform;
+    }
+
+    .bento-card:hover {
+      border-color: rgba(79, 142, 255, .5);
+      box-shadow: 0 14px 38px rgba(0, 0, 0, .45);
+    }
+
+    .bento-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem;
+    }
+
+    .bento-id {
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+    }
+
+    .bento-title h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: -.01em;
+      margin-bottom: .15rem;
+    }
+
+    .bento-sub {
+      font-family: var(--fm);
+      font-size: .64rem;
+      color: var(--m);
+      letter-spacing: .04em;
+    }
+
+    .bento-desc {
+      font-size: .82rem;
+      color: var(--m);
+      line-height: 1.65;
+    }
+
+    .bento-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+    }
+
+    .bm-pill {
+      font-family: var(--fm);
+      font-size: .64rem;
+      padding: .24rem .55rem;
+      border-radius: 4px;
+      background: rgba(8, 9, 14, .75);
+      border: 1px solid var(--bd2);
+      color: var(--txt);
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+    }
+
+    .bm-pill b {
+      color: var(--a);
+      font-weight: 600;
+    }
+
+    .bm-pill.g b {
+      color: var(--g);
+    }
+
+    .bm-pill.o b {
+      color: var(--o);
+    }
+
+    .bento-pipe {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      flex-wrap: wrap;
+      padding: .55rem .7rem;
+      border-radius: 6px;
+      background: rgba(8, 9, 14, .65);
+      border: 1px dashed var(--bd2);
+      font-family: var(--fm);
+      font-size: .62rem;
+      color: var(--m);
+    }
+
+    .bento-pipe .node {
+      color: var(--txt);
+      padding: .1rem .38rem;
+      border-radius: 3px;
+      background: rgba(79, 142, 255, .09);
+      border: 1px solid rgba(79, 142, 255, .25);
+    }
+
+    .bento-pipe .arr {
+      color: var(--dim);
+    }
+
+    .bento-foot {
+      margin-top: auto;
+      padding-top: .85rem;
+      border-top: 1px solid var(--bd);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: .65rem;
+    }
+
+    .live-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .38rem;
+      font-family: var(--fm);
+      font-size: .62rem;
+      color: var(--g);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .live-pill::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--g);
+      box-shadow: 0 0 8px var(--g);
+    }
+
+    .bento-actions {
+      display: flex;
+      gap: .85rem;
+      align-items: center;
+    }
+
+    .bento-actions a {
+      font-family: var(--fm);
+      font-size: .68rem;
+      color: var(--m);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .bento-actions a:hover {
+      color: var(--a);
+    }
+
+    .bento-actions a.primary-act {
+      color: var(--a);
+    }
+
+    .grid-divider {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0 0 1.25rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--bd);
+    }
+
+    /* ── EXPLODED ARCHITECTURE SVG IN MODAL ── */
+    .arch-box {
+      margin: 1rem 0 1.2rem;
+      padding: 1rem 1.1rem;
+      border-radius: 8px;
+      background: rgba(8, 9, 14, .88);
+      border: 1px solid var(--bd2);
+    }
+
+    .arch-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem;
+      margin-bottom: .75rem;
+    }
+
+    .arch-head span {
+      font-family: var(--fm);
+      font-size: .64rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--a);
+    }
+
+    .arch-toggle {
+      font-family: var(--fm);
+      font-size: .64rem;
+      padding: .25rem .65rem;
+      border-radius: 4px;
+      background: rgba(79, 142, 255, .1);
+      border: 1px solid rgba(79, 142, 255, .45);
+      color: var(--a);
+      cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+
+    .arch-toggle:hover {
+      background: var(--a);
+      color: var(--bg);
+    }
+
+    .arch-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      overflow: visible;
+    }
+
+    .arch-layer {
+      transition: transform .55s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .arch-box:not(.exploded) .arch-layer[data-i="0"] { transform: translateY(34px); }
+    .arch-box:not(.exploded) .arch-layer[data-i="1"] { transform: translateY(14px); }
+    .arch-box:not(.exploded) .arch-layer[data-i="2"] { transform: translateY(-6px); }
+    .arch-box:not(.exploded) .arch-layer[data-i="3"] { transform: translateY(-26px); }
+
+    .arch-box.exploded .arch-layer[data-i="0"] { transform: translateY(0px); }
+    .arch-box.exploded .arch-layer[data-i="1"] { transform: translateY(0px); }
+    .arch-box.exploded .arch-layer[data-i="2"] { transform: translateY(0px); }
+    .arch-box.exploded .arch-layer[data-i="3"] { transform: translateY(0px); }
+
+    .arch-callout {
+      transition: opacity .4s ease .15s;
+    }
+
+    .arch-box:not(.exploded) .arch-callout {
+      opacity: .35;
+    }
+
+    .arch-box.exploded .arch-callout {
+      opacity: 1;
+    }
+
+    /* ── COMMAND PALETTE (CTRL+K / CMD+K) ── */
+    .cmd-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 600;
+      background: rgba(4, 5, 10, .72);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 11vh 1rem 1rem;
+    }
+
+    .cmd-overlay.open {
+      display: flex;
+    }
+
+    .cmd-box {
+      width: 100%;
+      max-width: 580px;
+      background: #0d0f18;
+      border: 1px solid var(--bd2);
+      border-radius: 10px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .65);
+      overflow: hidden;
+    }
+
+    .cmd-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      padding: .9rem 1.1rem;
+      border-bottom: 1px solid var(--bd);
+    }
+
+    .cmd-input-wrap span {
+      font-family: var(--fm);
+      font-size: .78rem;
+      color: var(--a);
+    }
+
+    .cmd-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--txt);
+      font-family: var(--fh);
+      font-size: .9rem;
+    }
+
+    .cmd-input::placeholder {
+      color: var(--dim);
+    }
+
+    .cmd-list {
+      max-height: 54vh;
+      overflow-y: auto;
+      padding: .45rem;
+    }
+
+    .cmd-group {
+      font-family: var(--fm);
+      font-size: .6rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--dim);
+      padding: .55rem .65rem .3rem;
+    }
+
+    .cmd-item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem;
+      padding: .62rem .75rem;
+      border-radius: 6px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--txt);
+      font-family: var(--fh);
+      font-size: .82rem;
+      text-align: left;
+      cursor: pointer;
+      transition: background .12s, border-color .12s;
+    }
+
+    .cmd-item:hover,
+    .cmd-item.sel {
+      background: rgba(79, 142, 255, .1);
+      border-color: rgba(79, 142, 255, .3);
+    }
+
+    .cmd-item-l {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+    }
+
+    .cmd-item-sub {
+      font-family: var(--fm);
+      font-size: .64rem;
+      color: var(--m);
+    }
+
+    .cmd-foot {
+      display: flex;
+      justify-content: space-between;
+      padding: .55rem 1rem;
+      border-top: 1px solid var(--bd);
+      font-family: var(--fm);
+      font-size: .62rem;
+      color: var(--dim);
+      background: rgba(8, 9, 14, .7);
+    }
+
+    .cmd-toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 700;
+      padding: .6rem 1rem;
+      border-radius: 6px;
+      background: #101420;
+      border: 1px solid var(--g);
+      color: var(--g);
+      font-family: var(--fm);
+      font-size: .72rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .45);
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: opacity .2s, transform .2s;
+    }
+
+    .cmd-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media(max-width:860px) {
+      .bento-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cmd-trigger .cmd-lbl {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #hero-3d {
+        display: none;
+      }
+    }
   </style>
 </head>
 
@@ -1429,12 +1949,18 @@
       <li><a href="#certs">Certs</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <a href="mailto:saifu0905@gmail.com" class="nav-hire">Hire Me</a>
-    <button class="mob-btn" onclick="document.getElementById('NL').classList.toggle('open')">☰</button>
+    <div class="nav-actions">
+      <button class="cmd-trigger" type="button" onclick="openCmd()" aria-label="Open Command Palette">
+        <span class="cmd-lbl">Quick Launch</span><kbd>Ctrl K</kbd>
+      </button>
+      <a href="mailto:saifu0905@gmail.com" class="nav-hire">Hire Me</a>
+      <button class="mob-btn" onclick="document.getElementById('NL').classList.toggle('open')">☰</button>
+    </div>
   </nav>
 
   <!-- HERO -->
   <section id="hero">
+    <canvas id="hero-3d" aria-hidden="true"></canvas>
     <div class="hero-grid"></div>
     <div class="hero-glow"></div>
     <div class="hero-glow2"></div>
@@ -1580,9 +2106,10 @@
       <div class="sk fade">
         <div class="sk-head">
           <div class="sk-ico">🗄️</div>
-          <h3>Databases</h3>
+          <h3>Data &amp; Databases</h3>
         </div>
-        <div class="tags"><span class="tag">PostgreSQL</span><span class="tag">MySQL</span><span
+        <div class="tags"><span class="tag">Snowflake</span><span class="tag">Snowpark</span><span
+            class="tag">Parquet</span><span class="tag">PostgreSQL</span><span class="tag">MySQL</span><span
             class="tag">MongoDB</span><span class="tag">Redis</span><span class="tag">Oracle</span><span
             class="tag">MariaDB</span><span class="tag">SQLite</span><span class="tag">pgvector</span><span
             class="tag">ChromaDB</span></div>
@@ -1613,6 +2140,155 @@
   <section id="projects">
     <div class="sec-eye">Work &amp; Projects</div>
     <h2 class="sec-t">Things I've <em>shipped</em></h2>
+
+    <!-- FLAGSHIP 2x2 BENTO SHOWCASE -->
+    <div class="bento-wrap">
+      <div class="bento-label">
+        <div><span>01 /</span> Flagship Production Systems</div>
+        <div>Click any card for Exploded Architecture View ↗</div>
+      </div>
+      <div class="bento-grid">
+
+        <div class="bento-card fade" onclick="om(0)">
+          <div class="bento-top">
+            <div class="bento-id">
+              <div class="pc-logo dark" style="font-size:1.2rem">🛡️</div>
+              <div class="bento-title">
+                <h3>Cyber Nexus — Enterprise CTI</h3>
+                <div class="bento-sub">Cybersecurity · Local LLM Agents · OSINT</div>
+              </div>
+            </div>
+            <span class="pc-type t-cy">Cybersecurity</span>
+          </div>
+          <p class="bento-desc">Real-time Cyber Threat Intelligence platform with MITRE ATT&amp;CK mapping, ransomware
+            tracking, and Ollama + LangGraph agentic reasoning over live OSINT feeds.</p>
+          <div class="bento-metrics">
+            <span class="bm-pill o"><b>-40%</b> Incident Response</span>
+            <span class="bm-pill"><b>pgvector</b> Semantic IOC Search</span>
+            <span class="bm-pill g"><b>100%</b> Local LLM Privacy</span>
+          </div>
+          <div class="bento-pipe">
+            <span class="node">OSINT Feeds</span><span class="arr">→</span>
+            <span class="node">LangGraph + Ollama</span><span class="arr">→</span>
+            <span class="node">FastAPI / pgvector</span><span class="arr">→</span>
+            <span class="node">React CTI UI</span>
+          </div>
+          <div class="bento-foot">
+            <span class="live-pill">Production Live</span>
+            <div class="bento-actions">
+              <a class="primary-act" href="https://cyber-nexus.tech/" target="_blank" onclick="event.stopPropagation()">↗ Live Site</a>
+              <a href="#" onclick="event.stopPropagation();om(0)">◫ Architecture</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="bento-card fade" onclick="om(16)">
+          <div class="bento-top">
+            <div class="bento-id">
+              <div class="pc-logo" style="font-size:1.35rem">❄️</div>
+              <div class="bento-title">
+                <h3>SnowCommerce — Cloud BI Platform</h3>
+                <div class="bento-sub">Snowflake · Snowpark Python · Streamlit in Snowflake</div>
+              </div>
+            </div>
+            <span class="pc-type t-fs">Data Platform · BI</span>
+          </div>
+          <p class="bento-desc">End-to-end cloud data warehouse and executive BI suite with least-privilege RBAC,
+            RSA key-pair GitHub Actions CI/CD, and 5M-row micro-partition pruning.</p>
+          <div class="bento-metrics">
+            <span class="bm-pill"><b>5M+</b> Order Rows</span>
+            <span class="bm-pill g"><b>-95.5%</b> Bytes Scanned</span>
+            <span class="bm-pill o"><b>1 ms</b> Result Cache</span>
+          </div>
+          <div class="bento-pipe">
+            <span class="node">Parquet COPY INTO</span><span class="arr">→</span>
+            <span class="node">Snowpark ETL</span><span class="arr">→</span>
+            <span class="node">MART (Sorted)</span><span class="arr">→</span>
+            <span class="node">Streamlit BI</span>
+          </div>
+          <div class="bento-foot">
+            <span class="live-pill">Interactive Demo Live</span>
+            <div class="bento-actions">
+              <a class="primary-act" href="https://vortexlogiclabs.com/SnowCommerce" target="_blank" onclick="event.stopPropagation()">↗ Live Demo</a>
+              <a href="https://github.com/saifullahsohail123/snowflake-ecomm-platform" target="_blank" onclick="event.stopPropagation()">⬡ GitHub</a>
+              <a href="#" onclick="event.stopPropagation();om(16)">◫ Architecture</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="bento-card fade" onclick="om(1)">
+          <div class="bento-top">
+            <div class="bento-id">
+              <div class="pc-logo" style="font-size:1.35rem">🌾</div>
+              <div class="bento-title">
+                <h3>Agriverse — Precision Agriculture</h3>
+                <div class="bento-sub">National-Scale PSDP · Satellite ML · Kubernetes</div>
+              </div>
+            </div>
+            <span class="pc-type t-ml">Full Stack · ML</span>
+          </div>
+          <p class="bento-desc">Pakistan's indigenous precision agriculture platform running TensorFlow/PyTorch
+            satellite crop inference on containerized Kubernetes infrastructure.</p>
+          <div class="bento-metrics">
+            <span class="bm-pill g"><b>50TB+</b> Agri Datasets</span>
+            <span class="bm-pill"><b>K8s + Docker</b> Multi-Env</span>
+            <span class="bm-pill o"><b>OAuth / OIDC</b> Security</span>
+          </div>
+          <div class="bento-pipe">
+            <span class="node">Satellite Imagery</span><span class="arr">→</span>
+            <span class="node">PyTorch / TF</span><span class="arr">→</span>
+            <span class="node">Go + Next.js</span><span class="arr">→</span>
+            <span class="node">Kubernetes</span>
+          </div>
+          <div class="bento-foot">
+            <span class="live-pill">National Deployment</span>
+            <div class="bento-actions">
+              <a class="primary-act" href="https://agriverse.org.pk/" target="_blank" onclick="event.stopPropagation()">↗ Live Site</a>
+              <a href="#" onclick="event.stopPropagation();om(1)">◫ Architecture</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="bento-card fade" onclick="om(2)">
+          <div class="bento-top">
+            <div class="bento-id">
+              <div class="pc-logo" style="font-size:1.35rem">🏥</div>
+              <div class="bento-title">
+                <h3>Roshan AI — Clinical GDM Detection</h3>
+                <div class="bento-sub">Healthcare AI · Al-Shifa International Hospital</div>
+              </div>
+            </div>
+            <span class="pc-type t-ai">Full Stack · AI</span>
+          </div>
+          <p class="bento-desc">Hospital-deployed early detection system for Gestational Diabetes Mellitus integrating
+            clinical ML models with patient risk records and live physician dashboards.</p>
+          <div class="bento-metrics">
+            <span class="bm-pill g"><b>Millions</b> Patients Served</span>
+            <span class="bm-pill"><b>Django + PG</b> Clinical Schema</span>
+            <span class="bm-pill o"><b>Real-Time</b> Risk Dashboards</span>
+          </div>
+          <div class="bento-pipe">
+            <span class="node">Patient Labs</span><span class="arr">→</span>
+            <span class="node">GDM ML Model</span><span class="arr">→</span>
+            <span class="node">Django + PG</span><span class="arr">→</span>
+            <span class="node">ApexCharts UI</span>
+          </div>
+          <div class="bento-foot">
+            <span class="live-pill">Hospital Deployed</span>
+            <div class="bento-actions">
+              <a href="https://github.com/saifullahsohail123" target="_blank" onclick="event.stopPropagation()">⬡ GitHub</a>
+              <a href="#" onclick="event.stopPropagation();om(2)">◫ Architecture</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="grid-divider">
+      <div class="bento-label" style="margin:0"><span>02 /</span> Full Project &amp; AI Agent Directory</div>
+    </div>
+
     <div class="proj-tabs">
       <button class="ptab on" onclick="fp('all',this)">All Projects</button>
       <button class="ptab" onclick="fp('ai',this)">AI &amp; Agents</button>
@@ -1737,7 +2413,7 @@
         </div>
         <div class="pc-foot">
           <div class="pc-stack"><span class="stag">LangGraph</span><span class="stag">Qwen-VL</span><span
-              class="stag">SQLite</span><span class="stag">HITL</span></div>
+              class="stag">Streamlit</span><span class="stag">SQLite</span><span class="stag">HITL</span></div>
           <div class="pc-links"><a href="https://vortexlogiclabs.com/InvoiceAgent" target="_blank">↗ Live Demo</a><a href="https://github.com/saifullahsohail123" target="_blank">⬡ GitHub</a><a href="#"
               onclick="event.stopPropagation();om(4)">↗ Details</a></div>
         </div>
@@ -1755,7 +2431,7 @@
         </div>
         <div class="pc-foot">
           <div class="pc-stack"><span class="stag">LangChain</span><span class="stag">LLaVA</span><span
-              class="stag">FAISS</span><span class="stag">ChromaDB</span></div>
+              class="stag">Streamlit</span><span class="stag">FAISS</span><span class="stag">ChromaDB</span></div>
           <div class="pc-links"><a href="https://github.com/saifullahsohail123" target="_blank">⬡ GitHub</a><a href="#"
               onclick="event.stopPropagation();om(5)">↗ Details</a></div>
         </div>
@@ -1773,7 +2449,7 @@
         </div>
         <div class="pc-foot">
           <div class="pc-stack"><span class="stag">Swarm</span><span class="stag">Ollama</span><span
-              class="stag">LangChain</span><span class="stag">FastAPI</span></div>
+              class="stag">Streamlit</span><span class="stag">LangChain</span><span class="stag">FastAPI</span></div>
           <div class="pc-links"><a href="https://vortexlogiclabs.com/AIrecruiter" target="_blank">↗ Live Demo</a><a href="https://github.com/saifullahsohail123" target="_blank">⬡ GitHub</a><a href="#"
               onclick="event.stopPropagation();om(6)">↗ Details</a></div>
         </div>
@@ -2175,6 +2851,23 @@
     <div class="modal" id="MBOX"></div>
   </div>
 
+  <!-- COMMAND PALETTE -->
+  <div class="cmd-overlay" id="CMDOV" onclick="if(event.target===this)closeCmd()">
+    <div class="cmd-box" role="dialog" aria-modal="true" aria-label="Quick Launch Command Palette">
+      <div class="cmd-input-wrap">
+        <span>⌘</span>
+        <input type="text" id="CMDIN" class="cmd-input" placeholder="Search live demos, projects, or actions..." autocomplete="off" />
+        <kbd style="font-family:var(--fm);font-size:.62rem;color:var(--dim);padding:.1rem .35rem;border:1px solid var(--bd2);border-radius:3px">ESC</kbd>
+      </div>
+      <div class="cmd-list" id="CMDLIST"></div>
+      <div class="cmd-foot">
+        <span>↑↓ Navigate · ↵ Open</span>
+        <span>vortexlogiclabs.com</span>
+      </div>
+    </div>
+  </div>
+  <div class="cmd-toast" id="CMDTOAST"></div>
+
   <script>
     const MDATA = [
       {
@@ -2214,15 +2907,15 @@
         logo: `<span style="font-size:1.8rem">🧾</span>`, logoBg: "",
         desc: "An agentic document processing pipeline where users drop an invoice image or PDF. A vision-language model (Qwen-VL) extracts structured fields (vendor, amount, date, line items), and a LangGraph validation loop re-examines low-confidence fields before exporting clean JSON or CSV.",
         desc2: "The LangGraph angle: a confidence_check node routes back to re-examine specific image regions with more focused prompts when the VLM is uncertain. Human-in-the-loop interrupts for low-confidence extractions. Saves to SQLite or exports to CSV.",
-        stack: ["LangGraph", "Qwen-VL", "Python", "SQLite", "Human-in-the-loop", "Vision-Language Models"],
-        links: [{ label: "⬡ GitHub", url: "https://github.com/saifullahsohail123" }]
+        stack: ["LangGraph", "Qwen-VL", "Python", "Streamlit", "SQLite", "Human-in-the-loop", "Vision-Language Models"],
+        links: [{ label: "↗ Live Demo", url: "https://vortexlogiclabs.com/InvoiceAgent" }, { label: "⬡ GitHub", url: "https://github.com/saifullahsohail123/invoice-agent" }]
       },
       {
         title: "Visual RAG Agent", type: "AI Agent · RAG",
         logo: `<span style="font-size:1.8rem">🖼️</span>`, logoBg: "",
         desc: "An agentic RAG system that ingests folders of images (product photos, screenshots, diagrams), generates text descriptions of each image using LLaVA/Qwen-VL, stores descriptions in a vector store (FAISS/Chroma), and lets users ask natural language questions answered by reasoning over retrieved images.",
         desc2: "Demonstrates multimodal RAG with vision-language models — bridging image understanding with semantic retrieval for natural language Q&A over image collections.",
-        stack: ["LangChain", "LLaVA", "Qwen-VL", "FAISS", "ChromaDB", "Python", "nomic-embed-text"],
+        stack: ["LangChain", "LLaVA", "Qwen-VL", "Streamlit", "FAISS", "ChromaDB", "Python", "nomic-embed-text"],
         links: [{ label: "⬡ GitHub", url: "https://github.com/saifullahsohail123" }]
       },
       {
@@ -2230,8 +2923,8 @@
         logo: `<span style="font-size:1.8rem">🤝</span>`, logoBg: "",
         desc: "A multi-agent system using the Swarm framework + Ollama for autonomous candidate screening. Agents parse CVs, score candidates against job requirements, and generate structured hiring recommendations — powered entirely by local LLMs with zero API costs and full data privacy.",
         desc2: "Specialized agents autonomously extract structured candidate data, score against job requirements, and generate hiring recommendations — all running locally on Ollama models.",
-        stack: ["Python", "Ollama", "Swarm", "LangChain", "FastAPI", "Local LLMs"],
-        links: [{ label: "⬡ GitHub", url: "https://github.com/saifullahsohail123" }]
+        stack: ["Python", "Ollama", "Swarm", "Streamlit", "LangChain", "FastAPI", "Local LLMs"],
+        links: [{ label: "↗ Live Demo", url: "https://vortexlogiclabs.com/AIrecruiter" }, { label: "⬡ GitHub", url: "https://github.com/saifullahsohail123/AI-recruiter" }]
       },
       {
         title: "Voice Invoice Agent", type: "AI Agent · Voice",
@@ -2324,12 +3017,83 @@
       }
     ];
 
+    const ARCH_LAYERS = {
+      0: [
+        { tag: "04 · UI", title: "React CTI & IOC Dashboards", sub: "MITRE ATT&CK · Live Threat Feeds", col: "#4f8eff" },
+        { tag: "03 · API", title: "FastAPI + Redis Cache Layer", sub: "High-Throughput IOC & Search APIs", col: "#7c3aed" },
+        { tag: "02 · AI", title: "LangGraph + Ollama Local LLMs", sub: "OSINT Multi-Step Reasoning & RAG", col: "#10b981" },
+        { tag: "01 · DATA", title: "PostgreSQL + pgvector Store", sub: "Semantic Threat Embeddings & K8s", col: "#f59e0b" }
+      ],
+      1: [
+        { tag: "04 · UI", title: "Next.js Precision Agri Portal", sub: "National Crop Health & Yield Maps", col: "#10b981" },
+        { tag: "03 · API", title: "Go + OAuth / OIDC Services", sub: "Secure Multi-Tenant Geospatial APIs", col: "#4f8eff" },
+        { tag: "02 · ML", title: "TensorFlow / PyTorch Inference", sub: "Satellite Imagery Disease Detection", col: "#7c3aed" },
+        { tag: "01 · INFRA", title: "Docker + Kubernetes · 50TB+ DB", sub: "MySQL · Oracle · MariaDB · CI/CD", col: "#f59e0b" }
+      ],
+      2: [
+        { tag: "04 · UI", title: "ApexCharts Clinical Dashboards", sub: "Physician Risk Trends & Alerts", col: "#4f8eff" },
+        { tag: "03 · AI", title: "GDM Early-Detection ML Engine", sub: "Maternal Risk & Lab Scoring", col: "#7c3aed" },
+        { tag: "02 · API", title: "Django REST Clinical Backend", sub: "Al-Shifa Hospital Production API", col: "#10b981" },
+        { tag: "01 · DATA", title: "PostgreSQL Patient Schemas", sub: "Medical History · Millions Served", col: "#f59e0b" }
+      ],
+      16: [
+        { tag: "04 · BI", title: "Streamlit in Snowflake (SiS)", sub: "KPIs · Cohorts · SKU Health · RBAC", col: "#4f8eff" },
+        { tag: "03 · MART", title: "Sorted Star Schema (5M Rows)", sub: "ORDER BY Pruning · -95.5% I/O", col: "#10b981" },
+        { tag: "02 · ETL", title: "Snowpark Python + COPY INTO", sub: "Parquet Ingestion · Pytest Validated", col: "#7c3aed" },
+        { tag: "01 · OPS", title: "GitHub Actions + RSA JWT CI/CD", sub: "ECOMM_DEV → ECOMM_PROD · RBAC", col: "#f59e0b" }
+      ]
+    };
+
+    function buildArchSvg(i, d) {
+      const layers = ARCH_LAYERS[i] || [
+        { tag: "04 · INTERFACE", title: d.title.split("—")[0].trim() + " UI", sub: "Interactive Frontend & Controls", col: "#4f8eff" },
+        { tag: "03 · ORCHESTRATION", title: (d.stack[0] || "Agent") + " Core Logic", sub: (d.stack.slice(0, 3).join(" · ") || d.type), col: "#7c3aed" },
+        { tag: "02 · PROCESSING", title: (d.stack[1] || "Pipeline") + " Engine", sub: (d.stack.slice(2, 5).join(" · ") || "Structured Workflows"), col: "#10b981" },
+        { tag: "01 · STORAGE / OPS", title: (d.stack[d.stack.length - 1] || "Runtime") + " Foundation", sub: "Production State & Persistence", col: "#f59e0b" }
+      ];
+      const ys = [26, 76, 126, 176];
+      const svgLayers = layers.map((L, idx) => {
+        const y = ys[idx];
+        return `
+        <g class="arch-layer" data-i="${idx}">
+          <polygon points="150,${y} 260,${y + 24} 150,${y + 48} 40,${y + 24}" fill="${L.col}" fill-opacity="0.13" stroke="${L.col}" stroke-width="1.3"/>
+          <polygon points="40,${y + 24} 150,${y + 48} 150,${y + 56} 40,${y + 32}" fill="${L.col}" fill-opacity="0.22"/>
+          <polygon points="260,${y + 24} 150,${y + 48} 150,${y + 56} 260,${y + 32}" fill="${L.col}" fill-opacity="0.08"/>
+          <g class="arch-callout">
+            <line x1="258" y1="${y + 24}" x2="296" y2="${y + 24}" stroke="${L.col}" stroke-width="1" stroke-dasharray="3,2"/>
+            <circle cx="258" cy="${y + 24}" r="2.6" fill="${L.col}"/>
+            <text x="304" y="${y + 18}" fill="${L.col}" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="0.08em">${L.tag}</text>
+            <text x="304" y="${y + 31}" fill="#e8eaf0" font-family="Inter, sans-serif" font-size="11.5" font-weight="600">${L.title}</text>
+            <text x="304" y="${y + 44}" fill="#8892a4" font-family="JetBrains Mono, monospace" font-size="9">${L.sub}</text>
+          </g>
+        </g>`;
+      }).join('');
+      return `
+      <div class="arch-box exploded" id="ARCHBOX">
+        <div class="arch-head">
+          <span>◫ Exploded System Architecture</span>
+          <button type="button" class="arch-toggle" onclick="toggleExplode(this)">Assemble Layers</button>
+        </div>
+        <svg class="arch-svg" viewBox="0 0 560 250" role="img" aria-label="Exploded isometric system architecture">
+          ${svgLayers}
+        </svg>
+      </div>`;
+    }
+
+    function toggleExplode(btn) {
+      const box = document.getElementById('ARCHBOX');
+      if (!box) return;
+      const isExp = box.classList.toggle('exploded');
+      btn.textContent = isExp ? 'Assemble Layers' : 'Explode Layers';
+    }
+
     function om(i) {
       const d = MDATA[i];
       const stacks = d.stack.map(s => `<span class="stag" style="font-size:.72rem;padding:.2rem .55rem">${s}</span>`).join('');
       const links = d.links.map(l => `<a href="${l.url}" target="_blank">${l.label}</a>`).join('');
       const highlights = d.highlights ? `<h4>Key Highlights</h4><ul class="modal-highlights">${d.highlights.map(h => `<li>${h}</li>`).join('')}</ul>` : '';
       const images = d.images ? `<div class="modal-previews">${d.images.map(img => `<a href="${img.src}" target="_blank"><img src="${img.src}" alt="${img.alt}" loading="lazy"/></a>`).join('')}</div>` : '';
+      const arch = buildArchSvg(i, d);
       document.getElementById('MBOX').innerHTML = `
     <div class="modal-head">
       <div class="modal-head-left">
@@ -2341,6 +3105,7 @@
     <div class="modal-body">
       <p>${d.desc}</p>
       <p>${d.desc2}</p>
+      ${arch}
       ${highlights}
       ${images}
       <h4>Tech Stack</h4>
@@ -2354,7 +3119,254 @@
       document.getElementById('MOD').classList.remove('open');
       document.body.style.overflow = '';
     }
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') cm_close() });
+
+    // ── COMMAND PALETTE (CTRL+K / CMD+K) ──
+    const CMD_ITEMS = [
+      { group: "Live Demos & Production Platforms", icon: "❄️", label: "Launch SnowCommerce BI Demo", sub: "Snowflake · 5M Rows · Live", run: () => window.open("https://vortexlogiclabs.com/SnowCommerce", "_blank") },
+      { group: "Live Demos & Production Platforms", icon: "🛡️", label: "Open Cyber Nexus (CTI)", sub: "cyber-nexus.tech", run: () => window.open("https://cyber-nexus.tech/", "_blank") },
+      { group: "Live Demos & Production Platforms", icon: "🌾", label: "Open Agriverse Platform", sub: "agriverse.org.pk", run: () => window.open("https://agriverse.org.pk/", "_blank") },
+      { group: "Live Demos & Production Platforms", icon: "🧾", label: "Launch Invoice Extraction Agent", sub: "vortexlogiclabs.com/InvoiceAgent", run: () => window.open("https://vortexlogiclabs.com/InvoiceAgent", "_blank") },
+      { group: "Live Demos & Production Platforms", icon: "🤝", label: "Launch AI Recruiter Agency", sub: "vortexlogiclabs.com/AIrecruiter", run: () => window.open("https://vortexlogiclabs.com/AIrecruiter", "_blank") },
+      { group: "Live Demos & Production Platforms", icon: "🎙️", label: "Launch Voice Expense Assistant", sub: "vortexlogiclabs.com/VoiceAssistant", run: () => window.open("https://vortexlogiclabs.com/VoiceAssistant", "_blank") },
+      { group: "Live Demos & Production Platforms", icon: "📞", label: "Launch AI Receptionist", sub: "vortexlogiclabs.com/AIreceptionist", run: () => window.open("https://vortexlogiclabs.com/AIreceptionist", "_blank") },
+      { group: "Exploded Architecture Modals", icon: "◫", label: "SnowCommerce Architecture X-Ray", sub: "COPY INTO → Snowpark → MART → SiS", run: () => om(16) },
+      { group: "Exploded Architecture Modals", icon: "◫", label: "Cyber Nexus Architecture X-Ray", sub: "OSINT → LangGraph/Ollama → pgvector", run: () => om(0) },
+      { group: "Exploded Architecture Modals", icon: "◫", label: "Agriverse Architecture X-Ray", sub: "Satellite ML → Go/Next.js → K8s", run: () => om(1) },
+      { group: "Exploded Architecture Modals", icon: "◫", label: "Roshan AI Architecture X-Ray", sub: "Clinical GDM AI · Al-Shifa Hospital", run: () => om(2) },
+      { group: "Quick Actions & Navigation", icon: "📋", label: "Copy Email Address", sub: "saifu0905@gmail.com", run: () => { navigator.clipboard && navigator.clipboard.writeText("saifu0905@gmail.com"); showToast("Copied saifu0905@gmail.com"); } },
+      { group: "Quick Actions & Navigation", icon: "⬡", label: "Open GitHub Profile", sub: "github.com/saifullahsohail123", run: () => window.open("https://github.com/saifullahsohail123", "_blank") },
+      { group: "Quick Actions & Navigation", icon: "💼", label: "Open LinkedIn Profile", sub: "linkedin.com/in/saif-ullah-sohail", run: () => window.open("https://linkedin.com/in/saif-ullah-sohail", "_blank") },
+      { group: "Quick Actions & Navigation", icon: "↓", label: "Jump to Work Experience", sub: "7+ Years · 8 Roles", run: () => document.getElementById("experience").scrollIntoView({ behavior: "smooth" }) },
+      { group: "Quick Actions & Navigation", icon: "↓", label: "Jump to Skills & Stack", sub: "AI · Data · Full Stack · DevOps", run: () => document.getElementById("skills").scrollIntoView({ behavior: "smooth" }) }
+    ];
+
+    let cmdFiltered = [...CMD_ITEMS];
+    let cmdSel = 0;
+
+    function showToast(msg) {
+      const t = document.getElementById("CMDTOAST");
+      t.textContent = "✓ " + msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 2200);
+    }
+
+    function renderCmd(q = "") {
+      const ql = q.trim().toLowerCase();
+      cmdFiltered = ql ? CMD_ITEMS.filter(it => (it.label + " " + it.sub + " " + it.group).toLowerCase().includes(ql)) : [...CMD_ITEMS];
+      cmdSel = Math.min(cmdSel, Math.max(0, cmdFiltered.length - 1));
+      const list = document.getElementById("CMDLIST");
+      if (!cmdFiltered.length) {
+        list.innerHTML = `<div style="padding:1.25rem;text-align:center;font-family:var(--fm);font-size:.74rem;color:var(--dim)">No matching commands</div>`;
+        return;
+      }
+      let html = "";
+      let lastG = "";
+      cmdFiltered.forEach((it, idx) => {
+        if (it.group !== lastG) {
+          html += `<div class="cmd-group">${it.group}</div>`;
+          lastG = it.group;
+        }
+        html += `<button type="button" class="cmd-item ${idx === cmdSel ? 'sel' : ''}" onclick="execCmd(${idx})"><span class="cmd-item-l"><span>${it.icon}</span><span>${it.label}</span></span><span class="cmd-item-sub">${it.sub}</span></button>`;
+      });
+      list.innerHTML = html;
+    }
+
+    function openCmd() {
+      const ov = document.getElementById("CMDOV");
+      const inp = document.getElementById("CMDIN");
+      ov.classList.add("open");
+      inp.value = "";
+      cmdSel = 0;
+      renderCmd("");
+      setTimeout(() => inp.focus(), 20);
+    }
+
+    function closeCmd() {
+      document.getElementById("CMDOV").classList.remove("open");
+    }
+
+    function execCmd(idx) {
+      const it = cmdFiltered[idx];
+      closeCmd();
+      if (it && it.run) it.run();
+    }
+
+    document.getElementById("CMDIN").addEventListener("input", e => {
+      cmdSel = 0;
+      renderCmd(e.target.value);
+    });
+
+    document.addEventListener("keydown", e => {
+      const ov = document.getElementById("CMDOV");
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        ov.classList.contains("open") ? closeCmd() : openCmd();
+        return;
+      }
+      if (e.key === "Escape") {
+        closeCmd();
+        cm_close();
+        return;
+      }
+      if (!ov.classList.contains("open")) return;
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        cmdSel = (cmdSel + 1) % Math.max(1, cmdFiltered.length);
+        renderCmd(document.getElementById("CMDIN").value);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        cmdSel = (cmdSel - 1 + cmdFiltered.length) % Math.max(1, cmdFiltered.length);
+        renderCmd(document.getElementById("CMDIN").value);
+      } else if (e.key === "Enter" && cmdFiltered.length) {
+        e.preventDefault();
+        execCmd(cmdSel);
+      }
+    });
+
+    // ── SPOTLIGHT BORDERS & SUBTLE 3D TILT ──
+    (function initSpotlightTilt() {
+      const finePointer = window.matchMedia("(pointer: fine)").matches;
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!finePointer) return;
+      document.querySelectorAll(".bento-card, .pc, .sk, .info-card").forEach(card => {
+        card.addEventListener("mousemove", e => {
+          const r = card.getBoundingClientRect();
+          const x = e.clientX - r.left;
+          const y = e.clientY - r.top;
+          card.style.setProperty("--mx", x + "px");
+          card.style.setProperty("--my", y + "px");
+          if (!reduceMotion && (card.classList.contains("bento-card") || card.classList.contains("pc"))) {
+            const rx = ((y / r.height) - 0.5) * -3;
+            const ry = ((x / r.width) - 0.5) * 3;
+            card.style.transform = `perspective(900px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-3px)`;
+          }
+        });
+        card.addEventListener("mouseleave", () => {
+          card.style.transform = "";
+        });
+      });
+    })();
+
+    // ── PROCEDURAL 3D HERO SYSTEM CONSTELLATION (THREE.JS) ──
+    window.addEventListener("load", function initHero3D() {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const canvas = document.getElementById("hero-3d");
+      if (!canvas || typeof THREE === "undefined") return;
+      try {
+        const hero = document.getElementById("hero");
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: "low-power" });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(48, hero.clientWidth / hero.clientHeight, 0.1, 100);
+        camera.position.z = 11;
+
+        const group = new THREE.Group();
+        group.position.set(2.3, 0.2, 0);
+        scene.add(group);
+
+        // Minimalist wireframe geodesic core
+        const icoGeo = new THREE.IcosahedronGeometry(3.2, 1);
+        const wireGeo = new THREE.WireframeGeometry(icoGeo);
+        const wireMat = new THREE.LineBasicMaterial({ color: 0x4f8eff, transparent: true, opacity: 0.16 });
+        const wire = new THREE.LineSegments(wireGeo, wireMat);
+        group.add(wire);
+
+        // Subtle outer orbital ring
+        const ringGeo = new THREE.RingGeometry(4.35, 4.38, 96);
+        const ringMat = new THREE.MeshBasicMaterial({ color: 0x7c3aed, transparent: true, opacity: 0.22, side: THREE.DoubleSide });
+        const ring = new THREE.Mesh(ringGeo, ringMat);
+        ring.rotation.x = Math.PI * 0.38;
+        ring.rotation.y = Math.PI * 0.14;
+        group.add(ring);
+
+        // Procedural data constellation nodes + dynamic proximity edges
+        const N = 58;
+        const pos = new Float32Array(N * 3);
+        const vel = [];
+        for (let i = 0; i < N; i++) {
+          const r = 2.6 + Math.random() * 4.4;
+          const th = Math.random() * Math.PI * 2;
+          const ph = Math.acos(2 * Math.random() - 1);
+          pos[i * 3] = r * Math.sin(ph) * Math.cos(th);
+          pos[i * 3 + 1] = r * Math.sin(ph) * Math.sin(th) * 0.72;
+          pos[i * 3 + 2] = r * Math.cos(ph);
+          vel.push([(Math.random() - 0.5) * 0.004, (Math.random() - 0.5) * 0.004, (Math.random() - 0.5) * 0.004]);
+        }
+        const ptGeo = new THREE.BufferGeometry();
+        ptGeo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+        const ptMat = new THREE.PointsMaterial({ color: 0x7dd3fc, size: 0.09, transparent: true, opacity: 0.8 });
+        group.add(new THREE.Points(ptGeo, ptMat));
+
+        const maxEdges = N * 6;
+        const edgePos = new Float32Array(maxEdges * 6);
+        const edgeGeo = new THREE.BufferGeometry();
+        edgeGeo.setAttribute("position", new THREE.BufferAttribute(edgePos, 3));
+        const edgeMat = new THREE.LineBasicMaterial({ color: 0x4f8eff, transparent: true, opacity: 0.15 });
+        const edges = new THREE.LineSegments(edgeGeo, edgeMat);
+        group.add(edges);
+
+        function resize() {
+          const w = hero.clientWidth, h = hero.clientHeight;
+          renderer.setSize(w, h, false);
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+          group.position.x = w < 960 ? 0 : 2.4;
+        }
+        resize();
+        window.addEventListener("resize", resize);
+
+        let tx = 0, ty = 0, visible = true;
+        hero.addEventListener("mousemove", e => {
+          const r = hero.getBoundingClientRect();
+          tx = ((e.clientX - r.left) / r.width - 0.5) * 0.45;
+          ty = ((e.clientY - r.top) / r.height - 0.5) * 0.35;
+        });
+
+        const hObs = new IntersectionObserver(entries => {
+          visible = entries[0].isIntersecting;
+        }, { threshold: 0.02 });
+        hObs.observe(hero);
+
+        function animate() {
+          requestAnimationFrame(animate);
+          if (!visible) return;
+          group.rotation.y += 0.0014 + (tx - group.rotation.y) * 0.012;
+          group.rotation.x += (ty - group.rotation.x) * 0.02;
+          wire.rotation.y -= 0.0009;
+          ring.rotation.z += 0.0012;
+
+          let ec = 0;
+          for (let i = 0; i < N; i++) {
+            pos[i * 3] += vel[i][0];
+            pos[i * 3 + 1] += vel[i][1];
+            pos[i * 3 + 2] += vel[i][2];
+            for (let k = 0; k < 3; k++) {
+              if (Math.abs(pos[i * 3 + k]) > 6.5) vel[i][k] *= -1;
+            }
+          }
+          for (let i = 0; i < N && ec < maxEdges; i++) {
+            for (let j = i + 1; j < N && ec < maxEdges; j++) {
+              const dx = pos[i * 3] - pos[j * 3];
+              const dy = pos[i * 3 + 1] - pos[j * 3 + 1];
+              const dz = pos[i * 3 + 2] - pos[j * 3 + 2];
+              if (dx * dx + dy * dy + dz * dz < 4.4) {
+                const o = ec * 6;
+                edgePos[o] = pos[i * 3]; edgePos[o + 1] = pos[i * 3 + 1]; edgePos[o + 2] = pos[i * 3 + 2];
+                edgePos[o + 3] = pos[j * 3]; edgePos[o + 4] = pos[j * 3 + 1]; edgePos[o + 5] = pos[j * 3 + 2];
+                ec++;
+              }
+            }
+          }
+          ptGeo.attributes.position.needsUpdate = true;
+          edgeGeo.setDrawRange(0, ec * 2);
+          edgeGeo.attributes.position.needsUpdate = true;
+          renderer.render(scene, camera);
+        }
+        animate();
+      } catch (err) {
+        console.warn("3D hero skipped:", err);
+      }
+    });
 
     function fp(cat, btn) {
       document.querySelectorAll('.ptab').forEach(b => b.classList.remove('on'));
