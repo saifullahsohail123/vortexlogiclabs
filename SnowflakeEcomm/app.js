@@ -170,14 +170,14 @@ function renderKpiView() {
       datasets: [{
         label: "Net Revenue ($)",
         data: sortedDates.map((d) => Math.round(byDate[d])),
-        borderColor: "#29b5e8",
-        backgroundColor: "rgba(41, 181, 232, 0.12)",
+        borderColor: "#0284c7",
+        backgroundColor: "rgba(2, 132, 199, 0.10)",
         fill: true,
         tension: 0.2,
         pointRadius: 0,
       }],
     },
-    options: { plugins: { legend: { display: false } }, scales: { x: { ticks: { color: "#93a4bd" } }, y: { ticks: { color: "#93a4bd" } } } },
+    options: { plugins: { legend: { display: false } }, scales: { x: { ticks: { color: "#475569" }, grid: { color: "rgba(15, 23, 42, 0.06)" } }, y: { ticks: { color: "#475569" }, grid: { color: "rgba(15, 23, 42, 0.06)" } } } },
   });
 
   const catEntries = Object.entries(byCat).sort((a, b) => b[1] - a[1]);
@@ -185,9 +185,9 @@ function renderKpiView() {
     type: "bar",
     data: {
       labels: catEntries.map((x) => x[0]),
-      datasets: [{ data: catEntries.map((x) => Math.round(x[1])), backgroundColor: "#29b5e8" }],
+      datasets: [{ data: catEntries.map((x) => Math.round(x[1])), backgroundColor: "#0284c7" }],
     },
-    options: { indexAxis: "y", plugins: { legend: { display: false } }, scales: { x: { ticks: { color: "#93a4bd" } }, y: { ticks: { color: "#93a4bd" } } } },
+    options: { indexAxis: "y", plugins: { legend: { display: false } }, scales: { x: { ticks: { color: "#475569" }, grid: { color: "rgba(15, 23, 42, 0.06)" } }, y: { ticks: { color: "#475569" }, grid: { display: false } } } },
   });
 
   const regEntries = Object.entries(byReg).sort((a, b) => b[1] - a[1]);
@@ -195,9 +195,9 @@ function renderKpiView() {
     type: "bar",
     data: {
       labels: regEntries.map((x) => x[0]),
-      datasets: [{ data: regEntries.map((x) => Math.round(x[1])), backgroundColor: "#34d399" }],
+      datasets: [{ data: regEntries.map((x) => Math.round(x[1])), backgroundColor: "#059669" }],
     },
-    options: { indexAxis: "y", plugins: { legend: { display: false } }, scales: { x: { ticks: { color: "#93a4bd" } }, y: { ticks: { color: "#93a4bd" } } } },
+    options: { indexAxis: "y", plugins: { legend: { display: false } }, scales: { x: { ticks: { color: "#475569" }, grid: { color: "rgba(15, 23, 42, 0.06)" } }, y: { ticks: { color: "#475569" }, grid: { display: false } } } },
   });
 }
 
@@ -242,8 +242,9 @@ function renderCohort() {
       if (val === undefined) {
         html += "<td>—</td>";
       } else {
-        const alpha = Math.min(0.85, Math.max(0.1, val / 45));
-        html += `<td style="background:rgba(41,181,232,${alpha.toFixed(2)});color:#fff">${val.toFixed(1)}%</td>`;
+        const alpha = Math.min(0.88, Math.max(0.10, val / 45));
+        const textColor = alpha >= 0.45 ? "#ffffff" : "#0f172a";
+        html += `<td style="background:rgba(2,132,199,${alpha.toFixed(2)});color:${textColor}">${val.toFixed(1)}%</td>`;
       }
     }
     html += "</tr>";
@@ -283,9 +284,9 @@ function renderInventory() {
     type: "bar",
     data: {
       labels: top10.map((r) => r.PRODUCT_NAME),
-      datasets: [{ data: top10.map((r) => Math.round(r.TOTAL_NET_MARGIN)), backgroundColor: "#34d399" }],
+      datasets: [{ data: top10.map((r) => Math.round(r.TOTAL_NET_MARGIN)), backgroundColor: "#059669" }],
     },
-    options: { indexAxis: "y", plugins: { legend: { display: false } }, scales: { x: { ticks: { color: "#93a4bd" } }, y: { ticks: { color: "#93a4bd" } } } },
+    options: { indexAxis: "y", plugins: { legend: { display: false } }, scales: { x: { ticks: { color: "#475569" }, grid: { color: "rgba(15, 23, 42, 0.06)" } }, y: { ticks: { color: "#475569" }, grid: { display: false } } } },
   });
 
   const bot10 = [...rows].sort((a, b) => a.UNIT_MARGIN_PCT - b.UNIT_MARGIN_PCT).slice(0, 10);
@@ -293,9 +294,9 @@ function renderInventory() {
     type: "bar",
     data: {
       labels: bot10.map((r) => r.PRODUCT_NAME),
-      datasets: [{ data: bot10.map((r) => r.UNIT_MARGIN_PCT), backgroundColor: "#f87171" }],
+      datasets: [{ data: bot10.map((r) => r.UNIT_MARGIN_PCT), backgroundColor: "#e11d48" }],
     },
-    options: { indexAxis: "y", plugins: { legend: { display: false } }, scales: { x: { ticks: { color: "#93a4bd" } }, y: { ticks: { color: "#93a4bd" } } } },
+    options: { indexAxis: "y", plugins: { legend: { display: false } }, scales: { x: { ticks: { color: "#475569" }, grid: { color: "rgba(15, 23, 42, 0.06)" } }, y: { ticks: { color: "#475569" }, grid: { display: false } } } },
   });
 
   let html = "<thead><tr><th>SKU</th><th>Product</th><th>Category</th><th>On Hand</th><th>Reorder Pt</th><th>30d Vel/Day</th><th>Margin %</th><th>Status</th></tr></thead><tbody>";
@@ -313,7 +314,7 @@ function initLookup() {
   const sampleOrd = [...new Set(state.orders.map((r) => r.ORDER_ID))].slice(0, 3);
   const sampleCust = [...new Set(state.orders.map((r) => r.CUSTOMER_ID))].slice(0, 2);
   const chips = document.getElementById("sample-chips");
-  chips.innerHTML = '<span style="font-size:0.8rem;color:#93a4bd">Try sample IDs:</span>';
+  chips.innerHTML = '<span style="font-size:0.8rem;color:#52637a">Try sample IDs:</span>';
 
   sampleOrd.forEach((id) => {
     const btn = document.createElement("button");
@@ -352,7 +353,7 @@ function renderLookup() {
 
   if (!rows.length) {
     document.getElementById("lookup-table").innerHTML =
-      "<tbody><tr><td style='color:#93a4bd'>No matching sample rows. Click one of the sample IDs above.</td></tr></tbody>";
+      "<tbody><tr><td style='color:#52637a'>No matching sample rows. Click one of the sample IDs above.</td></tr></tbody>";
     return;
   }
 
