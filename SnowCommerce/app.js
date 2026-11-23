@@ -2,13 +2,108 @@ const fmtUSD = (v) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(v || 0);
 const fmtInt = (v) => new Intl.NumberFormat("en-US").format(Math.round(v || 0));
 
+const LIVE_KEY = "snowcommerce_live_orders";
+
 const state = {
+  baseDaily: [],
+  baseInventory: [],
+  baseOrders: [],
   daily: [],
   cohort: [],
   inventory: [],
   orders: [],
   charts: {},
+  initialized: false,
 };
+
+function getLiveStoreOrders() {
+  try {
+    return JSON.parse(localStorage.getItem(LIVE_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function applyLiveStoreOrders() {
+  const liveItems = getLiveStoreOrders();
+
+  // 1. Merge live store orders into daily revenue
+  const dailyMap = new Map();
+  state.daily = state.baseDaily.map((r) => {
+    const copy = { ...r };
+    dailyMap.set(`${copy.ORDER_DATE}|${copy.CATEGORY}|${copy.REGION}`, copy);
+    return copy;
+  });
+
+  // Group live items by (order_id, category, region) so ORDER_COUNT increments cleanly per order
+  const seenOrdCatReg = new Set();
+  liveItems.forEach((item) => {
+    const k = `${item.ORDER_DATE}|${item.CATEGORY}|${item.REGION}`;
+    let row = dailyMap.get(k);
+    if (!row) {
+      row = {
+        ORDER_DATE: item.ORDER_DATE,
+        CATEGORY: item.CATEGORY,
+        REGION: item.REGION,
+        ORDER_COUNT: 0,
+        NET_REVENUE: 0,
+        NET_MARGIN: 0,
+      };
+      dailyMap.set(k, row);
+      state.daily.push(row);
+    }
+    const ordKey = `${item.ORDER_ID}|${item.CATEGORY}|${item.REGION}`;
+    if (!seenOrdCatReg.has(ordKey)) {
+      seenOrdCatReg.add(ordKey);
+      row.ORDER_COUNT += 1;
+    }
+    row.NET_REVENUE = +(row.NET_REVENUE + item.NET_REVENUE).toFixed(2);
+    row.NET_MARGIN = +(row.NET_MARGIN + item.NET_MARGIN).toFixed(2);
+  });
+
+  // 2. Merge live store purchases into inventory & SKU health
+  const skuDelta = {};
+  liveItems.forEach((item) => {
+    if (!skuDelta[item.SKU_ID]) skuDelta[item.SKU_ID] = { qty: 0, rev: 0, mar: 0 };
+    skuDelta[item.SKU_ID].qty += item.QUANTITY;
+    skuDelta[item.SKU_ID].rev += item.NET_REVENUE;
+    skuDelta[item.SKU_ID].mar += item.NET_MARGIN;
+  });
+
+  state.inventory = state.baseInventory.map((s) => {
+    const d = skuDelta[s.SKU_ID];
+    if (!d) return { ...s };
+    const newStock = Math.max(0, s.STOCK_ON_HAND - d.qty);
+    const newUnits30 = s.UNITS_SOLD_30D + d.qty;
+    const newVel = +(newUnits30 / 30).toFixed(2);
+    return {
+      ...s,
+      STOCK_ON_HAND: newStock,
+      UNITS_SOLD_30D: newUnits30,
+      DAILY_VELOCITY_30D: newVel,
+      DAYS_OF_SUPPLY: +(newStock / Math.max(0.1, newVel)).toFixed(1),
+      STOCKOUT_RISK_FLAG: newStock <= s.REORDER_POINT,
+      TOTAL_REVENUE: +(s.TOTAL_REVENUE + d.rev).toFixed(2),
+      TOTAL_NET_MARGIN: +(s.TOTAL_NET_MARGIN + d.mar).toFixed(2),
+    };
+  });
+  state.inventory.sort((a, b) => (a.STOCKOUT_RISK_FLAG === b.STOCKOUT_RISK_FLAG ? a.DAYS_OF_SUPPLY - b.DAYS_OF_SUPPLY : a.STOCKOUT_RISK_FLAG ? -1 : 1));
+
+  // 3. Prepend live store orders to Order Lookup
+  state.orders = [...liveItems, ...state.baseOrders];
+
+  // 4. Update sidebar live sync indicator
+  const uniqueLiveOrders = new Set(liveItems.map((x) => x.ORDER_ID)).size;
+  const pill = document.getElementById("live-sync-pill");
+  if (pill) {
+    if (uniqueLiveOrders > 0) {
+      document.getElementById("live-sync-count").textContent = uniqueLiveOrders;
+      pill.style.display = "block";
+    } else {
+      pill.style.display = "none";
+    }
+  }
+}
 
 const PRUNING_MODES = {
   baseline: {
@@ -310,16 +405,20 @@ function renderInventory() {
   document.getElementById("inv-table").innerHTML = html;
 }
 
-function initLookup() {
-  const sampleOrd = [...new Set(state.orders.map((r) => r.ORDER_ID))].slice(0, 3);
+function refreshLookupChips() {
+  const sampleOrd = [...new Set(state.orders.map((r) => r.ORDER_ID))].slice(0, 4);
   const sampleCust = [...new Set(state.orders.map((r) => r.CUSTOMER_ID))].slice(0, 2);
   const chips = document.getElementById("sample-chips");
-  chips.innerHTML = '<span style="font-size:0.8rem;color:#52637a">Try sample IDs:</span>';
+  chips.innerHTML = '<span style="font-size:0.8rem;color:#52637a">Quick lookup IDs:</span>';
 
   sampleOrd.forEach((id) => {
     const btn = document.createElement("button");
     btn.className = "chip-btn";
-    btn.textContent = id;
+    btn.textContent = id.startsWith("ORD-LIVE-") ? `● ${id}` : id;
+    if (id.startsWith("ORD-LIVE-")) {
+      btn.style.borderColor = "#059669";
+      btn.style.color = "#059669";
+    }
     btn.onclick = () => {
       document.getElementById("lookup-type").value = "ORDER_ID";
       document.getElementById("lookup-input").value = id;
@@ -341,6 +440,10 @@ function initLookup() {
   });
 
   document.getElementById("lookup-input").value = sampleOrd[0] || "";
+}
+
+function initLookup() {
+  refreshLookupChips();
   document.getElementById("lookup-input").addEventListener("input", renderLookup);
   document.getElementById("lookup-type").addEventListener("change", renderLookup);
   renderLookup();
@@ -376,16 +479,41 @@ async function boot() {
     fetch("data/sample_orders.json").then((r) => r.json()),
   ]);
 
-  state.daily = daily;
+  state.baseDaily = daily;
   state.cohort = cohort;
-  state.inventory = inventory;
-  state.orders = orders;
+  state.baseInventory = inventory;
+  state.baseOrders = orders;
+  applyLiveStoreOrders();
 
   initKpiFilters();
   document.getElementById("cohort-months").addEventListener("input", renderCohort);
   renderCohort();
   initInventory();
   initLookup();
+  state.initialized = true;
+
+  // Live cross-tab sync when orders are placed on /store
+  window.addEventListener("storage", (e) => {
+    if (e.key === LIVE_KEY && state.initialized) {
+      applyLiveStoreOrders();
+      renderKpiView();
+      renderInventory();
+      refreshLookupChips();
+      renderLookup();
+    }
+  });
+
+  const resetBtn = document.getElementById("reset-sync-btn");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      localStorage.removeItem(LIVE_KEY);
+      applyLiveStoreOrders();
+      renderKpiView();
+      renderInventory();
+      refreshLookupChips();
+      renderLookup();
+    });
+  }
 }
 
 boot();

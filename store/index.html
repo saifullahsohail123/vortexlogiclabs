@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="/store/" />
+  <title>SnowCommerce Store — Modern Home, Play &amp; Living</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --surface: #ffffff;
+      --surface-2: #eef3f8;
+      --border: #dfe6f0;
+      --text: #0f172a;
+      --muted: #52637a;
+      --accent: #0284c7;
+      --accent-dark: #0369a1;
+      --accent-soft: rgba(2, 132, 199, 0.10);
+      --green: #059669;
+      --warn: #d97706;
+      --red: #dc2626;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* TOP BAR */
+    .topbar {
+      background: #0f172a;
+      color: #cbd5e1;
+      font-size: 0.76rem;
+      padding: 8px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .topbar a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .topbar a:hover { text-decoration: underline; }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: #34d399;
+    }
+    .live-badge::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 8px #34d399;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(2, 132, 199, 0.25);
+      display: grid;
+      place-items: center;
+      font-size: 1.15rem;
+    }
+
+    .brand-txt strong {
+      display: block;
+      font-size: 1.02rem;
+      letter-spacing: -0.02em;
+    }
+    .brand-txt span {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search-input, .region-select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      color: var(--text);
+      outline: none;
+    }
+    .search-input { width: 230px; }
+    .search-input:focus, .region-select:focus { border-color: var(--accent); }
+
+    .bi-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 13px;
+      border-radius: 8px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(2, 132, 199, 0.28);
+      color: var(--accent-dark);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: background 0.15s;
+    }
+    .bi-link:hover { background: rgba(2, 132, 199, 0.18); }
+
+    .cart-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: var(--text);
+      color: #fff;
+      border: none;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .cart-btn:hover { background: #1e293b; }
+    .cart-count {
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 1px 7px;
+      border-radius: 999px;
+    }
+
+    /* HERO STRIP */
+    .store-hero {
+      padding: 28px 5% 18px;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .store-hero h1 {
+      font-size: 1.7rem;
+      letter-spacing: -0.025em;
+      margin-bottom: 4px;
+    }
+
+    .store-hero p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      max-width: 680px;
+    }
+
+    .hero-pill-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .stat-chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+    .stat-chip strong { color: var(--text); }
+
+    /* CATEGORY TABS */
+    .cat-bar {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 8px 5% 18px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .cat-btn {
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .cat-btn:hover { border-color: var(--accent); color: var(--text); }
+    .cat-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .result-meta {
+      margin-left: auto;
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* PRODUCT GRID */
+    .grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 5% 48px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: #cbd5e1;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.07);
+    }
+
+    .card-art {
+      height: 122px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 18px;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-cat-pill {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.88);
+      color: var(--text);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .card-sku {
+      position: absolute;
+      top: 11px;
+      right: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.85);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .art-svg {
+      width: 66px;
+      height: 66px;
+      margin: 14px auto 0;
+      opacity: 0.92;
+    }
+
+    .card-body {
+      padding: 14px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 8px;
+    }
+
+    .card-title {
+      font-size: 0.92rem;
+      font-weight: 600;
+      line-height: 1.35;
+      color: var(--text);
+    }
+
+    .card-stock {
+      font-size: 0.74rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--muted);
+    }
+
+    .stock-ok { color: var(--green); font-weight: 600; }
+    .stock-low { color: var(--warn); font-weight: 600; }
+    .stock-out { color: var(--red); font-weight: 600; }
+
+    .card-foot {
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid var(--surface-2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .price {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .add-btn {
+      padding: 7px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--accent);
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.14s;
+    }
+    .add-btn:hover { background: var(--accent); color: #fff; }
+    .add-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    /* CART DRAWER */
+    .drawer-ov {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: flex-end;
+    }
+    .drawer-ov.open { display: flex; }
+
+    .drawer {
+      width: 100%;
+      max-width: 430px;
+      background: var(--surface);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      box-shadow: -12px 0 36px rgba(15, 23, 42, 0.15);
+    }
+
+    .drawer-head {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .drawer-head h2 { font-size: 1.05rem; }
+    .close-btn {
+      background: var(--surface-2);
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg);
+    }
+    .cart-item-info strong { display: block; font-size: 0.84rem; }
+    .cart-item-info span { font-size: 0.74rem; color: var(--muted); }
+    .qty-ctrl { display: flex; align-items: center; gap: 6px; }
+    .qty-ctrl button {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .checkout-form {
+      padding: 16px 20px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .checkout-form input, .checkout-form select {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-size: 0.82rem;
+    }
+
+    .totals {
+      font-size: 0.84rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 8px 0;
+    }
+    .totals-row { display: flex; justify-content: space-between; color: var(--muted); }
+    .totals-row.grand {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      padding-top: 6px;
+      border-top: 1px solid var(--border);
+    }
+
+    .place-btn {
+      padding: 11px;
+      border-radius: 9px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .place-btn:hover { background: var(--accent-dark); }
+    .place-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .order-banner {
+      display: none;
+      margin: 0 5% 18px;
+      max-width: 1400px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      background: rgba(5, 150, 105, 0.10);
+      border: 1px solid rgba(5, 150, 105, 0.35);
+      color: #065f46;
+      font-size: 0.86rem;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .order-banner.show { display: flex; margin-left: auto; margin-right: auto; }
+    .order-banner a {
+      background: var(--green);
+      color: #fff;
+      text-decoration: none;
+      padding: 7px 13px;
+      border-radius: 7px;
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+
+    .reset-link {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 0.74rem;
+      text-decoration: underline;
+      cursor: pointer;
+      align-self: center;
+    }
+
+    @media (max-width: 720px) {
+      .search-input { width: 100%; }
+      .header-controls { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <span class="live-badge">LIVE SNOWCOMMERCE CATALOG SYNC · 149 CONSUMER SKUs</span>
+    <span>Orders placed here sync in real time with <a href="https://vortexlogiclabs.com/SnowCommerce" target="_blank">SnowCommerce BI Dashboard (Snowflake MART) →</a></span>
+  </div>
+
+  <header>
+    <a class="brand" href="/store">
+      <div class="brand-icon">❄️</div>
+      <div class="brand-txt">
+        <strong>SnowCommerce Store</strong>
+        <span>Modern Home, Nursery Play Mats &amp; Lifestyle Goods</span>
+      </div>
+    </a>
+
+    <div class="header-controls">
+      <input type="text" id="search" class="search-input" placeholder="Search play mats, rugs, yoga..." />
+      <select id="region" class="region-select" aria-label="Shipping Region">
+        <option value="North America">North America</option>
+        <option value="Europe">Europe</option>
+        <option value="APAC">APAC</option>
+        <option value="LATAM">LATAM</option>
+      </select>
+      <a class="bi-link" href="https://vortexlogiclabs.com/SnowCommerce" target="_blank">📊 Open BI Dashboard</a>
+      <button class="cart-btn" id="open-cart" type="button">
+        Cart <span class="cart-count" id="cart-count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <section class="store-hero">
+    <div>
+      <h1>Everyday Home, Play &amp; Living Essentials</h1>
+      <p>Direct-to-consumer storefront backed by the exact <code>ECOMM_PROD.MART.DIM_PRODUCTS</code> catalog powering SnowCommerce analytics. Add items and place an order to see live revenue, inventory, and order line items update in the BI dashboard.</p>
+    </div>
+    <div class="hero-pill-row">
+      <div class="stat-chip"><strong id="stat-skus">149</strong> Active SKUs</div>
+      <div class="stat-chip"><strong id="stat-live-orders">0</strong> Live Session Orders</div>
+      <div class="stat-chip">Promo Code: <strong>SPRING10</strong></div>
+    </div>
+  </section>
+
+  <div class="order-banner" id="order-banner">
+    <span id="order-banner-txt"></span>
+    <a href="https://vortexlogiclabs.com/SnowCommerce" target="_blank">Inspect Live in SnowCommerce BI →</a>
+  </div>
+
+  <nav class="cat-bar" id="cat-bar" aria-label="Product Categories"></nav>
+
+  <main class="grid" id="product-grid"></main>
+
+  <!-- CART DRAWER -->
+  <div class="drawer-ov" id="drawer-ov">
+    <div class="drawer" role="dialog" aria-modal="true" aria-label="Shopping Cart">
+      <div class="drawer-head">
+        <h2>Your Cart</h2>
+        <button class="close-btn" id="close-cart" type="button">✕</button>
+      </div>
+      <div class="drawer-body" id="cart-items"></div>
+      <div class="checkout-form">
+        <div class="form-row">
+          <input type="text" id="cust-id" value="CUST-88412" placeholder="Customer ID" />
+          <input type="text" id="promo-code" placeholder="Promo (try SPRING10)" />
+        </div>
+        <div class="totals">
+          <div class="totals-row"><span>Subtotal</span><span id="t-sub">$0.00</span></div>
+          <div class="totals-row"><span>Discount</span><span id="t-disc">$0.00</span></div>
+          <div class="totals-row"><span>Shipping</span><span id="t-ship">$0.00</span></div>
+          <div class="totals-row grand"><span>Total</span><span id="t-grand">$0.00</span></div>
+        </div>
+        <button class="place-btn" id="place-order" type="button" disabled>Place Order &amp; Sync to SnowCommerce</button>
+        <button class="reset-link" id="reset-live" type="button">Reset live session orders</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const LIVE_KEY = "snowcommerce_live_orders";
+    const fmtUSD = (v) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(v || 0);
+
+    const CAT_STYLE = {
+      "Nursery & Play":    { bg: "linear-gradient(135deg,#ecfdf5,#d1fae5)", stroke: "#059669", icon: "M12 3L4 9v11h16V9l-8-6zm0 4.5a2.5 2.5 0 110 5 2.5 2.5 0 010-5zM7 18c1.2-2.2 3-3 5-3s3.8.8 5 3" },
+      "Home & Living":     { bg: "linear-gradient(135deg,#eff6ff,#dbeafe)", stroke: "#0284c7", icon: "M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5.5v-6.5h-5V21H4a1 1 0 01-1-1v-9.5z" },
+      "Wellness & Fitness":{ bg: "linear-gradient(135deg,#f5f3ff,#ede9fe)", stroke: "#7c3aed", icon: "M6 8v8M18 8v8M3 10v4M21 10v4M6 12h12" },
+      "Workspace & Desk":  { bg: "linear-gradient(135deg,#f8fafc,#e2e8f0)", stroke: "#334155", icon: "M4 5h16a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V6a1 1 0 011-1zm4 14h8m-4-3v3" },
+      "Kitchen & Dining":  { bg: "linear-gradient(135deg,#fffbeb,#fef3c7)", stroke: "#d97706", icon: "M5 10h14v2a7 7 0 01-14 0v-2zm2-4h10M9 19h6" },
+      "Outdoor & Travel":  { bg: "linear-gradient(135deg,#f0fdf4,#dcfce7)", stroke: "#15803d", icon: "M3 19l6.5-11 4 6.5 2.5-4L21 19H3z" }
+    };
+
+    let catalog = [];
+    let activeCat = "ALL";
+    let cart = {}; // sku_id -> qty
+
+    function getLiveOrders() {
+      try { return JSON.parse(localStorage.getItem(LIVE_KEY) || "[]"); }
+      catch { return []; }
+    }
+
+    function saveLiveOrders(arr) {
+      localStorage.setItem(LIVE_KEY, JSON.stringify(arr));
+    }
+
+    function getPurchasedMap() {
+      const m = {};
+      getLiveOrders().forEach(o => {
+        m[o.SKU_ID] = (m[o.SKU_ID] || 0) + (o.QUANTITY || 0);
+      });
+      return m;
+    }
+
+    function liveStock(sku) {
+      const bought = getPurchasedMap()[sku.SKU_ID] || 0;
+      return Math.max(0, sku.STOCK_ON_HAND - bought);
+    }
+
+    function updateSessionCount() {
+      const uniqueOrders = new Set(getLiveOrders().map(o => o.ORDER_ID)).size;
+      document.getElementById("stat-live-orders").textContent = uniqueOrders;
+    }
+
+    function renderCategories() {
+      const cats = ["ALL", ...[...new Set(catalog.map(s => s.CATEGORY))].sort()];
+      const bar = document.getElementById("cat-bar");
+      bar.innerHTML = cats.map(c => `
+        <button class="cat-btn ${c === activeCat ? "active" : ""}" data-cat="${c}">
+          ${c === "ALL" ? "All Categories" : c}
+        </button>
+      `).join("") + `<span class="result-meta" id="result-meta"></span>`;
+      bar.querySelectorAll(".cat-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          activeCat = btn.dataset.cat;
+          renderCategories();
+          renderProducts();
+        });
+      });
+    }
+
+    function renderProducts() {
+      const q = document.getElementById("search").value.trim().toLowerCase();
+      const filtered = catalog.filter(s => {
+        const matchCat = activeCat === "ALL" || s.CATEGORY === activeCat;
+        const matchQ = !q || (s.PRODUCT_NAME + " " + s.CATEGORY + " " + s.SKU_ID).toLowerCase().includes(q);
+        return matchCat && matchQ;
+      });
+
+      document.getElementById("result-meta").textContent = `${filtered.length} products`;
+      const grid = document.getElementById("product-grid");
+      grid.innerHTML = filtered.map(s => {
+        const st = liveStock(s);
+        const sty = CAT_STYLE[s.CATEGORY] || CAT_STYLE["Home & Living"];
+        const stockHtml = st === 0
+          ? `<span class="stock-out">Out of Stock</span>`
+          : st <= s.REORDER_POINT
+            ? `<span class="stock-low">Low Stock · ${st} left</span>`
+            : `<span class="stock-ok">In Stock · ${st}</span>`;
+        return `
+          <article class="card">
+            <div class="card-art" style="background:${sty.bg}">
+              <span class="card-cat-pill">${s.CATEGORY}</span>
+              <span class="card-sku">${s.SKU_ID}</span>
+              <svg class="art-svg" viewBox="0 0 24 24" fill="none" stroke="${sty.stroke}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="${sty.icon}" />
+              </svg>
+            </div>
+            <div class="card-body">
+              <div class="card-title">${s.PRODUCT_NAME}</div>
+              <div class="card-stock">${stockHtml}<span>${s.DAILY_VELOCITY_30D}/day avg</span></div>
+              <div class="card-foot">
+                <span class="price">${fmtUSD(s.UNIT_PRICE)}</span>
+                <button class="add-btn" type="button" ${st === 0 ? "disabled" : ""} onclick="addToCart('${s.SKU_ID}')">
+                  + Add to Cart
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function addToCart(skuId) {
+      const sku = catalog.find(s => s.SKU_ID === skuId);
+      if (!sku) return;
+      const avail = liveStock(sku);
+      const cur = cart[skuId] || 0;
+      if (cur < avail) {
+        cart[skuId] = cur + 1;
+        renderCart();
+      }
+    }
+
+    function changeQty(skuId, delta) {
+      const sku = catalog.find(s => s.SKU_ID === skuId);
+      const next = (cart[skuId] || 0) + delta;
+      if (next <= 0) delete cart[skuId];
+      else if (sku && next <= liveStock(sku)) cart[skuId] = next;
+      renderCart();
+    }
+
+    function calcCartTotals() {
+      const entries = Object.entries(cart).map(([id, qty]) => ({
+        sku: catalog.find(s => s.SKU_ID === id),
+        qty
+      })).filter(e => e.sku);
+      const sub = entries.reduce((a, e) => a + e.sku.UNIT_PRICE * e.qty, 0);
+      const promo = document.getElementById("promo-code").value.trim().toUpperCase();
+      const discRate = promo === "SPRING10" ? 0.10 : 0;
+      const disc = sub * discRate;
+      const ship = sub > 0 && sub < 120 ? 6.95 : 0;
+      return { entries, sub, disc, ship, grand: sub - disc + ship, discRate };
+    }
+
+    function renderCart() {
+      const { entries, sub, disc, ship, grand } = calcCartTotals();
+      const totalQty = entries.reduce((a, e) => a + e.qty, 0);
+      document.getElementById("cart-count").textContent = totalQty;
+
+      const wrap = document.getElementById("cart-items");
+      if (!entries.length) {
+        wrap.innerHTML = `<p style="color:#52637a;font-size:0.86rem;text-align:center;margin-top:40px">Your cart is empty. Add products from the catalog to test live SnowCommerce BI syncing.</p>`;
+      } else {
+        wrap.innerHTML = entries.map(({ sku, qty }) => `
+          <div class="cart-item">
+            <div class="cart-item-info">
+              <strong>${sku.PRODUCT_NAME}</strong>
+              <span>${sku.SKU_ID} · ${fmtUSD(sku.UNIT_PRICE)} each</span>
+            </div>
+            <div class="qty-ctrl">
+              <button type="button" onclick="changeQty('${sku.SKU_ID}', -1)">−</button>
+              <span>${qty}</span>
+              <button type="button" onclick="changeQty('${sku.SKU_ID}', 1)">+</button>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      document.getElementById("t-sub").textContent = fmtUSD(sub);
+      document.getElementById("t-disc").textContent = disc > 0 ? `-${fmtUSD(disc)}` : "$0.00";
+      document.getElementById("t-ship").textContent = ship > 0 ? fmtUSD(ship) : "Free";
+      document.getElementById("t-grand").textContent = fmtUSD(grand);
+      document.getElementById("place-order").disabled = entries.length === 0;
+    }
+
+    function placeOrder() {
+      const { entries, ship, discRate } = calcCartTotals();
+      if (!entries.length) return;
+
+      const ordNum = Math.floor(100000 + Math.random() * 899999);
+      const ordId = `ORD-LIVE-${ordNum}`;
+      const custId = (document.getElementById("cust-id").value.trim() || "CUST-88412").toUpperCase();
+      const region = document.getElementById("region").value;
+      // Align with latest Q1 dataset date so it appears immediately in SnowCommerce default KPI window
+      const orderDate = "2026-03-31";
+      const totalGross = entries.reduce((a, e) => a + e.sku.UNIT_PRICE * e.qty, 0);
+
+      const newItems = entries.map(({ sku, qty }, idx) => {
+        const gross = +(sku.UNIT_PRICE * qty).toFixed(2);
+        const allocDisc = +(gross * discRate).toFixed(2);
+        const allocShip = totalGross > 0 ? +(ship * (gross / totalGross)).toFixed(2) : 0;
+        const netRev = +(gross - allocDisc).toFixed(2);
+        const netMargin = +Math.max(1, netRev - sku.UNIT_COST * qty - allocShip * 0.4).toFixed(2);
+        return {
+          ORDER_ID: ordId,
+          ORDER_ITEM_ID: `ITEM-LIVE-${ordNum}-${idx + 1}`,
+          CUSTOMER_ID: custId,
+          ORDER_DATE: orderDate,
+          ORDER_STATUS: "COMPLETED",
+          REGION: region,
+          SKU_ID: sku.SKU_ID,
+          PRODUCT_NAME: sku.PRODUCT_NAME,
+          CATEGORY: sku.CATEGORY,
+          QUANTITY: qty,
+          ITEM_UNIT_PRICE: sku.UNIT_PRICE,
+          GROSS_REVENUE: gross,
+          ALLOCATED_DISCOUNT: allocDisc,
+          ALLOCATED_SHIPPING: allocShip,
+          NET_REVENUE: netRev,
+          NET_MARGIN: netMargin,
+          IS_LIVE_STORE: true
+        };
+      });
+
+      const all = [...newItems, ...getLiveOrders()];
+      saveLiveOrders(all);
+      cart = {};
+      renderCart();
+      renderProducts();
+      updateSessionCount();
+      document.getElementById("drawer-ov").classList.remove("open");
+
+      const banner = document.getElementById("order-banner");
+      document.getElementById("order-banner-txt").innerHTML =
+        `✓ Order <strong>${ordId}</strong> (${newItems.length} line item${newItems.length > 1 ? "s" : ""}, ${fmtUSD(newItems.reduce((a, x) => a + x.NET_REVENUE, 0))}) synced to <strong>SnowCommerce BI</strong>.`;
+      banner.classList.add("show");
+    }
+
+    async function init() {
+      const res = await fetch("/SnowCommerce/data/inventory_health.json");
+      catalog = await res.json();
+      // Sort store display with Nursery & Play + top-selling consumer products first
+      catalog.sort((a, b) => b.TOTAL_REVENUE - a.TOTAL_REVENUE);
+      document.getElementById("stat-skus").textContent = catalog.length;
+      renderCategories();
+      renderProducts();
+      renderCart();
+      updateSessionCount();
+
+      document.getElementById("search").addEventListener("input", renderProducts);
+      document.getElementById("promo-code").addEventListener("input", renderCart);
+      document.getElementById("open-cart").addEventListener("click", () => document.getElementById("drawer-ov").classList.add("open"));
+      document.getElementById("close-cart").addEventListener("click", () => document.getElementById("drawer-ov").classList.remove("open"));
+      document.getElementById("drawer-ov").addEventListener("click", (e) => { if (e.target.id === "drawer-ov") e.target.classList.remove("open"); });
+      document.getElementById("place-order").addEventListener("click", placeOrder);
+      document.getElementById("reset-live").addEventListener("click", () => {
+        localStorage.removeItem(LIVE_KEY);
+        document.getElementById("order-banner").classList.remove("show");
+        renderProducts();
+        updateSessionCount();
+      });
+    }
+
+    init();
+  </script>
+</body>
+</html>
