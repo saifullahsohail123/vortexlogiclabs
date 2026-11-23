@@ -1674,24 +1674,45 @@
 
     .bento-actions {
       display: flex;
-      gap: .85rem;
+      gap: .65rem;
       align-items: center;
+      flex-wrap: wrap;
     }
 
     .bento-actions a {
+      display: inline-flex;
+      align-items: center;
+      gap: .28rem;
       font-family: var(--fm);
       font-size: .68rem;
       color: var(--m);
       text-decoration: none;
-      transition: color .2s;
+      cursor: pointer;
+      transition: color .18s ease, background .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
     }
 
     .bento-actions a:hover {
       color: var(--a);
+      text-decoration: underline;
+      text-underline-offset: 3px;
     }
 
     .bento-actions a.primary-act {
-      color: var(--a);
+      color: #7eb2ff;
+      padding: .24rem .58rem;
+      border-radius: 5px;
+      background: rgba(79, 142, 255, .10);
+      border: 1px solid rgba(79, 142, 255, .32);
+      font-weight: 500;
+    }
+
+    .bento-actions a.primary-act:hover {
+      color: #ffffff;
+      background: rgba(79, 142, 255, .30);
+      border-color: var(--a);
+      box-shadow: 0 0 12px rgba(79, 142, 255, .32);
+      transform: translateY(-1px);
+      text-decoration: none;
     }
 
     .grid-divider {
