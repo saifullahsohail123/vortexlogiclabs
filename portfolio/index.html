@@ -643,6 +643,44 @@
       color: var(--a)
     }
 
+    .pc-highlights {
+      margin: .65rem 0 0;
+      padding-left: 1rem;
+      font-size: .74rem;
+      color: var(--m);
+      line-height: 1.45;
+    }
+
+    .pc-highlights li {
+      margin-bottom: .25rem;
+    }
+
+    .modal-highlights {
+      margin: .5rem 0 1rem;
+      padding-left: 1.1rem;
+      font-size: .82rem;
+      color: var(--txt);
+      line-height: 1.55;
+    }
+
+    .modal-highlights li {
+      margin-bottom: .3rem;
+    }
+
+    .modal-previews {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: .75rem;
+      margin: .75rem 0 1rem;
+    }
+
+    .modal-previews img {
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid var(--bd);
+      background: var(--s1);
+    }
+
     .pgrid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -1583,7 +1621,7 @@
       <button class="ptab" onclick="fp('ml',this)">ML &amp; CV</button>
       <button class="ptab" onclick="fp('dt',this)">Desktop &amp; Tools</button>
     </div>
-    <div class="proj-count" id="pcount"><span id="pnum">15</span> projects</div>
+    <div class="proj-count" id="pcount"><span id="pnum">17</span> projects</div>
     <div class="pgrid" id="PG">
 
       <div class="pc fade" data-cat="cy ai" onclick="om(0)">
@@ -1625,6 +1663,31 @@
               class="stag">K8s</span></div>
           <div class="pc-links"><a href="https://agriverse.org.pk/" target="_blank">↗ Live Site</a><a href="https://github.com/saifullahsohail123" target="_blank">⬡ GitHub</a><a href="#"
               onclick="event.stopPropagation();om(1)">↗ Details</a></div>
+        </div>
+      </div>
+
+      <div class="pc fade" data-cat="fs dt" onclick="om(16)">
+        <div class="pc-top">
+          <div class="pc-logo" style="font-size:1.4rem">❄️</div>
+          <span class="pc-type t-fs">Data Platform · BI</span>
+        </div>
+        <div class="pc-body">
+          <h3>Snowflake E-Commerce Analytics &amp; Operations Platform</h3>
+          <p>End-to-end cloud data warehouse and interactive BI platform built on Snowflake, Snowpark Python, and
+            Streamlit in Snowflake—featuring least-privilege RBAC, automated GitHub Actions CI/CD with RSA key-pair
+            auth, and 5M-row micro-partition pruning (-95.5% I/O reduction).</p>
+          <ul class="pc-highlights">
+            <li>5M+ synthetic e-commerce rows processed via COPY INTO + Snowpark</li>
+            <li>87.5% micro-partitions pruned &amp; 95.5% bytes scanned reduction (46.88 MB → 2.09 MB)</li>
+            <li>Hands-free dev → prod GitHub Actions deployment via SVC_GITHUB_CICD (RSA SNOWFLAKE_JWT)</li>
+          </ul>
+        </div>
+        <div class="pc-foot">
+          <div class="pc-stack"><span class="stag">Snowflake</span><span class="stag">Snowpark</span><span
+              class="stag">Python</span><span class="stag">Streamlit</span><span class="stag">SQL</span><span
+              class="stag">GitHub Actions</span><span class="stag">Parquet</span><span class="stag">Pytest</span></div>
+          <div class="pc-links"><a href="https://github.com/saifullahsohail123/snowflake-ecomm-platform"
+              target="_blank">⬡ GitHub</a><a href="#" onclick="event.stopPropagation();om(16)">↗ Details</a></div>
         </div>
       </div>
 
@@ -2247,6 +2310,23 @@
         desc2: "One of the earlier ML projects demonstrating neural network-based control systems and computer vision pipelines for real-time autonomous decision making.",
         stack: ["Python", "OpenCV", "Deep Learning", "Neural Networks", "Simulation"],
         links: [{ label: "⬡ GitHub", url: "https://github.com/saifullahsohail123/Self-Driving-Car-Steering-Control" }]
+      },
+      {
+        title: "Snowflake E-Commerce Analytics & Operations Platform", type: "Data Platform · BI",
+        logo: `<span style="font-size:1.6rem">❄️</span>`, logoBg: "background:var(--s1)",
+        desc: "End-to-end cloud data warehouse and interactive BI platform built on Snowflake, Snowpark Python, and Streamlit in Snowflake—featuring least-privilege RBAC (ECOMM_DEV / ECOMM_PROD), automated GitHub Actions CI/CD with RSA key-pair auth, and 5M-row micro-partition pruning (-95.5% I/O reduction).",
+        desc2: "Engineered for production reliability with automated pytest validation, Parquet ingestion via COPY INTO, and interactive Streamlit in Snowflake dashboards for operational and executive analytics.",
+        highlights: [
+          "5M+ synthetic e-commerce rows processed via COPY INTO + Snowpark",
+          "87.5% micro-partitions pruned & 95.5% bytes scanned reduction (46.88 MB → 2.09 MB)",
+          "Hands-free dev → prod GitHub Actions deployment via SVC_GITHUB_CICD (RSA SNOWFLAKE_JWT)"
+        ],
+        images: [
+          { src: "https://raw.githubusercontent.com/saifullahsohail123/snowflake-ecomm-platform/main/docs/images/query_profile_pruned.png", alt: "Snowflake Query Profile Micro-Partition Pruning" },
+          { src: "https://raw.githubusercontent.com/saifullahsohail123/snowflake-ecomm-platform/main/docs/images/github_actions_cicd.png", alt: "GitHub Actions CI/CD Pipeline" }
+        ],
+        stack: ["Snowflake", "Snowpark", "Python", "Streamlit", "SQL", "GitHub Actions", "Parquet", "Pytest"],
+        links: [{ label: "⬡ GitHub", url: "https://github.com/saifullahsohail123/snowflake-ecomm-platform" }]
       }
     ];
 
@@ -2254,6 +2334,8 @@
       const d = MDATA[i];
       const stacks = d.stack.map(s => `<span class="stag" style="font-size:.72rem;padding:.2rem .55rem">${s}</span>`).join('');
       const links = d.links.map(l => `<a href="${l.url}" target="_blank">${l.label}</a>`).join('');
+      const highlights = d.highlights ? `<h4>Key Highlights</h4><ul class="modal-highlights">${d.highlights.map(h => `<li>${h}</li>`).join('')}</ul>` : '';
+      const images = d.images ? `<div class="modal-previews">${d.images.map(img => `<a href="${img.src}" target="_blank"><img src="${img.src}" alt="${img.alt}" loading="lazy"/></a>`).join('')}</div>` : '';
       document.getElementById('MBOX').innerHTML = `
     <div class="modal-head">
       <div class="modal-head-left">
@@ -2265,6 +2347,8 @@
     <div class="modal-body">
       <p>${d.desc}</p>
       <p>${d.desc2}</p>
+      ${highlights}
+      ${images}
       <h4>Tech Stack</h4>
       <div class="modal-stack">${stacks}</div>
       <div class="modal-links">${links}</div>
