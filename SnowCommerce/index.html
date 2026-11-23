@@ -39,7 +39,7 @@
       <section id="tab-kpi" class="tab-panel active">
         <header class="panel-header">
           <h2>Executive KPI Overview</h2>
-          <p>Powered by pre-exported <code>MART.AGG_DAILY_REVENUE</code> (21,504 daily aggregates from 5M line items).</p>
+          <p>Aggregated from <code>MART.AGG_DAILY_REVENUE</code> — consumer-products multi-region star schema (5M+ line items).</p>
         </header>
 
         <div class="filters">
@@ -109,7 +109,7 @@
       <section id="tab-pruning" class="tab-panel">
         <header class="panel-header">
           <h2>5M-Row Micro-Partition Pruning &amp; Cost Proof</h2>
-          <p>Toggle execution modes on <code>ORDER_DATE BETWEEN '2026-06-01' AND '2026-06-07' AND CATEGORY = 'Electronics'</code>.</p>
+          <p>Toggle execution modes on <code>ORDER_DATE BETWEEN '2026-03-01' AND '2026-03-07' AND CATEGORY = 'Nursery &amp; Play'</code>.</p>
         </header>
 
         <div class="toggle-bar" role="group" aria-label="Pruning Mode">
@@ -150,7 +150,7 @@
             <h3>Architectural Cost Rationale</h3>
             <ul class="rationale-list">
               <li><strong>Zero-Cost Batch Sorting:</strong> Sorting by <code>(ORDER_DATE, CATEGORY)</code> during ETL writes achieves <code>average_depth = 1.0</code> and <code>-95.5%</code> I/O with <strong>$0 serverless reclustering credits</strong>.</li>
-              <li><strong>Trial Credit Protection:</strong> Automatic clustering is demonstrated via <code>CLUSTER BY</code> and immediately paused with <code>SUSPEND RECLUSTER</code>.</li>
+              <li><strong>Serverless Cost Governance:</strong> Batch-sorted clustering avoids continuous serverless reclustering spend while maintaining full micro-partition pruning across <code>ECOMM_PROD.MART</code>.</li>
               <li><strong>Two-Layer Caching:</strong> Streamlit <code>@st.cache_data(ttl=600)</code> + Snowflake 24h Result Cache (<code>1 ms</code>, <code>0 B</code> scanned) prevent unnecessary warehouse wakeups.</li>
             </ul>
           </div>
@@ -180,7 +180,7 @@
       <section id="tab-inventory" class="tab-panel">
         <header class="panel-header">
           <h2>Inventory &amp; SKU Margin Health</h2>
-          <p>250 SKUs from <code>MART.DIM_PRODUCTS</code> with 30-day sell-through velocity &amp; stockout flags.</p>
+          <p>149 active consumer-product SKUs from <code>MART.DIM_PRODUCTS</code> with 30-day sell-through velocity &amp; stockout alerts.</p>
         </header>
 
         <div class="filters">
@@ -231,11 +231,11 @@
       <section id="tab-lookup" class="tab-panel">
         <header class="panel-header">
           <h2>Order Lookup, RBAC Governance &amp; CI/CD</h2>
-          <p>Search exported sample orders from <code>MART.FACT_ORDERS_SORTED</code> and inspect platform governance.</p>
+          <p>Inspect recent line items from <code>MART.FACT_ORDERS_SORTED</code> alongside least-privilege RBAC and CI/CD governance.</p>
         </header>
 
         <div class="card">
-          <h3>Sample Order / Customer Lookup</h3>
+          <h3>Order &amp; Customer Line-Item Lookup</h3>
           <div class="filters">
             <label>
               Search By
