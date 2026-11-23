@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="/SnowflakeEcomm/" />
+  <title>Snowflake E-Commerce Analytics & Operations</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-badge">SNOWFLAKE + SiS</span>
+        <h1>E-Commerce Platform</h1>
+        <p class="sub">Static Snapshot of <strong>5M-Row</strong> <code>ECOMM_DEV.MART</code></p>
+      </div>
+
+      <nav class="nav" aria-label="Dashboard Views">
+        <button class="nav-btn active" data-tab="kpi">Executive KPIs</button>
+        <button class="nav-btn" data-tab="pruning">Query Pruning &amp; Cost</button>
+        <button class="nav-btn" data-tab="cohort">Cohort Retention</button>
+        <button class="nav-btn" data-tab="inventory">Inventory &amp; SKU Health</button>
+        <button class="nav-btn" data-tab="lookup">Order Lookup &amp; RBAC</button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="meta-pill">WH: <code>ECOMM_APP_WH</code> (X-Small)</div>
+        <div class="meta-pill">Role: <code>ECOMM_APP_ROLE</code></div>
+        <a class="repo-link" href="https://github.com/saifullahsohail123/snowflake-ecomm-platform" target="_blank" rel="noopener">
+          View Source on GitHub &rarr;
+        </a>
+      </div>
+    </aside>
+
+    <main class="main">
+      <!-- TAB 1: EXECUTIVE KPIs -->
+      <section id="tab-kpi" class="tab-panel active">
+        <header class="panel-header">
+          <h2>Executive KPI Overview</h2>
+          <p>Powered by pre-exported <code>MART.AGG_DAILY_REVENUE</code> (21,504 daily aggregates from 5M line items).</p>
+        </header>
+
+        <div class="filters">
+          <label>
+            Start Date
+            <input type="date" id="kpi-start" />
+          </label>
+          <label>
+            End Date
+            <input type="date" id="kpi-end" />
+          </label>
+          <label>
+            Category
+            <select id="kpi-category">
+              <option value="ALL">All Categories</option>
+            </select>
+          </label>
+          <label>
+            Region
+            <select id="kpi-region">
+              <option value="ALL">All Regions</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="card kpi-card">
+            <span class="kpi-label">Net Revenue</span>
+            <strong class="kpi-value" id="m-revenue">—</strong>
+            <span class="kpi-delta" id="d-revenue"></span>
+          </div>
+          <div class="card kpi-card">
+            <span class="kpi-label">Completed Orders</span>
+            <strong class="kpi-value" id="m-orders">—</strong>
+            <span class="kpi-delta" id="d-orders"></span>
+          </div>
+          <div class="card kpi-card">
+            <span class="kpi-label">Average Order Value</span>
+            <strong class="kpi-value" id="m-aov">—</strong>
+            <span class="kpi-delta">Weighted (Revenue / Orders)</span>
+          </div>
+          <div class="card kpi-card">
+            <span class="kpi-label">Net Margin</span>
+            <strong class="kpi-value" id="m-margin">—</strong>
+            <span class="kpi-delta" id="d-margin"></span>
+          </div>
+        </div>
+
+        <div class="card chart-card">
+          <h3>Daily Net Revenue Trend</h3>
+          <canvas id="chart-trend" height="95"></canvas>
+        </div>
+
+        <div class="two-col">
+          <div class="card chart-card">
+            <h3>Net Revenue by Category</h3>
+            <canvas id="chart-category" height="160"></canvas>
+          </div>
+          <div class="card chart-card">
+            <h3>Net Revenue by Region</h3>
+            <canvas id="chart-region" height="160"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: QUERY PRUNING & COST PROOF -->
+      <section id="tab-pruning" class="tab-panel">
+        <header class="panel-header">
+          <h2>5M-Row Micro-Partition Pruning &amp; Cost Proof</h2>
+          <p>Toggle execution modes on <code>ORDER_DATE BETWEEN '2026-06-01' AND '2026-06-07' AND CATEGORY = 'Electronics'</code>.</p>
+        </header>
+
+        <div class="toggle-bar" role="group" aria-label="Pruning Mode">
+          <button class="mode-btn active" data-mode="baseline">1. Baseline (Unsorted FACT_ORDERS)</button>
+          <button class="mode-btn" data-mode="sorted">2. Optimized (ORDER BY ORDER_DATE, CATEGORY)</button>
+          <button class="mode-btn" data-mode="cached">3. Result Cache (2nd Run, Cloud Services)</button>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="card kpi-card">
+            <span class="kpi-label">Partitions Scanned</span>
+            <strong class="kpi-value" id="p-partitions">8 / 8</strong>
+            <span class="kpi-delta" id="p-pruned">0.0% pruned (Full Scan)</span>
+          </div>
+          <div class="card kpi-card">
+            <span class="kpi-label">Bytes Scanned</span>
+            <strong class="kpi-value" id="p-bytes">46.88 MB</strong>
+            <span class="kpi-delta" id="p-bytes-note">Baseline I/O</span>
+          </div>
+          <div class="card kpi-card">
+            <span class="kpi-label">Execution Time</span>
+            <strong class="kpi-value" id="p-time">664 ms</strong>
+            <span class="kpi-delta" id="p-compute">ECOMM_APP_WH (X-Small)</span>
+          </div>
+          <div class="card kpi-card">
+            <span class="kpi-label">Clustering Depth / Overlaps</span>
+            <strong class="kpi-value" id="p-depth">9.0 / 8.0</strong>
+            <span class="kpi-delta" id="p-depth-note">Every partition overlaps</span>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <h3>Snowsight Query Profile Evidence</h3>
+            <img id="p-img" class="profile-img" src="images/query_profile_baseline.png" alt="Snowsight Query Profile" />
+          </div>
+          <div class="card">
+            <h3>Architectural Cost Rationale</h3>
+            <ul class="rationale-list">
+              <li><strong>Zero-Cost Batch Sorting:</strong> Sorting by <code>(ORDER_DATE, CATEGORY)</code> during ETL writes achieves <code>average_depth = 1.0</code> and <code>-95.5%</code> I/O with <strong>$0 serverless reclustering credits</strong>.</li>
+              <li><strong>Trial Credit Protection:</strong> Automatic clustering is demonstrated via <code>CLUSTER BY</code> and immediately paused with <code>SUSPEND RECLUSTER</code>.</li>
+              <li><strong>Two-Layer Caching:</strong> Streamlit <code>@st.cache_data(ttl=600)</code> + Snowflake 24h Result Cache (<code>1 ms</code>, <code>0 B</code> scanned) prevent unnecessary warehouse wakeups.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: COHORT RETENTION -->
+      <section id="tab-cohort" class="tab-panel">
+        <header class="panel-header">
+          <h2>Monthly Customer Cohort Retention</h2>
+          <p>Repeat purchase retention (%) from <code>MART.AGG_COHORT_RETENTION</code>.</p>
+        </header>
+
+        <div class="filters">
+          <label>
+            Max Months Since Signup: <strong id="cohort-months-val">12</strong>
+            <input type="range" id="cohort-months" min="3" max="12" value="12" />
+          </label>
+        </div>
+
+        <div class="card table-wrap">
+          <table id="cohort-table" class="heatmap-table"></table>
+        </div>
+      </section>
+
+      <!-- TAB 4: INVENTORY & SKU HEALTH -->
+      <section id="tab-inventory" class="tab-panel">
+        <header class="panel-header">
+          <h2>Inventory &amp; SKU Margin Health</h2>
+          <p>250 SKUs from <code>MART.DIM_PRODUCTS</code> with 30-day sell-through velocity &amp; stockout flags.</p>
+        </header>
+
+        <div class="filters">
+          <label>
+            Category
+            <select id="inv-category">
+              <option value="ALL">All Categories</option>
+            </select>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="inv-risk-only" />
+            Show Stockout Risk Only (&le; Reorder Point)
+          </label>
+        </div>
+
+        <div class="kpi-grid three-col">
+          <div class="card kpi-card">
+            <span class="kpi-label">SKUs Matching Filter</span>
+            <strong class="kpi-value" id="inv-count">—</strong>
+          </div>
+          <div class="card kpi-card">
+            <span class="kpi-label">At-Risk SKUs</span>
+            <strong class="kpi-value warn" id="inv-risk">—</strong>
+          </div>
+          <div class="card kpi-card">
+            <span class="kpi-label">Average Unit Margin</span>
+            <strong class="kpi-value" id="inv-margin">—</strong>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card chart-card">
+            <h3>Top 10 Margin-Generating SKUs</h3>
+            <canvas id="chart-top-skus" height="175"></canvas>
+          </div>
+          <div class="card chart-card">
+            <h3>Lowest 10 Unit Margin % SKUs</h3>
+            <canvas id="chart-bot-skus" height="175"></canvas>
+          </div>
+        </div>
+
+        <div class="card table-wrap">
+          <table id="inv-table" class="data-table"></table>
+        </div>
+      </section>
+
+      <!-- TAB 5: ORDER LOOKUP, RBAC & CI/CD -->
+      <section id="tab-lookup" class="tab-panel">
+        <header class="panel-header">
+          <h2>Order Lookup, RBAC Governance &amp; CI/CD</h2>
+          <p>Search exported sample orders from <code>MART.FACT_ORDERS_SORTED</code> and inspect platform governance.</p>
+        </header>
+
+        <div class="card">
+          <h3>Sample Order / Customer Lookup</h3>
+          <div class="filters">
+            <label>
+              Search By
+              <select id="lookup-type">
+                <option value="ORDER_ID">Order ID</option>
+                <option value="CUSTOMER_ID">Customer ID</option>
+              </select>
+            </label>
+            <label style="flex:1">
+              Identifier
+              <input type="text" id="lookup-input" placeholder="Click a sample ID below or type one..." />
+            </label>
+          </div>
+          <div class="sample-chips" id="sample-chips"></div>
+          <div class="table-wrap" style="margin-top:12px">
+            <table id="lookup-table" class="data-table"></table>
+          </div>
+        </div>
+
+        <div class="two-col" style="margin-top:16px">
+          <div class="card">
+            <h3>Least-Privilege RBAC Matrix</h3>
+            <table class="data-table">
+              <thead>
+                <tr><th>Role</th><th>Warehouse</th><th>RAW</th><th>MART</th><th>APP (SiS)</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><code>ECOMM_CICD_ROLE</code></td><td><code>ECOMM_ETL_WH</code></td><td>Owner</td><td>Owner</td><td>Owner</td></tr>
+                <tr><td><code>ECOMM_APP_ROLE</code></td><td><code>ECOMM_APP_WH</code></td><td>Denied</td><td><code>SELECT</code></td><td><code>USAGE</code></td></tr>
+                <tr><td><code>ECOMM_VIEWER_ROLE</code></td><td><code>ECOMM_APP_WH</code></td><td>Denied</td><td>Denied</td><td><code>USAGE</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card">
+            <h3>GitHub Actions CI/CD (RSA Key-Pair Auth)</h3>
+            <img class="profile-img" src="images/github_actions_cicd.png" alt="GitHub Actions Deployments" />
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
