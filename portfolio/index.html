@@ -2193,15 +2193,15 @@
             </div>
             <span class="pc-type t-fs">Data Platform · BI</span>
           </div>
-          <p class="bento-desc">End-to-end cloud data warehouse and executive BI suite with least-privilege RBAC,
-            RSA key-pair GitHub Actions CI/CD, and 5M-row micro-partition pruning.</p>
+          <p class="bento-desc">End-to-end Snowflake cloud data warehouse &amp; Streamlit BI platform powering the live
+            <strong>SnowCommerce Store</strong> — featuring Snowpark ETL, least-privilege RBAC, RSA CI/CD, and 5M-row pruning.</p>
           <div class="bento-metrics">
             <span class="bm-pill"><b>5M+</b> Order Rows</span>
             <span class="bm-pill g"><b>-95.5%</b> Bytes Scanned</span>
-            <span class="bm-pill o"><b>1 ms</b> Result Cache</span>
+            <span class="bm-pill o"><b>Live Sync</b> Store → BI</span>
           </div>
           <div class="bento-pipe">
-            <span class="node">Parquet COPY INTO</span><span class="arr">→</span>
+            <span class="node">Store (/store)</span><span class="arr">→</span>
             <span class="node">Snowpark ETL</span><span class="arr">→</span>
             <span class="node">MART (Sorted)</span><span class="arr">→</span>
             <span class="node">Streamlit BI</span>
@@ -2357,7 +2357,7 @@
           <div class="pc-stack"><span class="stag">Snowflake</span><span class="stag">Snowpark</span><span
               class="stag">Python</span><span class="stag">Streamlit</span><span class="stag">SQL</span><span
               class="stag">GitHub Actions</span></div>
-          <div class="pc-links"><a href="https://vortexlogiclabs.com/SnowCommerce" target="_blank">↗ Live Demo</a><a href="https://github.com/saifullahsohail123/snowflake-ecomm-platform"
+          <div class="pc-links"><a href="https://vortexlogiclabs.com/SnowCommerce" target="_blank">↗ Live BI</a><a href="https://vortexlogiclabs.com/store" target="_blank">🛍️ Store</a><a href="https://github.com/saifullahsohail123/snowflake-ecomm-platform"
               target="_blank">⬡ GitHub</a><a href="#" onclick="event.stopPropagation();om(16)">↗ Details</a></div>
         </div>
       </div>
@@ -3124,6 +3124,7 @@
     // ── COMMAND PALETTE (CTRL+K / CMD+K) ──
     const CMD_ITEMS = [
       { group: "Live Demos & Production Platforms", icon: "❄️", label: "Launch SnowCommerce BI Demo", sub: "Snowflake · 5M Rows · Live", run: () => window.open("https://vortexlogiclabs.com/SnowCommerce", "_blank") },
+      { group: "Live Demos & Production Platforms", icon: "🛍️", label: "Open SnowCommerce Live Storefront", sub: "149 SKUs · Syncs Live to BI", run: () => window.open("https://vortexlogiclabs.com/store", "_blank") },
       { group: "Live Demos & Production Platforms", icon: "🛡️", label: "Open Cyber Nexus (CTI)", sub: "cyber-nexus.tech", run: () => window.open("https://cyber-nexus.tech/", "_blank") },
       { group: "Live Demos & Production Platforms", icon: "🌾", label: "Open Agriverse Platform", sub: "agriverse.org.pk", run: () => window.open("https://agriverse.org.pk/", "_blank") },
       { group: "Live Demos & Production Platforms", icon: "🧾", label: "Launch Invoice Extraction Agent", sub: "vortexlogiclabs.com/InvoiceAgent", run: () => window.open("https://vortexlogiclabs.com/InvoiceAgent", "_blank") },
